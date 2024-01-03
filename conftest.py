@@ -1,61 +1,37 @@
 import pytest
-#from plugins import TestRailPlugin
-from plugins import TestRailPlugin
-import logging
+from playwright.sync_api import sync_playwright
+import os
 
-def pytest_addoption(parser):
-    """ Add custom parameters to cmd line
-    """
-    logging.info("inside pytest add-option")
-    parser.addoption('--ids', action='store', metavar='id1,id2,id3...', help='only run tests with the specified IDs')
-    parser.addoption('--publish', action='store_true', default=True,
-                     help='If set, create a new test run and publish results')
+@pytest.fixture(scope="module", autouse=True)
+def browser():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
+        context = browser.new_context()
+        page = context.new_page()
+        yield page
+        context.close()
 
-    parser.addoption('--include_all', action='store_true', default=False,
-                     help='Used with --publish. If set, the test run will\
-                     contain all test cases.')
-
-    parser.addoption('--tr_name', action='store', metavar='<run name>',
-                     help='Used with --publish to configure run name.')
-
-    parser.addoption('--tr_id', action='store', metavar='run_id', help='If set, run tests in the test run and publish')
-
-
-def pytest_configure(config):
-    """ Configure marker
-        Register plugin
-    """
-    logging.info("inside pytest configure")
-    config.addinivalue_line('markers',
-                            'testrail(id): mark test with the case id')
-    if config.getoption('--publish') or config.getoption('--tr_id'):
-        config.pluginmanager.register(
-            TestRailPlugin(
-                config.getoption('--tr_id'),
-                config.getoption('--include_all'),
-                config.getoption('--tr_name')))
+@pytest.fixture(scope="class", autouse=True)
+def login_func(browser):
+    page = browser
+    page.goto("https://console-dev.yntraa.com/")
+    page.wait_for_selector("//button[contains(text(),'Login')]").click()
+    page.wait_for_selector("//input[@id='username']").type("archana-qa-user01@yopmail.com")
+    page.wait_for_selector("//input[@id='password']").type("India@143")
+    page.wait_for_selector("//input[@id='kc-login']").click()
+    page.wait_for_load_state("load")
 
 
-def pytest_runtest_setup(item):
-    """ This handle test case skipping when
-        plugin is not available
-    """
-    # logging.info("inside pytest runtest setup")
-    # logging.info('runtest setup called')
-    ids = item.config.getoption('--ids')
-    if not ids:
-        return
-    ids = set([int(x) for x in ids.split(',')])
-
-    idmarker = item.get_closest_marker('testrail')
-    # logging.info("idmarker -> ")
-    # logging.info(idmarker.args[1])
-    # logging.info(idmarker)
-    if idmarker is None:
-        pytest.skip('skip')
-    else:
-        tid = idmarker.args[0]
-        # logging.info(tid)
-
-        if tid not in ids:
-            pytest.skip('skip')
+# def filedownloader_path(text_content):
+#     config_directory = os.path.dirname(os.path.abspath(__file__))
+#     project_root = os.path.dirname(config_directory)
+#     download_folder = "downloadFile"
+#     downloads_path = os.path.join(project_root, "helper", download_folder)
+#     os.makedirs(downloads_path, exist_ok=True)
+#     file_name = "test.txt"  # Change the file extension to txt
+#     file_path = os.path.join(downloads_path, file_name)
+#     with open(file_path, "w+") as file:
+#         file.write(text_content)
+#
+# sample_text_content = "Hello, this is a sample text file!"
+# filedownloader_path(sample_text_content)
