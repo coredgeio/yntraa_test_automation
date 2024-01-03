@@ -1,22 +1,22 @@
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import sync_playwright
 import pytest
 import time
 import random
-from tetsrail_integration.api_client import APIClient
 
-@pytest.mark.testrail(643125)
+
+@pytest.mark.testrail(20933)
 def test_yantra_connection():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
-        page.goto("https://console-dev.yntraa.com/")
+        page.goto("https://console-revamp-sbx.yntraa.com")
         #print("Main page Title: ", page.title())
 
         #login button
         page.wait_for_selector("//button[contains(text(),'Login')]").click()
 
         #enter username and pass
-        page.wait_for_selector("//input[@id='username']").type("archana-qa-user01@yopmail.com")
+        page.wait_for_selector("//input[@id='username']").type("priti.ltd@yopmail.com")
         page.wait_for_selector("//input[@id='password']").type("India@143")
 
         #login to next page

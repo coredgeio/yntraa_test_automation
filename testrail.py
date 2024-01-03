@@ -1,7 +1,7 @@
 
-from tetsrail_integration.api_client import APIClient
+from api_client import APIClient
 import logging
-from tetsrail_integration.const import (
+from const import (
     USER,
     PWD,
     URL,

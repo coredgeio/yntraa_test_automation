@@ -1,7 +1,7 @@
 USER = 'atul@coredge.io'
 PWD = '625Nw9Ai1Ww4WdZ2ln2K-kKrmUUMSHzVyVGdAUgqr'
 URL = 'https://coredge.testrail.io/'
-PROJECT_ID = 5
+PROJECT_ID = 6
 TESTRAIL_REPORT = True   #True
 CASE_TYPE_TO_ID = {
     'Acceptance': 1,

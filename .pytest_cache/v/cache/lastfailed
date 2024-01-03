@@ -1,8 +1,11 @@
 {
-  "test.py": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_login_successful[chromium]": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_compute[chromium]": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_tejas_compute[chromium]": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_vm_creation[chromium]": true,
-  "testcases/automated_cases/compute_suite/test_tejas_compute.py": true
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_login_successful": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_compute": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_tejas_compute": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_vm_creation": true,
+  "test.py::test_yantra_connection": true
 }

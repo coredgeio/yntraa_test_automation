@@ -1,7 +1,14 @@
 [
   "test.py::test_yantra_connection",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::TestExample::test_something",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_compute",
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_compute[chromium]",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_tejas_compute",
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_goto_tejas_compute[chromium]",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_login_successful",
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_login_successful[chromium]",
-  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_vm_creation[chromium]"
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_vm_creation",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Derived::test_vm_creation[chromium]",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_goto_compute[chromium]",
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_something1"
 ]

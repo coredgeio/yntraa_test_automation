@@ -1,7 +1,7 @@
 import pytest
 import datetime
-from tetsrail_integration.testrail import TestRailAgent
-from tetsrail_integration.const import TESTRAIL_REPORT
+from testrail import TestRailAgent
+from const import TESTRAIL_REPORT
 #from helper.config_setup.token_page import logging
 import logging
 
@@ -15,7 +15,7 @@ PYTEST_TO_TESTRAIL_STATUS = {
 def generate_testrun_name():
 
     logging.info("inside generate_testrun_name")
-    return 'New Orbiter Project Test Run {}'.format(datetime.datetime.now().strftime('%Y-%m-%d, %H:%M'))
+    return 'yantra Service Test Run {}'.format(datetime.datetime.now().strftime('%Y-%m-%d, %H:%M'))
 
 
 def get_case_ids(items):
