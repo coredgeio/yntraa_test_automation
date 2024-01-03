@@ -30,4 +30,3 @@ class TestExample:
         assert act_text == "Enabling Possibilities. Empowering Ideas.", "User could not be logged in!!"
         print("User Successfully Logged in!!!!!!")
         return page
-#
