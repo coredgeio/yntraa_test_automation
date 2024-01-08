@@ -1,5 +1,6 @@
-
-from conftest import *
+import pytest
+#from conftest import *
+from test_helper.config_setup.login_setup import *
 from playwright.sync_api import sync_playwright, expect, Error
 import logging
 from modules.resources.compute.compute_page import perform_click_on_compute_resource
@@ -7,134 +8,134 @@ from modules.resources.compute.tejas_page import perform_click_on_tejas_tab, per
 from test_helper.yantra_element_locators.compute_element import ComputePageLocators, TejasComputeLocators
 
 
-class TestComputeValidations:
-    @pytest.mark.testrail(27291)
-    def test_to_verify_clicking_on_compute_screen(self, page):
-        perform_click_on_compute_resource(page, ComputePageLocators.COMPUTE_TAB)
-        compute_page_heading = page.locator(ComputePageLocators.COMPUTE_HEADER).text_content()
-        assert compute_page_heading == "Compute", "User could not be navigated to Compute module!!"
-        logging.info("User has successfully navigated to Compute module!")
+# class TestComputeValidations:
+@pytest.mark.testrail(27291)
+def test_to_verify_clicking_on_compute_screen(page):
+    perform_click_on_compute_resource(page, ComputePageLocators.COMPUTE_TAB)
+    compute_page_heading = page.locator(ComputePageLocators.COMPUTE_HEADER).text_content()
+    assert compute_page_heading == "Compute", "User could not be navigated to Compute module!!"
+    logging.info("User has successfully navigated to Compute module!")
 
-    @pytest.mark.testrail(27292)
-    def test_verify_UI_of_compute_home_screen(self, page, compute_setup):
-        expect(page.locator(ComputePageLocators.COMPUTE_HEADER)).to_be_visible()
-        expect(page.locator(ComputePageLocators.COMPUTE_DESCRP)).to_be_visible()
-        expect(page.locator(ComputePageLocators.COMPUTE_CREATE_BUTTON)).to_be_visible()
-        expect(page.locator(ComputePageLocators.STORAGE_TAB)).to_be_visible()
-        expect(page.locator(ComputePageLocators.NETWORKING_TAB)).to_be_visible()
-        expect(page.locator(ComputePageLocators.SECURITY_TAB)).to_be_visible()
-        expect(page.locator(ComputePageLocators.AUTOMATION_TAB)).to_be_visible()
+@pytest.mark.testrail(27292)
+def test_verify_UI_of_compute_home_screen(page, compute_setup):
+    expect(page.locator(ComputePageLocators.COMPUTE_HEADER)).to_be_visible()
+    expect(page.locator(ComputePageLocators.COMPUTE_DESCRP)).to_be_visible()
+    expect(page.locator(ComputePageLocators.COMPUTE_CREATE_BUTTON)).to_be_visible()
+    expect(page.locator(ComputePageLocators.STORAGE_TAB)).to_be_visible()
+    expect(page.locator(ComputePageLocators.NETWORKING_TAB)).to_be_visible()
+    expect(page.locator(ComputePageLocators.SECURITY_TAB)).to_be_visible()
+    expect(page.locator(ComputePageLocators.AUTOMATION_TAB)).to_be_visible()
 
-    @pytest.mark.testrail(27293)
-    def test_to_verify_header_on_compute_home_screen(self, page, compute_setup):
-        compute_header_value = page.locator(ComputePageLocators.COMPUTE_HEADER).inner_text()
-        assert compute_header_value == "Compute", f"The compute header value - {compute_header_value}, is different than expected!"
-        logging.info("Header on Compute home screen is correct!")
+@pytest.mark.testrail(27293)
+def test_to_verify_header_on_compute_home_screen(page, compute_setup):
+    compute_header_value = page.locator(ComputePageLocators.COMPUTE_HEADER).inner_text()
+    assert compute_header_value == "Compute", f"The compute header value - {compute_header_value}, is different than expected!"
+    logging.info("Header on Compute home screen is correct!")
 
-    @pytest.mark.testrail(27294)
-    def test_to_verify_compute_home_screen_description(self, page, compute_setup):
-        compute_description_value = page.locator(ComputePageLocators.COMPUTE_DESCRP).inner_text()
-        expected_compute_description = "Compute refers to virtual machines that provide cloud-based processing power. Users can deploy and manage these scalable, customizable instances to run applications, websites and other workloads on the cloud."
-        assert compute_description_value == expected_compute_description, f"The compute description value - {compute_description_value}, is different than expected!"
-        logging.info("Description on Compute home screen is correct!")
+@pytest.mark.testrail(27294)
+def test_to_verify_compute_home_screen_description(page, compute_setup):
+    compute_description_value = page.locator(ComputePageLocators.COMPUTE_DESCRP).inner_text()
+    expected_compute_description = "Compute refers to virtual machines that provide cloud-based processing power. Users can deploy and manage these scalable, customizable instances to run applications, websites and other workloads on the cloud."
+    assert compute_description_value == expected_compute_description, f"The compute description value - {compute_description_value}, is different than expected!"
+    logging.info("Description on Compute home screen is correct!")
 
-    #testrail id C27294
-    @pytest.mark.testrail(27295)
-    def test_to_verify_clicking_on_tejas_compute(self, page, compute_setup):
-        perform_click_on_tejas_tab(page, TejasComputeLocators.TEJAS_COMPUTE_TAB)
-        tejas_compute_page_heading = page.locator(TejasComputeLocators.TEJAS_HEADER).text_content()
-        assert tejas_compute_page_heading == "Tejas Compute", "User could not be navigated to Tejas Compute section!!"
-        logging.info("User successfully navigated to Tejas Compute screen!")
+#testrail id C27294
+@pytest.mark.testrail(27295)
+def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
+    perform_click_on_tejas_tab(page, TejasComputeLocators.TEJAS_COMPUTE_TAB)
+    tejas_compute_page_heading = page.locator(TejasComputeLocators.TEJAS_HEADER).text_content()
+    assert tejas_compute_page_heading == "Tejas Compute", "User could not be navigated to Tejas Compute section!!"
+    logging.info("User successfully navigated to Tejas Compute screen!")
 
-    #testrail id C27296
-    @pytest.mark.testrail(27296)
-    def test_to_verify_header_on_tejas_compute_screen(self, page, tejas_setup):
-        tejas_compute_header = page.locator(TejasComputeLocators.TEJAS_HEADER).inner_text()
-        assert tejas_compute_header == "Tejas Compute", f"The Tejas Compute header value - {tejas_compute_header}, is different than expected!"
-        logging.info("Header on Tejas Compute screen is correct!")
-
-
-    #testrail id C27297
-    @pytest.mark.testrail(27297)
-    def test_to_verify_tejas_compute_screen_description(self, page, tejas_setup):
-        tejas_description_value = page.locator(TejasComputeLocators.TEJAS_DESCRP).inner_text()
-        expected_tejas_description =  "Virtual Machines are virtualized computing instances that allow users to run applications and services in a cloud environment. They provide scalable, isolated and customizable computing resources, enabling users to deploy and manage their software efficiently."
-        assert tejas_description_value == expected_tejas_description, f"The Tejas Compute description value - {tejas_description_value}, is different than expected!"
-        logging.info("Description on Tejas Compute home screen is correct!")
+#testrail id C27296
+@pytest.mark.testrail(27296)
+def test_to_verify_header_on_tejas_compute_screen(page, tejas_setup):
+    tejas_compute_header = page.locator(TejasComputeLocators.TEJAS_HEADER).inner_text()
+    assert tejas_compute_header == "Tejas Compute", f"The Tejas Compute header value - {tejas_compute_header}, is different than expected!"
+    logging.info("Header on Tejas Compute screen is correct!")
 
 
-    #testrail id C27298
-    @pytest.mark.testrail(27298)
-    @pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
-    def test_verify_learn_more_section_on_tejas_compute_screen(self, page):
-        pass
-        #documentation page is broken
+#testrail id C27297
+@pytest.mark.testrail(27297)
+def test_to_verify_tejas_compute_screen_description(page, tejas_setup):
+    tejas_description_value = page.locator(TejasComputeLocators.TEJAS_DESCRP).inner_text()
+    expected_tejas_description =  "Virtual Machines are virtualized computing instances that allow users to run applications and services in a cloud environment. They provide scalable, isolated and customizable computing resources, enabling users to deploy and manage their software efficiently."
+    assert tejas_description_value == expected_tejas_description, f"The Tejas Compute description value - {tejas_description_value}, is different than expected!"
+    logging.info("Description on Tejas Compute home screen is correct!")
 
 
-    #testrail id C27299
-    @pytest.mark.testrail(27299)
-    def test_to_verify_click_on_create_virtual_machine(self, page, tejas_setup):
-        perform_click_on_create_vm_button(page, TejasComputeLocators.CREATE_VM_BUTTON)
-        create_vm_header = page.locator(TejasComputeLocators.CREATE_VM_HEADER).text_content()
-        assert create_vm_header == "Create Virtual Machine", f"User could not be navigated to {create_vm_header}!!"
-        logging.info("User successfully navigated to Create Virtual Machine screen!")
+#testrail id C27298
+@pytest.mark.testrail(27298)
+@pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
+def test_verify_learn_more_section_on_tejas_compute_screen(page):
+    pass
+    #documentation page is broken
+
 
     #testrail id C27299
-    @pytest.mark.testrail(27300)
-    def test_verify_create_virtual_machine_homescreen(self, page, tejas_create_vm_setup):
-        page.wait_for_timeout(3000)
-        expect(page.locator(TejasComputeLocators.MACHINE_DETAILS_HEADER)).to_be_visible()
-        expect(page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN)).to_be_enabled()
-        expect(page.locator(TejasComputeLocators.CHOOSE_IMAGE)).to_be_visible()
-        expect(page.locator(TejasComputeLocators.PUBLIC_IMAGE)).to_be_visible()
-        expect(page.locator(TejasComputeLocators.SNAPSHOT)).to_be_visible()
-        expect(page.locator(TejasComputeLocators.ROOT_VOLUME_TYPE)).to_be_visible()
-        expect(page.locator(TejasComputeLocators.CREATE_VM_SUMMARY)).to_be_visible()
-        expect(page.locator(TejasComputeLocators.CANCEL_BUTTON)).to_be_enabled()
+@pytest.mark.testrail(27299)
+def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
+    perform_click_on_create_vm_button(page, TejasComputeLocators.CREATE_VM_BUTTON)
+    create_vm_header = page.locator(TejasComputeLocators.CREATE_VM_HEADER).text_content()
+    assert create_vm_header == "Create Virtual Machine", f"User could not be navigated to {create_vm_header}!!"
+    logging.info("User successfully navigated to Create Virtual Machine screen!")
 
-    @pytest.mark.testrail(27301)
-    def test_to_verify_create_vm_header(self, page, tejas_create_vm_setup):
-        create_vm_header = page.locator(TejasComputeLocators.CREATE_VM_HEADER).inner_text()
-        assert create_vm_header == "Create Virtual Machine", f"The Create Virtual Machine header value - {create_vm_header}, is different than expected!"
-        logging.info("Header on Create Virtual Machine screen is correct!")
+#testrail id C27299
+@pytest.mark.testrail(27300)
+def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
+    page.wait_for_timeout(3000)
+    expect(page.locator(TejasComputeLocators.MACHINE_DETAILS_HEADER)).to_be_visible()
+    expect(page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN)).to_be_enabled()
+    expect(page.locator(TejasComputeLocators.CHOOSE_IMAGE)).to_be_visible()
+    expect(page.locator(TejasComputeLocators.PUBLIC_IMAGE)).to_be_visible()
+    expect(page.locator(TejasComputeLocators.SNAPSHOT)).to_be_visible()
+    expect(page.locator(TejasComputeLocators.ROOT_VOLUME_TYPE)).to_be_visible()
+    expect(page.locator(TejasComputeLocators.CREATE_VM_SUMMARY)).to_be_visible()
+    expect(page.locator(TejasComputeLocators.CANCEL_BUTTON)).to_be_enabled()
 
-    @pytest.mark.testrail(27302)
-    def test_to_verify_create_vm_description(self, page, tejas_create_vm_setup):
-        create_vm_description = page.locator(TejasComputeLocators.CREATE_VM_DESCRP).inner_text()
-        expected_create_vm_description = "Virtual machines (VMs) are software-based emulations of physical computers. VMs allows to run multiple operating systems and applications on a single physical machine, providing isolation, flexibility and efficient utilization of computing resources."
-        assert create_vm_description == expected_create_vm_description, f"The Create Virtual Machine description value - {create_vm_description}, is different than expected!"
-        logging.info("Description on Create Virtual Machine screen is correct!")
+@pytest.mark.testrail(27301)
+def test_to_verify_create_vm_header(page, tejas_create_vm_setup):
+    create_vm_header = page.locator(TejasComputeLocators.CREATE_VM_HEADER).inner_text()
+    assert create_vm_header == "Create Virtual Machine", f"The Create Virtual Machine header value - {create_vm_header}, is different than expected!"
+    logging.info("Header on Create Virtual Machine screen is correct!")
 
-    @pytest.mark.testrail(27303)
-    def test_to_verify_machine_detail_description(self, page, tejas_create_vm_setup):
-        machine_detail_description = page.locator(TejasComputeLocators.MACHINE_DETAILS_DESCRP).inner_text()
-        assert machine_detail_description == "Choose a friendly name for your virtual machine.", f"The Machine details description value - {machine_detail_description}, is different than expected!"
-        logging.info("Description on Machine details section is correct!")
+@pytest.mark.testrail(27302)
+def test_to_verify_create_vm_description(page, tejas_create_vm_setup):
+    create_vm_description = page.locator(TejasComputeLocators.CREATE_VM_DESCRP).inner_text()
+    expected_create_vm_description = "Virtual machines (VMs) are software-based emulations of physical computers. VMs allows to run multiple operating systems and applications on a single physical machine, providing isolation, flexibility and efficient utilization of computing resources."
+    assert create_vm_description == expected_create_vm_description, f"The Create Virtual Machine description value - {create_vm_description}, is different than expected!"
+    logging.info("Description on Create Virtual Machine screen is correct!")
 
-    @pytest.mark.testrail(27304)
-    def test_to_verify_machine_name_input_field(self, page, tejas_create_vm_setup):
-        page.wait_for_timeout(2000)
-        name_field_visibility = page.locator(TejasComputeLocators.NAME_FIELD).is_visible()
-        # print("is visible - ", name_field_visibility)
-        if name_field_visibility == True:
-            page.locator(TejasComputeLocators.NAME_FIELD).type("TestingVM1")
-        else:
-            logging.info("Name field is not yet visible on create virtual machine screen!")
+@pytest.mark.testrail(27303)
+def test_to_verify_machine_detail_description(page, tejas_create_vm_setup):
+    machine_detail_description = page.locator(TejasComputeLocators.MACHINE_DETAILS_DESCRP).inner_text()
+    assert machine_detail_description == "Choose a friendly name for your virtual machine.", f"The Machine details description value - {machine_detail_description}, is different than expected!"
+    logging.info("Description on Machine details section is correct!")
 
-    @pytest.mark.testrail(27305)
-    @pytest.mark.skip(reason="Need to recheck logic!")
-    def test_to_verify_machine_name_field_has_required_label(self, page, tejas_create_vm_setup):
-        # expect(page.locator(TejasComputeLocators.NAME_FIELD_LABEL)).to_have_attribute()
-        placeholderText = page.get_by_placeholder('Please enter a name').inner_text()
-        # print(placeholderText)
-        expect(placeholderText).to_have_text('Please enter a name')
+@pytest.mark.testrail(27304)
+def test_to_verify_machine_name_input_field(page, tejas_create_vm_setup):
+    page.wait_for_timeout(2000)
+    name_field_visibility = page.locator(TejasComputeLocators.NAME_FIELD).is_visible()
+    # print("is visible - ", name_field_visibility)
+    if name_field_visibility == True:
+        page.locator(TejasComputeLocators.NAME_FIELD).type("TestingVM1")
+    else:
+        logging.info("Name field is not yet visible on create virtual machine screen!")
 
-    @pytest.mark.skip(reason="Need to recheck logic!")
-    def test_to_verify_choose_availability_zone_description(self, page, tejas_create_vm_setup):
-        availability_zone_description = page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN).inner_text()
-        expected_availability_zone_description = ""
-        assert availability_zone_description == expected_availability_zone_description, f"The Machine details description value - {expected_availability_zone_description}, is different than expected!"
-        logging.info("Description on Machine details section is correct!")
+@pytest.mark.testrail(27305)
+@pytest.mark.skip(reason="Need to recheck logic!")
+def test_to_verify_machine_name_field_has_required_label(page, tejas_create_vm_setup):
+    # expect(page.locator(TejasComputeLocators.NAME_FIELD_LABEL)).to_have_attribute()
+    placeholderText = page.get_by_placeholder('Please enter a name').inner_text()
+    # print(placeholderText)
+    expect(placeholderText).to_have_text('Please enter a name')
+
+@pytest.mark.skip(reason="Need to recheck logic!")
+def test_to_verify_choose_availability_zone_description(page, tejas_create_vm_setup):
+    availability_zone_description = page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN).inner_text()
+    expected_availability_zone_description = ""
+    assert availability_zone_description == expected_availability_zone_description, f"The Machine details description value - {expected_availability_zone_description}, is different than expected!"
+    logging.info("Description on Machine details section is correct!")
 
 
 

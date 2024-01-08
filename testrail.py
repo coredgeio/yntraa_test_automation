@@ -1,7 +1,7 @@
 
 from api_client import APIClient
 import logging
-from const import (
+from consts import (
     USER,
     PWD,
     URL,
