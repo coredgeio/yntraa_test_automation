@@ -130,15 +130,24 @@ def test_to_verify_machine_name_field_has_required_label(page, tejas_create_vm_s
     # print(placeholderText)
     expect(placeholderText).to_have_text('Please enter a name')
 
-@pytest.mark.skip(reason="Need to recheck logic!")
-def test_to_verify_choose_availability_zone_description(page, tejas_create_vm_setup):
-    availability_zone_description = page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN).inner_text()
-    expected_availability_zone_description = ""
-    assert availability_zone_description == expected_availability_zone_description, f"The Machine details description value - {expected_availability_zone_description}, is different than expected!"
-    logging.info("Description on Machine details section is correct!")
+@pytest.mark.testrail(27306)
+@pytest.mark.skip(reason="Yet to be implemented")
+def test_to_verify_name_field_against_regex(self, page, tejas_create_vm_setup):
+    pass
+
+@pytest.mark.testrail(27307)
+def test_to_verify_choose_availability_zone_description(self, page, tejas_create_vm_setup):
+    availability_zone_description = page.locator(TejasComputeLocators.AVAILABILITY_ZN_DESCRP).inner_text()
+    expected_availability_zone_description = "An availability zone is a physically separate data center within a region that provides redundancy and fault tolerance for cloud infrastructure."
+    assert availability_zone_description == expected_availability_zone_description, f"The Availability Zone description value - {availability_zone_description}, is different than expected!"
+    logging.info("Description on Choose Availability zone section is correct!")
 
 
-
+@pytest.mark.testrail(27308)
+def test_to_verify_availability_zone_dropdown(self, page, tejas_create_vm_setup):
+    dropdown_visibility = page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN).is_visible()
+    if dropdown_visibility == True:
+        pass
 
 
 
