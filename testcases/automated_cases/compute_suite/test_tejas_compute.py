@@ -1,6 +1,4 @@
-import time
-import random
-import pytest
+
 from conftest import *
 from playwright.sync_api import sync_playwright, expect, Error
 import logging
