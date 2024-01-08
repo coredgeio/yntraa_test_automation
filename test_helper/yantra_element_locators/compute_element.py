@@ -3,7 +3,7 @@ import pytest
 class LoginRequirements:
 
     URL = "https://console-revamp-sbx.yntraa.com"
-    USERNAME = "priti.ltd@yopmail.com"
+    USERNAME = "mailto:priti.ltd@yopmail.com"
     PASSWORD = "India@143"
     HOME_PAGE_HEADER = "//h3[normalize-space()='Enabling Possibilities. Empowering Ideas.']"
     HOME_PAGE_DECSRP = "//p[contains(text(),'Discover the power of our public cloud platform')]"
@@ -47,7 +47,7 @@ class TejasComputeLocators:
     FLAVOR_ONE = "//span[contains(text(),'m1.amphora')]"
     ROOT_VOLUME_HEADER = "//h6[normalize-space()='Root Volume']"
     ROOT_VOLUME_DESCRP = "//p[contains(text(),'Root volumes are block storage devices that provid')]"
-    VOLUME_TYPE = "//input[@id='volume_type']"
+    ROOT_VOLUME_TYPE = "//input[@id='volume_type']"
     ROOT_VOLUME_DECREASE = "//button[1][@data-testid='root-volume-in-gi-b-count']"
     ROOT_VOLUME_INCREASE = "//button[2][@data-testid='root-volume-in-gi-b-count']"
     MACHINE_CREDENTIALS_HEADER = "//h6[normalize-space()='Your Machine Credentials']"
@@ -66,12 +66,9 @@ class TejasComputeLocators:
     ENABLE_BACKUP_CHECKBOX = "//span[@data-testid='enable-virtual-machine-backup-checkbox']"
     ADD_LABELS_HEADER = "//h6[normalize-space()='Add Labels']"
     ADD_LABELS_DESCRP = "//p[text()='You can add upto 5 labels']"
+    CREATE_VM_SUMMARY = "//h6[normalize-space()='Summary']"
+    CANCEL_BUTTON = "//button[contains(text(),'Cancel')]"
     FINAL_CREATE_VM_BUTTON = "//button[@data-testid='confirm']//div[text()='Create']"
 
 
-class CreateVirtualMachinePageLocators:
 
-    HEADER = "//h1[contains(text(), 'Create Virtual Machine')]"
-    MACHINE_NAME_INPUT = "//input[@id='machine_name']"
-    AVAILABILITY_ZONE_DROPDOWN = "//select[@id='availability_zone']"
-    CREATE_BUTTON = "//button[contains(text(), 'Create')]"

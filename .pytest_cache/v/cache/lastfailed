@@ -7,10 +7,18 @@
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::TestTejasComputeDerived::test_goto_compute": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::TestTejasComputeDerived::test_goto_tejas_compute": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::TestTejasComputeDerived::test_vm_creation": true,
-  "testcases/automated_cases/compute_suite/test_tejas_compute.py": true,
   "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base": true,
   "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_login_successful": true,
   "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_goto_compute": true,
   "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_goto_tejas_compute": true,
-  "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_vm_creation": true
+  "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_vm_creation": true,
+  "test.py::test_yantra_connection": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_clicking_on_compute": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_verify_UI_of_compute_home_screen": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_verify_header_on_compute_home_screen": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_verify_compute_home_screen_description": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_clicking_on_tejas_compute": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_verify_header_on_tejas_compute_screen": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_verify_tejas_compute_screen_description": true,
+  "testcases/automated_cases/compute_suite/test_snapshots.py::test_clicking_on_create_virtual_machine": true
 }

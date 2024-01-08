@@ -2,7 +2,7 @@ import pytest
 import datetime
 from testrail import TestRailAgent
 from const import TESTRAIL_REPORT
-#from helper.config_setup.token_page import logging
+#from test_helper.config_setup.token_page import logging
 import logging
 
 PYTEST_TO_TESTRAIL_STATUS = {

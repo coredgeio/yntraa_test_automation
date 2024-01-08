@@ -1,127 +1,159 @@
-import pytest
-from helper.config_setup.login import login_setup
-from playwright.sync_api import sync_playwright
+
+# import pytest
+# from test_helper.config_setup.login import login_setup
+# from test_helper.config_setup.conftest import browser
+# from test_helper.config_setup.conftest import login_setup_fixture
+# from playwright.sync_api import sync_playwright, expect
+# from test_helper.yantra_element_locators.compute_element import ComputePageLocators, TejasComputeLocators
+# import time
+# import random
+# import logging
+
+# class TestExample:
+#     @pytest.fixture(scope="module")
+#     def browser(self):
+#         with sync_playwright() as p:
+#             browser = p.chromium.launch(headless=False)
+#             context = browser.new_context()
+#             page = context.new_page()
+#             yield page
+#             context.close()
+#
+#     @pytest.fixture(scope="module", autouse=True)
+#     def login_setup(self, browser):
+#         login = login_setup(page = browser,url="https://console-revamp-sbx.yntraa.com", username="priti.ltd@yopmail.com", password="India@143")
+#        login.perform_login()
+        #return login
+# @pytest.fixture(scope='module')
+# def setUp(browser):
+#     page = browser
+#     page.locator(ComputePageLocators.COMPUTE_TAB).click()
+#     page.wait_for_timeout(2000)
+#
+#
+# @pytest.mark.testrail(27291)
+# def test_something(browser):
+#     page = browser
+#     act_text = page.locator("//div[@class='MuiStack-root css-1lpqru0']/h3").text_content()
+#     print("Heading present on the home page:    ", act_text)
+#     assert act_text == "Enabling Possibilities. Empowering Ideas.", "User could not be logged in!!"
+#     print("User Successfully Logged in!!!!!!")
+#    # return page
+#
+# @pytest.mark.testrail(27292)
+# def test_clicking_on_compute(browser):
+#     page = browser
+#     # page.locator(ComputePageLocators.COMPUTE_TAB).click()
+#     # expect(ComputePageLocators.COMPUTE_TAB).to_be_visible()
+#     page.locator(ComputePageLocators.COMPUTE_TAB).click()
+#     page.wait_for_timeout(120)
+#     compute_page_heading = page.locator(ComputePageLocators.COMPUTE_HEADER).text_content()
+#     assert compute_page_heading == "Compute", "User could not be navigated to Compute module!!"
+#     logging.info("User has successfully navigated to Compute module!")
+#
+# def test_verify_header_on_compute_home_screen(browser,setUp):
+#     page = browser
+#     # expect(page.locator(ComputePageLocators.COMPUTE_HEADER)).to_have_text("Compute")
+#     compute_header_value = page.locator(ComputePageLocators.COMPUTE_HEADER).inner_text()
+#     print("data",compute_header_value)
+#     assert compute_header_value=="Compute", f"compute name is not visible in {compute_header_value}"
+#     #expect(compute_header_value).to_equal("Compute")
+#
+# import pytest
+# from test_helper.config_setup.login import login_setup
+# from test_helper.config_setup.conftest import browser
+# from test_helper.config_setup.conftest import login_setup_fixture
+
 import time
 import random
+import pytest
+from conftest import *
+from playwright.sync_api import sync_playwright, expect, Error
+import logging
+from modules.resources.compute.compute_page import perform_click_on_compute_resource
+from modules.resources.compute.tejas_page import perform_click_on_tejas_tab, perform_click_on_create_vm_button
+from test_helper.yantra_element_locators.compute_element import ComputePageLocators, TejasComputeLocators
+class TestComputeValidations:
+    @pytest.mark.testrail(27291)
+    def test_to_verify_clicking_on_compute_screen(self, page):
+        perform_click_on_compute_resource(page, ComputePageLocators.COMPUTE_TAB)
+        compute_page_heading = page.locator(ComputePageLocators.COMPUTE_HEADER).text_content()
+        assert compute_page_heading == "Compute", "User could not be navigated to Compute module!!"
+        logging.info("User has successfully navigated to Compute module!")
 
-class TestExample:
-    @pytest.fixture(scope="module")
-    def browser(self):
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)
-            context = browser.new_context()
-            page = context.new_page()
-            yield page
-            context.close()
+    @pytest.mark.testrail(27292)
+    def test_verify_UI_of_compute_home_screen(self, page, compute_setup):
+        expect(page.locator(ComputePageLocators.COMPUTE_HEADER)).to_be_visible()
+        expect(page.locator(ComputePageLocators.COMPUTE_DESCRP)).to_be_visible()
+        expect(page.locator(ComputePageLocators.COMPUTE_CREATE_BUTTON)).to_be_visible()
+        expect(page.locator(ComputePageLocators.STORAGE_TAB)).to_be_visible()
+        expect(page.locator(ComputePageLocators.NETWORKING_TAB)).to_be_visible()
+        expect(page.locator(ComputePageLocators.SECURITY_TAB)).to_be_visible()
+        expect(page.locator(ComputePageLocators.AUTOMATION_TAB)).to_be_visible()
 
-    @pytest.fixture(scope="module", autouse=True)
-    def login_setup(self, browser):
-        page = browser
-        login = login_setup(url="https://console-revamp-sbx.yntraa.com", username="priti.ltd@yopmail.com", password="India@143")
-        login.perform_login(page)
-        return login
+    @pytest.mark.testrail(27293)
+    def test_to_verify_header_on_compute_home_screen(self, page, compute_setup):
+        compute_header_value = page.locator(ComputePageLocators.COMPUTE_HEADER).inner_text()
+        assert compute_header_value == "Compute", f"The compute header value - {compute_header_value}, is different than expected!"
+        logging.info("Header on Compute home screen is correct!")
 
-    @staticmethod
-    @pytest.mark.testrail(16510)
-    def test_something(browser):
-        page = browser
-        act_text = page.locator("//div[@class='MuiStack-root css-1lpqru0']/h3").text_content()
-        print("Heading present on the home page:    ", act_text)
-        assert act_text == "Enabling Possibilities. Empowering Ideas.", "User could not be logged in!!"
-        print("User Successfully Logged in!!!!!!")
-        return page
+    @pytest.mark.testrail(27294)
+    def test_to_verify_compute_home_screen_description(self, page, compute_setup):
+        compute_description_value = page.locator(ComputePageLocators.COMPUTE_DESCRP).inner_text()
+        expected_compute_description = "Compute refers to virtual machines that provide cloud-based processing power. Users can deploy and manage these scalable, customizable instances to run applications, websites and other workloads on the cloud."
+        assert compute_description_value == expected_compute_description, f"The compute description value - {compute_description_value}, is different than expected!"
+        logging.info("Description on Compute home screen is correct!")
 
+    #testrail id C27294
+    @pytest.mark.testrail(27295)
+    def test_to_verify_clicking_on_tejas_compute(self, page, compute_setup):
+        perform_click_on_tejas_tab(page, TejasComputeLocators.TEJAS_COMPUTE_TAB)
+        tejas_compute_page_heading = page.locator(TejasComputeLocators.TEJAS_HEADER).text_content()
+        assert tejas_compute_page_heading == "Tejas Compute", "User could not be navigated to Tejas Compute section!!"
+        logging.info("User successfully navigated to Tejas Compute screen!")
 
-    def test_goto_compute(self, page) -> None:
-        expected_text = "Compute"
-        actual_text = perform_click_compute_resource(page, "//a[contains(text(),'Compute')]")
-        assert actual_text == expected_text, f"User could not be navigated to {expected_text} module!!"
-        print(f"User has successfully navigated to {expected_text} module!")
-
-    def test_goto_tejas_compute(self, page) -> None:
-        page.wait_for_selector("//p[contains(text(),'Tejas Compute')]").click()
-        under_tejas_compute = page.locator("//div[@class='MuiStack-root css-1lpqru0']/h3").text_content()
-        print("Heading in the Tejas Compute section:    ", under_tejas_compute)
-        assert under_tejas_compute == "Tejas Compute", "User could not be navigated to Tejas Compute section!!"
-        print("User successfully navigated to Tejas Compute module!")
-
-    # Create VM
-    def test_vm_creation(self, page) -> None:
-        page.wait_for_selector("//button[contains(text(),'Create Virtual Machine')]").click()
-        page.wait_for_timeout(3000)
-        vm_username = "TestingVM1"
-        page.get_by_placeholder("Please enter a name").type(vm_username)
-        page.wait_for_timeout(3000)
-        page.wait_for_selector("//input[@value='Mum1']").click()
-
-        # choose an image
-        # Public Image option
-        page.wait_for_selector("//p[contains(text(),'Public Image')]").click()
-        # Selecting Ubuntu
-        page.wait_for_selector("//div[@class='MuiStack-root css-xx6efg']/h6[contains(text(),'Ubuntu')]").click()
-        # Version
-        page.wait_for_selector("//input[@value='20.04 x64 ( ₹100.0/Month )']").click()
-
-        # Choose flavor
-        # General Compute
-        page.wait_for_selector("//p[normalize-space()='General Compute']").click()
-        # select options
-        page.wait_for_selector("//span[contains(text(),'CGI_large')]").click()
-
-        # volume type
-        page.wait_for_selector("//input[@value='RBD']").click()
-        page.wait_for_selector("//div[@class='MuiBox-root css-u4p24i']/button[2]").click()  # to increase root volume
-
-        # Machine credentials
-        page.wait_for_timeout(3000)
-        page.wait_for_selector("//p[normalize-space()='Username / Password']").click()
-
-        page.wait_for_selector("//input[@id='vm_username']").type("vinisharma")
-        page.wait_for_selector("//input[@id='vm_password']").type("India@1435")
-        page.wait_for_selector("//input[@id='vm_confirm_password']").type("India@1435")
-
-        # add Labels
-        page.wait_for_timeout(3000)
-        no_of_labels = 4
-        for no in range(no_of_labels):
-            randm_num = random.randint(1, 500)
-            final_nm = f"VM{randm_num}"
-            page.wait_for_selector("//input[@name='label']").type(final_nm)
-            page.wait_for_selector("//div[contains(text(),'Add Label')]").click()
-
-        # create VM
-        page.wait_for_timeout(3000)
-        page.wait_for_selector("//div[contains(text(),'Create')]").click()
-
-        # confirmation
-        page.wait_for_selector("//div[contains(text(),'Yes')]").click()
-
-        validate_new_vm = page.locator(f"//span[contains(text(),'{vm_username}')]").text_content()
-        #    expect(validate_new_vm).to_have_text(vm_username)
-        print(validate_new_vm)
-        #    rn = "xyz"
-        assert validate_new_vm == vm_username, "VM could not be created due to some issue!!"
-        print("VM successfully created!!!")
+    #testrail id C27296
+    @pytest.mark.testrail(27296)
+    def test_to_verify_header_on_tejas_compute_screen(self, page, tejas_setup):
+        tejas_compute_header = page.locator(TejasComputeLocators.TEJAS_HEADER).inner_text()
+        assert tejas_compute_header == "Tejas Compute", f"The Tejas Compute header value - {tejas_compute_header}, is different than expected!"
+        logging.info("Header on Tejas Compute screen is successfully correct!")
 
 
-#    availability_zone_drpdwn =page.locator("[name='availability_zone']")
-#    availability_zone_drpdwn.select_option(value="Mum1")
+    #testrail id C27297
+    @pytest.mark.testrail(27297)
+    def test_to_verify_tejas_compute_screen_description(self, page, tejas_setup):
+        tejas_description_value = page.locator(TejasComputeLocators.TEJAS_DESCRP).inner_text()
+        expected_tejas_description =  "Virtual Machines are virtualized computing instances that allow users to run applications and services in a cloud environment. They provide scalable, isolated and customizable computing resources, enabling users to deploy and manage their software efficiently."
+        assert tejas_description_value == expected_tejas_description, f"The Tejas Compute description value - {tejas_description_value}, is different than expected!"
+        logging.info("Description on Tejas Compute home screen is correct!")
 
 
-'''
-    #Click QT
-    page.wait_for_selector("//div[contains(text(),'QT')]/self::div[@class='MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-oeknvt']").click()
+    #testrail id C27298
+    @pytest.mark.testrail(27298)
+    @pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
+    def test_verify_learn_more_section_on_tejas_compute_screen(self, page):
+        pass
+        #documentation page is broken
 
-    #Click Key pair
-    page.wait_for_selector("//div[@class='MuiBox-root css-0']/li[5]//div[2]/p[contains(text(),'Key Pairs')]").click()
 
-    #Click create key pair
-    page.wait_for_selector("//button[contains(text(),'Create Key Pair')]").click()
+    #testrail id C27299
+    @pytest.mark.testrail(27299)
+    def test_to_verify_click_on_create_virtual_machine(self, page, tejas_setup):
+        perform_click_on_create_vm_button(page, TejasComputeLocators.CREATE_VM_BUTTON)
+        create_vm_header = page.locator(TejasComputeLocators.CREATE_VM_HEADER).text_content()
+        assert create_vm_header == "Create Virtual Machine", f"User could not be navigated to {create_vm_header}!!"
+        logging.info("User successfully navigated to Create Virtual Machine screen!")
 
-    #send some value to name field
-    page.wait_for_selector("//input[@id='name']").type("TestingVS1")
-
-    #click create
-    page.wait_for_selector("//div[@class='MuiStack-root css-1qftbaz']/div[contains(text(),'Create')]").click()
-
-'''
+    #testrail id C27299
+    @pytest.mark.testrail(27300)
+    def test_verify_create_virtual_machine_homescreen(self, page, tejas_create_vm_setup):
+        page.wait_for_timeout(200)
+        expect(page.locator(TejasComputeLocators.MACHINE_DETAILS_HEADER)).to_be_visible()
+        expect(page.locator(TejasComputeLocators.AVAILABILITY_ZN_DROPDOWN)).to_be_enabled()
+        expect(page.locator(TejasComputeLocators.CHOOSE_IMAGE)).to_be_visible()
+        expect(page.locator(TejasComputeLocators.PUBLIC_IMAGE)).to_be_visible()
+        expect(page.locator(TejasComputeLocators.SNAPSHOT)).to_be_visible()
+        expect(page.locator(TejasComputeLocators.ROOT_VOLUME_TYPE)).to_be_visible()
+        expect(page.locator(TejasComputeLocators.CREATE_VM_SUMMARY)).to_be_visible()
+        expect(page.locator(TejasComputeLocators.CANCEL_BUTTON)).to_be_enabled()

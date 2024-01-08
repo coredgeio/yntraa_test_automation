@@ -1,7 +1,7 @@
 import pytest
 import logging
 from playwright.sync_api import expect
-from helper.yantra_element_locators.compute_element import ComputePageLocators, TejasComputeLocators
+from test_helper.yantra_element_locators.compute_element import ComputePageLocators, TejasComputeLocators
 
 #testrail id C27291
 def test_clicking_on_compute(page):
@@ -20,7 +20,6 @@ def test_verify_UI_of_compute_home_screen(page):
         expect(ComputePageLocators.NETWORKING_TAB).to_be_visible()
         expect(ComputePageLocators.SECURITY_TAB).to_be_visible()
         expect(ComputePageLocators.AUTOMATION_TAB).to_be_visible()
-
 
 #testrail id C27293
 def test_verify_header_on_compute_home_screen(page):

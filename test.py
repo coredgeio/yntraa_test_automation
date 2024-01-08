@@ -4,7 +4,7 @@ import time
 import random
 
 
-@pytest.mark.testrail(20933)
+@pytest.mark.testrail(27291)
 def test_yantra_connection():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
