@@ -6,6 +6,9 @@ from test_helper.config_setup.yntraa_setup import login_setup_yntraa
 from modules.resources.compute.compute_page import perform_click_on_compute_resource
 from modules.resources.compute.tejas_page import perform_click_on_tejas_tab, perform_click_on_create_vm_button
 import time
+Yntraa_url = "https://console-revamp-sbx.yntraa.com"
+Yntraa_username = "priti.ltd@yopmail.com"
+Yntraa_password = "India@143"
 
 @pytest.fixture(scope="module")
 def browser():
@@ -22,7 +25,7 @@ def page(browser):
 
 @pytest.fixture(scope="module", autouse=True)
 def login_setup(browser):
-    login = login_setup_yntraa(page = browser, url="https://console-revamp-sbx.yntraa.com", username="priti.ltd@yopmail.com", password="India@143")
+    login = login_setup_yntraa(page = browser, url= Yntraa_url, username= Yntraa_username, password= Yntraa_password)
     login.perform_login()
 
 @pytest.fixture(scope='module')
