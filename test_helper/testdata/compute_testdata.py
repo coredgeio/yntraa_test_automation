@@ -1,4 +1,5 @@
 
+"""This is the text content from labels, headers, and descriptions within the Application Under Test (AUT)"""
 class ComputeTextData:
 
     compute_header = "Compute"
