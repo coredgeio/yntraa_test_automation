@@ -3,7 +3,7 @@ import string
 import pytest
 from test_helper.yantra_element_locators.compute_element import ComputePageLocators
 
-
+""" Common fixtures and methods for Compute section of the application. """
 @pytest.fixture(scope='module')
 def compute_setup(page):
     perform_click_on_compute_resource(page, ComputePageLocators.COMPUTE_TAB)

@@ -1,4 +1,5 @@
 
+""" Web element's unique locators for entire Compute Resource module."""
 import pytest
 class LoginRequirements:
 

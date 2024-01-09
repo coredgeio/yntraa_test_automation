@@ -1,13 +1,17 @@
+""" Common fixtures and methods for Tejas Compute section of the application. """
 import pytest
 import logging
 from test_helper.yantra_element_locators.compute_element import TejasComputeLocators
 from modules.resources.compute.compute_page import *
 
+
+""" Fixture to click on Tejas Compute tab."""
 @pytest.fixture(scope='module')
 def tejas_setup(page, compute_setup):
     perform_click_on_tejas_tab(page, TejasComputeLocators.TEJAS_COMPUTE_TAB)
     page.wait_for_timeout(2000)
 
+""" Fixture to click on Create Virtual Machine button."""
 @pytest.fixture(scope='module')
 def tejas_create_vm_setup(page, tejas_setup):
     create_vm_button_locator = page.locator(TejasComputeLocators.CREATE_VM_BUTTON)
@@ -20,10 +24,12 @@ def tejas_create_vm_setup(page, tejas_setup):
         else:
             logging.info("Neither 'Create VM' button nor expected header found.")
 
+""" Method to perform click on Tejas Compute. """
 def perform_click_on_tejas_tab(page, selector, timeout=1000):
     page.wait_for_timeout(timeout)
     page.wait_for_selector(selector).click()
 
+""" Method to perform click on Create VM Button. """
 def perform_click_on_create_vm_button(page, selector, timeout=1000):
     page.wait_for_timeout(timeout)
     page.wait_for_selector(selector).click()

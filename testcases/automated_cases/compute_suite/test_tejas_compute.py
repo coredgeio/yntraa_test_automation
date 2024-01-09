@@ -2,7 +2,7 @@ import pytest
 from test_helper.config_setup.login_setup import *
 from playwright.sync_api import sync_playwright, expect, Error
 import logging
-from modules.resources.compute.tejas_page import *#perform_click_on_tejas_tab, perform_click_on_create_vm_button
+from modules.resources.compute.tejas_page import *
 from test_helper.yantra_element_locators.compute_element import ComputePageLocators, TejasComputeLocators
 from test_helper.testdata.compute_testdata import ComputeTextData
 

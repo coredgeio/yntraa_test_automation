@@ -1,5 +1,6 @@
 from test_helper.yantra_element_locators.compute_element import LoginRequirements
 
+""" Login Method. """
 class login_setup_yntraa:
     def __init__(self, page, url, username, password):
         self.page = page
