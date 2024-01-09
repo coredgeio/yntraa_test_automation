@@ -3,10 +3,14 @@ import pytest
 class LoginRequirements:
 
     URL = "https://console-revamp-sbx.yntraa.com"
-    USERNAME = "mailto:priti.ltd@yopmail.com"
+    USERNAME = "priti.ltd@yopmail.com"
     PASSWORD = "India@143"
+    USERNAME_LOCATOR = "//input[@id='username']"
+    PASSWORD_LOCATOR = "//input[@id='password']"
     HOME_PAGE_HEADER = "//h3[normalize-space()='Enabling Possibilities. Empowering Ideas.']"
     HOME_PAGE_DECSRP = "//p[contains(text(),'Discover the power of our public cloud platform')]"
+    LOGIN_BUTTON = "//button[normalize-space()='Login']"
+    SIGN_IN_BUTTON = "//input[@id='kc-login']"
 
 class ComputePageLocators:
 
