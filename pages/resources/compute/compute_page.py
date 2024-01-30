@@ -12,6 +12,7 @@ def perform_click_on_compute_resource(page, selector, timeout=1000):
     page.wait_for_timeout(timeout)
     page.wait_for_selector(selector).click()
 
+
 def generate_random_machine_name():
     allowed_characters = string.ascii_letters + string.digits + "-_ "
     min_length = 3
