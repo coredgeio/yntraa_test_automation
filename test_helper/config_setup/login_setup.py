@@ -1,10 +1,9 @@
 import pytest
 import logging
-from playwright.sync_api import sync_playwright, expect, Error
-from test_helper.yantra_element_locators.compute_element import *
-from test_helper.config_setup.yntraa_setup import login_setup_yntraa
-from modules.resources.compute.tejas_page import *
 import time
+from playwright.sync_api import sync_playwright, expect, Error
+from test_helper.config_setup.yntraa_setup import login_setup_yntraa
+from pages.resources.compute.tejas_page import *
 
 """ Fixtures for Login operation on Yntraa. """
 @pytest.fixture(scope="module")
@@ -21,9 +20,7 @@ def page(browser):
     return page_value
 
 @pytest.fixture(scope="module", autouse=True)
-def login_setup(browser):
-    login = login_setup_yntraa(page = browser, url= LoginRequirements.URL, username= LoginRequirements.USERNAME, password= LoginRequirements.PASSWORD)
+def login_setup(browser, user_credentials):
+    login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])
     login.perform_login()
-
-
 
