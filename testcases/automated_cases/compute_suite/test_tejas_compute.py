@@ -1,11 +1,11 @@
 import pytest
 import logging
 import os
+import re
 from test_helper.config_setup.login_setup import *
 from playwright.sync_api import sync_playwright, expect, Error
 from pages.resources.compute.tejas_page import *
 from test_helper.testdata.compute_testdata import ComputeTextData
-
 @pytest.fixture(scope="module")
 def user_credentials():
     return {
