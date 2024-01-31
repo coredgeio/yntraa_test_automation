@@ -1,11 +1,8 @@
-import pytest
-import logging
-import datetime
-import os
-from test_helper.config_setup.login_setup import *
-from playwright.sync_api import sync_playwright, expect, Error
+from test_helper.library.required_library import *
+from test_helper.fixture.login_fixture import *
 from pages.resources.compute.tejas_page import *
 from test_helper.testdata.compute_testdata import ComputeTextData
+
 @pytest.fixture(scope="module")
 def user_credentials():
     return {
@@ -13,6 +10,14 @@ def user_credentials():
         "username": "pankaj.tech@yopmail.com",
         "password": "India@143"
     }
+
+
+@pytest.fixture()
+def logout_yntraa(page, compute_setup):
+    expect(page.locator(locators['LOGOUT'])).to_be_visible()
+    expect(page.get_by_text("Logout", exact=True)).to_be_visible()
+    page.get_by_text("Logout").click()
+
 
 """Constant and Global Tejas Compute VM Name!"""
 MACHINE_NAME = generate_random_machine_name()

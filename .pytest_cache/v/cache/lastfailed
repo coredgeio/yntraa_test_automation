@@ -36,5 +36,7 @@
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_machine_name_input_field[chromium]": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_choose_availability_zone_description[chromium]": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_availability_zone_dropdown[chromium]": true,
-  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_image_section_is_divided_into_two_sub_sections[chromium]": true
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_image_section_is_divided_into_two_sub_sections[chromium]": true,
+  "testcases/automated_cases/compute_suite/test_vistaar_autoscale.py::test_to_verify_clicking_on_compute_screen[chromium]": true,
+  "testcases/automated_cases/compute_suite/test_vistaar_autoscale.py::test_verify_UI_of_compute_home_screen[chromium]": true
 }

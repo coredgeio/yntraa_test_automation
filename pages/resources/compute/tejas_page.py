@@ -1,8 +1,6 @@
 """ Common fixtures and methods for Tejas Compute section of the application. """
-import pytest
-import logging
+from test_helper.library.required_library import *
 from pages.resources.compute.compute_page import *
-
 
 """ Fixture to click on Tejas Compute tab."""
 @pytest.fixture(scope='module')

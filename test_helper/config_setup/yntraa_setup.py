@@ -1,7 +1,5 @@
-import pytest
-from playwright.sync_api import sync_playwright, expect, Error
-import yaml
-import os
+
+from test_helper.library.required_library import *
 
 """ Defining all the unique locators for web elements across the entire Compute Resource module."""
 

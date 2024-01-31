@@ -56,4 +56,4 @@ CREATE_VM_SUMMARY: "//h6[normalize-space()='Summary']"
 CANCEL_BUTTON: "//button[contains(text(),'Cancel')]"
 FINAL_CREATE_VM_BUTTON: "//button[@data-testid='confirm']//div[text()='Create']"
 
-
+LOGOUT: "//div[@class='MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-otlqza']"
