@@ -20,7 +20,7 @@ MACHINE_NAME = generate_random_machine_name()
 @pytest.mark.testrail(27291)
 def test_to_verify_clicking_on_compute_screen(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
-    compute_page_heading = page.locator(locators['COMPUTE_HEADER']).text_content()
+    compute_page_heading = page.locator(locators['COMPUTE_HEADER']).inner_text()
     assert compute_page_heading == ComputeTextData.compute_header, "User could not be navigated to Compute module!!"
     logging.info("User has successfully navigated to Compute module!")
 
@@ -31,10 +31,14 @@ def test_verify_UI_of_compute_home_screen(page, compute_setup):
     expect(page.locator(locators['COMPUTE_HEADER'])).to_be_visible()
     expect(page.locator(locators['COMPUTE_DESCRP'])).to_be_visible()
     expect(page.locator(locators['COMPUTE_CREATE_BUTTON'])).to_be_visible()
-    expect(page.locator(locators['STORAGE_TAB'])).to_be_visible()
-    expect(page.locator(locators['NETWORKING_TAB'])).to_be_visible()
-    expect(page.locator(locators['SECURITY_TAB'])).to_be_visible()
-    expect(page.locator(locators['AUTOMATION_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['STORAGE_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['NETWORKING_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['SECURITY_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['AUTOMATION_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['MY_EDGE_SITE_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['CAAS_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['MANAGED_DATABASE_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['SUPPORT_TAB'])).to_be_visible()
 
 """Verify the header on the Compute page."""
 @pytest.mark.testrail(27293)
@@ -55,7 +59,7 @@ def test_to_verify_compute_home_screen_description(page, compute_setup):
 @pytest.mark.testrail(27295)
 def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
     perform_click_on_tejas_tab(page, locators['TEJAS_COMPUTE_TAB'])
-    tejas_compute_page_heading = page.locator(locators['TEJAS_HEADER']).text_content()
+    tejas_compute_page_heading = page.locator(locators['TEJAS_HEADER']).inner_text()
     assert tejas_compute_page_heading == ComputeTextData.tejas_compute_header, "User could not be navigated to Tejas Compute section!!"
     logging.info("User successfully navigated to Tejas Compute screen!")
 
@@ -63,7 +67,6 @@ def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
 @pytest.mark.testrail(27296)
 def test_to_verify_header_on_tejas_compute_screen(page, tejas_setup):
     tejas_compute_header = page.locator(locators['TEJAS_HEADER']).inner_text()
-    print("text", tejas_compute_header)
     assert tejas_compute_header == ComputeTextData.tejas_compute_header, f"The Tejas Compute header value - {tejas_compute_header}, is different than expected!"
     logging.info("Header on Tejas Compute screen is correct!")
 
@@ -87,7 +90,7 @@ def test_verify_learn_more_section_on_tejas_compute_screen(page):
 @pytest.mark.testrail(27299)
 def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
     perform_click_on_create_vm_button(page, locators['CREATE_VM_BUTTON'])
-    create_vm_header = page.locator(locators['CREATE_VM_HEADER']).text_content()
+    create_vm_header = page.locator(locators['CREATE_VM_HEADER']).inner_text()
     assert create_vm_header == ComputeTextData.create_vm_header, f"User could not be navigated to {create_vm_header}!!"
     logging.info("User successfully navigated to Create Virtual Machine screen!")
 
@@ -99,10 +102,9 @@ def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
     expect(page.locator(locators['MACHINE_DETAILS_HEADER'])).to_be_visible()
     expect(page.locator(locators['AVAILABILITY_ZN_DROPDOWN'])).to_be_enabled()
     expect(page.locator(locators['CHOOSE_IMAGE'])).to_be_visible()
-    expect(page.locator(locators['PUBLIC_IMAGE'])).to_be_visible()
-    expect(page.locator(locators['SNAPSHOT'])).to_be_visible()
+    expect(page.get_by_test_id(locators['PUBLIC_IMAGE'])).to_be_visible()
+    expect(page.get_by_test_id(locators['SNAPSHOT'])).to_be_visible()
     expect(page.locator(locators['ROOT_VOLUME_TYPE'])).to_be_visible()
-   # expect(page.locator(locators['CREATE_VM_SUMMARY'])).to_be_visible()
     expect(page.locator(locators['CANCEL_BUTTON'])).to_be_enabled()
 
 
@@ -139,11 +141,9 @@ def test_to_verify_machine_name_input_field(page, tejas_create_vm_setup):
         logging.info("Name field is not yet visible on create virtual machine screen!")
 
 @pytest.mark.testrail(27305)
-@pytest.mark.skip(reason="Need to recheck logic!")
+#@pytest.mark.skip(reason="Need to recheck logic!")
 def test_to_verify_machine_name_field_has_required_label(page, tejas_create_vm_setup):
-    # expect(page.locator(locators['NAME_FIELD_LABEL)).to_have_attribute()
-    placeholderText = page.get_by_placeholder('Please enter a name').inner_text()
-    # print(placeholderText)
+    placeholderText = page.get_by_placeholder(locators['NAME_FIELD_LABEL']).inner_text()
     expect(placeholderText).to_have_text('Please enter a name')
 
 @pytest.mark.testrail(27306)
@@ -161,23 +161,24 @@ def test_to_verify_choose_availability_zone_description(page, tejas_create_vm_se
 
 @pytest.mark.testrail(27308)
 def test_to_verify_availability_zone_dropdown(page, tejas_create_vm_setup):
-    dropdown_visibility = page.locator(locators['AVAILABILITY_ZN_DROPDOWN']).is_visible()
-    if dropdown_visibility == True:
-        pass
+    expect(page.locator(locators['AVAILABILITY_ZN_DROPDOWN'])).to_be_visible()
+
+    # if dropdown_visibility == True:
+    #     pass
 
 
 @pytest.mark.testrail(27309)
 def test_to_verify_image_section_is_divided_into_two_sub_sections(page, tejas_create_vm_setup):
-    choose_image = page.locator(locators['CHOOSE_IMAGE']).is_visible()
+    expect(page.locator(locators['CHOOSE_IMAGE'])).to_be_visible()
     choose_image_text = page.locator(locators['CHOOSE_IMAGE']).inner_text()
     assert "Choose an Image" in choose_image_text, f"Unexpected text in Choose Image section: {choose_image_text}"
-    public_image_tab = page.locator(locators['PUBLIC_IMAGE']).is_visible()
+    public_image_tab = page.get_by_test_id(locators['PUBLIC_IMAGE']).is_visible()
     assert public_image_tab, "Public Image section is not visible"
-    public_image_text = page.locator(locators['PUBLIC_IMAGE']).inner_text()
+    public_image_text = page.get_by_test_id(locators['PUBLIC_IMAGE']).inner_text()
     assert "Public Image" in public_image_text, f"Unexpected text in Public Image section: {public_image_text}"
-    snapshot_tab = page.locator(locators['SNAPSHOT']).is_visible()
+    snapshot_tab = page.get_by_test_id(locators['SNAPSHOT']).is_visible()
     assert snapshot_tab, "Snapshot section is not visible"
-    snapshot_text = page.locator(locators['SNAPSHOT']).inner_text()
+    snapshot_text = page.get_by_test_id(locators['SNAPSHOT']).inner_text()
     assert "Snapshots" in snapshot_text, f"Unexpected text in Snapshot section: {snapshot_text}"
 
 
