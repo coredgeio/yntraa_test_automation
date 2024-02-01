@@ -36,11 +36,14 @@ def test_verify_UI_of_compute_home_screen(page, compute_setup):
     expect(page.locator(locators['COMPUTE_HEADER'])).to_be_visible()
     expect(page.locator(locators['COMPUTE_DESCRP'])).to_be_visible()
     expect(page.locator(locators['COMPUTE_CREATE_BUTTON'])).to_be_visible()
-    expect(page.locator(locators['STORAGE_TAB'])).to_be_visible()
-    expect(page.locator(locators['NETWORKING_TAB'])).to_be_visible()
-    expect(page.locator(locators['SECURITY_TAB'])).to_be_visible()
-    expect(page.locator(locators['AUTOMATION_TAB'])).to_be_visible()
-    verify_to_session_logout(page)
+    expect(page.get_by_test_id(locators['STORAGE_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['NETWORKING_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['SECURITY_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['AUTOMATION_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['MY_EDGE_SITE_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['CAAS_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['MANAGED_DATABASE_TAB'])).to_be_visible()
+    expect(page.get_by_test_id(locators['SUPPORT_TAB'])).to_be_visible()
 
 
 
