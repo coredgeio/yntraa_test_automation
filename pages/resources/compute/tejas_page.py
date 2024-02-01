@@ -3,8 +3,6 @@ from test_helper.library.required_library import *
 from pages.resources.compute.compute_page import *
 
 
-"""Constant and Global Timeout!"""
-TIMEOUT = 1000
 
 """ Fixture to click on Tejas Compute tab."""
 @pytest.fixture(scope='module')

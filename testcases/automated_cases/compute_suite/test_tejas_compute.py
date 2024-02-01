@@ -3,6 +3,8 @@ from test_helper.library.required_library import *
 from test_helper.fixture.login_fixture import *
 from pages.resources.compute.tejas_page import *
 from test_helper.testdata.compute_testdata import ComputeTextData
+
+
 @pytest.fixture(scope="module")
 def user_credentials():
     return {
@@ -98,7 +100,7 @@ def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
 """Verify the UI of Create Virtual Machine page."""
 @pytest.mark.testrail(27300)
 def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
-    page.wait_for_timeout(3000)
+    page.wait_for_timeout(TIMEOUT)
     expect(page.locator(locators['MACHINE_DETAILS_HEADER'])).to_be_visible()
     expect(page.locator(locators['AVAILABILITY_ZN_DROPDOWN'])).to_be_enabled()
     expect(page.locator(locators['CHOOSE_IMAGE'])).to_be_visible()
@@ -132,11 +134,11 @@ def test_to_verify_machine_detail_description(page, tejas_create_vm_setup):
 """Verify Machine Name text field is properly displayed and accepts input from user."""
 @pytest.mark.testrail(27304)
 def test_to_verify_machine_name_input_field(page, tejas_create_vm_setup):
-    page.wait_for_timeout(2000)
+    page.wait_for_timeout(TIMEOUT)
     name_field_visibility = page.locator(locators['NAME_FIELD']).is_visible()
     if name_field_visibility == True:
         page.locator(locators['NAME_FIELD']).type(MACHINE_NAME)
-        page.wait_for_timeout(2000)
+        page.wait_for_timeout(TIMEOUT)
     else:
         logging.info("Name field is not yet visible on create virtual machine screen!")
 

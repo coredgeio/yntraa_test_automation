@@ -2,14 +2,15 @@
 from test_helper.library.required_library import *
 from test_helper.config_setup.yntraa_setup import *
 
+
 """ Common fixtures and methods for Compute section of the application. """
 @pytest.fixture(scope='module')
 def compute_setup(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
-    page.wait_for_timeout(2000)
+    page.wait_for_timeout(TIMEOUT)
 
-def perform_click_on_compute_resource(page, selector, timeout=1000):
-    page.wait_for_timeout(timeout)
+def perform_click_on_compute_resource(page, selector):
+    page.wait_for_timeout(TIMEOUT)
     page.get_by_test_id(selector).click()
 
 
@@ -23,5 +24,4 @@ def generate_random_machine_name():
         random_name = random.choice(string.ascii_letters + string.digits) + random_name[1:]
     if not random_name[-1].isalnum():
         random_name = random_name[:-1] + random.choice(string.ascii_letters + string.digits)
-
     return random_name

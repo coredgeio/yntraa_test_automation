@@ -11,6 +11,8 @@ locator_yaml_file = os.path.join(testdata_directory, 'locators.yaml')
 with open(locator_yaml_file, 'r') as file:
     locators = yaml.safe_load(file)
 
+"""Constant and Global Timeout!"""
+TIMEOUT = 1000
 
 """ Login Method. """
 class login_setup_yntraa:
