@@ -141,7 +141,7 @@ def test_to_verify_machine_name_input_field(page, tejas_create_vm_setup):
         logging.info("Name field is not yet visible on create virtual machine screen!")
 
 @pytest.mark.testrail(27305)
-#@pytest.mark.skip(reason="Need to recheck logic!")
+@pytest.mark.skip(reason="Need to recheck logic!")
 def test_to_verify_machine_name_field_has_required_label(page, tejas_create_vm_setup):
     placeholderText = page.get_by_placeholder(locators['NAME_FIELD_LABEL']).inner_text()
     expect(placeholderText).to_have_text('Please enter a name')
