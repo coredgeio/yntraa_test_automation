@@ -43,3 +43,32 @@ def login_setup(browser, user_credentials):
     login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])
     login.perform_login()
 
+@staticmethod
+def verify_to_login_byusing_rolebased_credentials(page):
+    page.get_by_role("button", name="Login").click()
+    username_input = page.query_selector("input#username")
+    username_input.fill("pankaj.tech@yopmail.com")
+    password_input = page.query_selector("input#password")
+    password_input.fill("India@143")
+    login_button = page.query_selector("input#kc-login")
+    login_button.click()
+    page.wait_for_load_state("load")
+    expect(page.get_by_test_id("btn-yntraa")).to_be_visible()
+    expect(page.get_by_test_id("btn-project")).to_be_visible()
+
+@staticmethod
+def click_operation(page, selector, timeout=1000):
+    page.wait_for_timeout(timeout)
+    page.wait_for_selector(selector).click()
+
+@staticmethod
+def verify_to_logout_function(page):
+    expect(page.locator(locators['LOGOUT'])).to_be_visible()
+    click_operation(page, locators['LOGOUT'])
+    page.wait_for_timeout(2000)
+    expect(page.get_by_text("Logout", exact=True)).to_be_visible()
+    page.wait_for_timeout(8000)
+    page.get_by_text("Logout").click()
+    page.wait_for_timeout(8000)
+    page.wait_for_timeout(8000)
+    verify_to_login_byusing_rolebased_credentials(page)

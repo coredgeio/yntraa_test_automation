@@ -18,8 +18,6 @@ MACHINE_NAME = generate_random_machine_name()
 
 def verify_to_session_logout(page):
     verify_to_logout_function(page)
-    verify_to_login_byusing_rolebased_credentials(page)
-
 
 
 """Perform a click operation on Compute Resource and verify the header on the resulting landing page."""
@@ -44,6 +42,6 @@ def test_verify_UI_of_compute_home_screen(page, compute_setup):
     expect(page.get_by_test_id(locators['CAAS_TAB'])).to_be_visible()
     expect(page.get_by_test_id(locators['MANAGED_DATABASE_TAB'])).to_be_visible()
     expect(page.get_by_test_id(locators['SUPPORT_TAB'])).to_be_visible()
-
+    verify_to_session_logout(page)
 
 
