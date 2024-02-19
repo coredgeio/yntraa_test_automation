@@ -23,7 +23,7 @@ class login_setup_yntraa:
         self.password = password
 
     def perform_login(self):
-        self.page.goto(self.url, timeout = 10000)
+        self.page.goto(self.url, timeout = 30000)
         self.page.get_by_role("button", name="Login").click()
         username_input = self.page.query_selector("input#username")
         username_input.fill(self.username)

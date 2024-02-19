@@ -8,7 +8,7 @@ from test_helper.testdata.compute_testdata import ComputeTextData
 @pytest.fixture(scope="module")
 def user_credentials():
     return {
-        "url": "https://console-revamp-sbx.yntraa.com",
+        "url": "https://console-revamp-sbx.yntraa.com/",
         "username": "pankaj.tech@yopmail.com",
         "password": "India@143"
     }
