@@ -1,14 +1,21 @@
 """ Common fixtures and methods for Tejas Compute section of the application. """
 from test_helper.library.required_library import *
 from pages.resources.compute.compute_page import *
-
+from test_helper.testdata.compute_testdata import ComputeTextData
 
 
 """ Fixture to click on Tejas Compute tab."""
 @pytest.fixture(scope='module')
 def tejas_setup(page, compute_setup):
-    perform_click_on_tejas_tab(page, locators['TEJAS_COMPUTE_TAB'])
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
+    compute_header_count = len(compute_header_elements)
+    print("Compute header count:", compute_header_count)
+    for index, element in enumerate(compute_header_elements, start=1):
+        element_text = element.inner_text()
+        if ComputeTextData.tejas_compute_tab in element_text:
+            element.click()
     page.wait_for_timeout(TIMEOUT)
+
 
 """ Fixture to click on Create Virtual Machine button."""
 @pytest.fixture(scope='module')
