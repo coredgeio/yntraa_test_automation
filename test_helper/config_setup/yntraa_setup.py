@@ -1,4 +1,3 @@
-
 from test_helper.library.required_library import *
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
@@ -24,8 +23,9 @@ class login_setup_yntraa:
         self.password = password
 
     # def perform_login(self):
-    #     self.page.goto(self.url, timeout = 10000)
-    #     #self.page.get_by_role("button", name="Login").click()
+    #     self.page.goto(self.url, timeout=80000)
+    #     self.page.get_by_role("button", name="Login").click()
+    #     self.page.wait_for_timeout(10000)
     #     username_input = self.page.query_selector("input#username")
     #     self.page.wait_for_timeout(TIMEOUT)
     #     username_input.fill(self.username)
@@ -34,6 +34,7 @@ class login_setup_yntraa:
     #     login_button = self.page.query_selector("input#kc-login")
     #     login_button.click()
     #     self.page.wait_for_load_state("load")
+    #     self.page.wait_for_timeout(20000)
     #     expect(self.page.get_by_test_id("btn-yntraa")).to_be_visible()
     #     expect(self.page.get_by_test_id("btn-project")).to_be_visible()
 

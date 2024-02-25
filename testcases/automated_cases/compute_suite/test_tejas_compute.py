@@ -8,10 +8,16 @@ from test_helper.testdata.compute_testdata import ComputeTextData
 @pytest.fixture(scope="module")
 def user_credentials():
     return {
+        #"url": "https://console.yntraa.com",
         "url": "https://console-revamp-sbx.yntraa.com",
         "username": "vini-sdet@yopmail.com",
         "password": "India@143"
     }
+
+def pytest_runtest_makereport(item, call):
+    if call.when == "call" and call.excinfo is not None:
+        page = item.funcargs["page"]
+        page.screenshot(path="failure_screenshot.png")
 
 # @pytest.fixture(autouse=True)
 # def logout_after_test(request, page):
@@ -103,14 +109,14 @@ def test_to_verify_tejas_compute_screen_description(page, tejas_setup):
     assert tejas_description_value == ComputeTextData.tejas_description, f"The Tejas Compute header value - {tejas_description_value}, is different than expected!"
     logging.info("Description on Tejas Compute home screen is correct!")
 
-
-# @pytest.mark.testrail(27298)
-# @pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
-# def test_verify_learn_more_section_on_tejas_compute_screen(page):
-#     pass
-#     #documentation page is broken
 #
-#
+# # @pytest.mark.testrail(27298)
+# # @pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
+# # def test_verify_learn_more_section_on_tejas_compute_screen(page):
+# #     pass
+# #     #documentation page is broken
+# #
+# #
 """Perform a click operation on the Create Virtual Machine button and and verify the header on the resulting landing page."""
 @pytest.mark.testrail(27299)
 def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
@@ -171,17 +177,17 @@ def test_to_verify_machine_name_input_field(page, tejas_create_vm_setup):
     else:
         logging.info("Name field is not yet visible on create virtual machine screen!")
 
-# @pytest.mark.testrail(27305)
-# @pytest.mark.skip(reason="Need to recheck logic!")
-# def test_to_verify_machine_name_field_has_required_label(page, tejas_create_vm_setup):
-#     placeholderText = page.get_by_placeholder(locators['NAME_FIELD_LABEL']).inner_text()
-#     expect(placeholderText).to_have_text('Please enter a name')
-#
-# @pytest.mark.testrail(27306)
-# @pytest.mark.skip(reason="Yet to be implemented")
-# def test_to_verify_name_field_against_regex(page, tejas_create_vm_setup):
-#     pass
-#
+# # @pytest.mark.testrail(27305)
+# # @pytest.mark.skip(reason="Need to recheck logic!")
+# # def test_to_verify_machine_name_field_has_required_label(page, tejas_create_vm_setup):
+# #     placeholderText = page.get_by_placeholder(locators['NAME_FIELD_LABEL']).inner_text()
+# #     expect(placeholderText).to_have_text('Please enter a name')
+# #
+# # @pytest.mark.testrail(27306)
+# # @pytest.mark.skip(reason="Yet to be implemented")
+# # def test_to_verify_name_field_against_regex(page, tejas_create_vm_setup):
+# #     pass
+# #
 """Verify the description under Choose Availability Zone label. """
 @pytest.mark.testrail(27307)
 def test_to_verify_choose_availability_zone_description(page, tejas_create_vm_setup):
@@ -257,247 +263,194 @@ def test_Verify_that_Search_box_under_Snapshots_is_accepting_all_types_of_data(p
     else:
         print("Search field is not visible")
 
+#
 
+#
 @pytest.mark.testrail(27317)
 def test_Verify_user_is_able_to_select_Root_Volume_size(page, tejas_create_vm_setup):
-    root_volume_tab = page.get_by_test_id(locators['ROOT_VOLUME_HEADER']).is_visible()
-    expect(page.get_by_text("Root Volume (in GiB)")).to_be_visible()
+    page.get_by_test_id(locators['ROOT_VOLUME_HEADER']).is_visible()
+    page.get_by_text("Root Volume (in GiB)").is_visible()
     page.get_by_test_id("volume_size").is_visible()
-    element = page.locator('//input[@name="volume_size"]')
-    text = element.inner_text()
-    print(text)
+    initial_value = page.locator('#volume_size').get_attribute("value")
     page.get_by_test_id("volume-size-count").click()
-    element = page.locator('//input[@name="volume_size"]')
-    text = element.inner_text()
-    print(text)
+    updated_value = page.locator('#volume_size').get_attribute("value")
+    assert updated_value == "100", "Volume size is not updated to 100"
     page.locator('//button[@data-testid="-count"]').click()
-    element = page.locator('//input[@name="volume_size"]')
-    text = element.inner_text()
-    print(text)
-    input_field = page.locator("#volume_size")
-    value = input_field.get_attribute("value")
-    assert value == "50", "Input field value is not 50"
-    page.wait_for_timeout(40000)
+    final_value = page.locator('#volume_size').get_attribute("value")
+    # input_field = page.locator('#volume_size')
+    # final_value = input_field.get_attribute("value")
+    assert final_value == "50", "Volume size is not set to 50 after selection"
 
 
-# @pytest.mark.testrail(27317)
-# def test_Verify_user_is_able_to_select_Root_Volume_size(page, tejas_create_vm_setup):
-#     page.get_by_test_id(locators['ROOT_VOLUME_HEADER']).is_visible()
-#     page.get_by_text("Root Volume (in GiB)").is_visible()
-#     page.get_by_test_id("volume_size").is_visible()
-#     initial_value = page.locator('#volume_size').get_attribute("value")
-#     page.get_by_test_id("volume-size-count").click()
-#     updated_value = page.locator('#volume_size').get_attribute("value")
-#     assert updated_value == "100", "Volume size is not updated to 100"
-#     page.locator('//button[@data-testid="-count"]').click()
-#     final_value = page.locator('#volume_size').get_attribute("value")
-#     # input_field = page.locator('#volume_size')
-#     # final_value = input_field.get_attribute("value")
-#     assert final_value == "50", "Volume size is not set to 50 after selection"
-#
-#
-# @pytest.mark.testrail(27318)
-# def test_choose_flavor_description(page, tejas_create_vm_setup):
-#     page.get_by_text("Choose Flavor").is_visible()
-#     page.get_by_text(locators['CHOOSE_FLAVOR']).is_visible()
-#     choose_flavor_description_value = page.locator(locators['CHOOSE_FLAVOR']).inner_text()
-#     print(choose_flavor_description_value)
-#     assert choose_flavor_description_value == ComputeTextData.FLAVOUR_DESCRIPTION
-#
-#
-# @pytest.mark.testrail(27319)
-# def test_Verify_Flavors_are_displayed_and_user_is_able_to_select_a_flavor(page, tejas_create_vm_setup):
-#     page.get_by_text("Choose Flavor").is_visible()
-#
-#
+@pytest.mark.testrail(27318)
+def test_choose_flavor_description(page, tejas_create_vm_setup):
+    page.get_by_text("Choose Flavor").is_visible()
+    page.get_by_text(locators['CHOOSE_FLAVOR']).is_visible()
+    choose_flavor_description_value = page.locator(locators['CHOOSE_FLAVOR']).inner_text()
+    print(choose_flavor_description_value)
+    assert choose_flavor_description_value == ComputeTextData.FLAVOUR_DESCRIPTION
+
+@pytest.mark.testrail(27319)
+def test_Verify_Flavors_are_displayed_and_user_is_able_to_select_a_flavor(page, tejas_create_vm_setup):
+    page.get_by_text("Choose Flavor").is_visible()
+    expect(page.get_by_test_id("tab-compute-intensive")).to_be_visible()
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+    compute_header_count = len(compute_header_elements)
+    print("Compute header count1:", compute_header_count)
+    if compute_header_count > 0:
+        compute_header_elements[1].click()
+    page.wait_for_timeout(TIMEOUT)
 
 
+@pytest.mark.testrail(27320)
+def test_Verify_Your_Machine_Credentials_description(page, tejas_create_vm_setup):
+    page.get_by_text("Machine Credentials").is_visible()
+    page.get_by_text(locators['MACHINE_CREDENTIALS_DESCRP']).is_visible()
+    machine_description_value = page.locator(locators['MACHINE_CREDENTIALS_DESCRP']).inner_text()
+    print(machine_description_value)
+    assert machine_description_value == ComputeTextData.YOUR_MACHINE_DISCRIPTION
 
-#     def test_goto_compute(self, page) -> None:
-#         expected_text = "Compute"
-#         actual_text = perform_click_compute_resource(page, "//a[contains(text(),'Compute')]")
-#         assert actual_text == expected_text, f"User could not be navigated to {expected_text} module!!"
-#         print(f"User has successfully navigated to {expected_text} module!")
-#
-#     def test_goto_tejas_compute(self, page) -> None:
-#         page.wait_for_selector("//p[contains(text(),'Tejas Compute')]").click()
-#         under_tejas_compute = page.locator("//div[@class='MuiStack-root css-1lpqru0']/h3").text_content()
-#         print("Heading in the Tejas Compute section:    ", under_tejas_compute)
-#         assert under_tejas_compute == "Tejas Compute", "User could not be navigated to Tejas Compute section!!"
-#         print("User successfully navigated to Tejas Compute module!")
-#
-#     # Create VM
-#     def test_vm_creation(self, page) -> None:
-#         page.wait_for_selector("//button[contains(text(),'Create Virtual Machine')]").click()
-#         page.wait_for_timeout(3000)
-#         vm_username = "TestingVM1"
-#         page.get_by_placeholder("Please enter a name").type(vm_username)
-#         page.wait_for_timeout(3000)
-#         page.wait_for_selector("//input[@value='Mum1']").click()
-#
-#         # choose an image
-#         # Public Image option
-#         page.wait_for_selector("//p[contains(text(),'Public Image')]").click()
-#         # Selecting Ubuntu
-#         page.wait_for_selector("//div[@class='MuiStack-root css-xx6efg']/h6[contains(text(),'Ubuntu')]").click()
-#         # Version
-#         page.wait_for_selector("//input[@value='20.04 x64 ( ₹100.0/Month )']").click()
-#
-#         # Choose flavor
-#         # General Compute
-#         page.wait_for_selector("//p[normalize-space()='General Compute']").click()
-#         # select options
-#         page.wait_for_selector("//span[contains(text(),'CGI_large')]").click()
-#
-#         # volume type
-#         page.wait_for_selector("//input[@value='RBD']").click()
-#         page.wait_for_selector("//div[@class='MuiBox-root css-u4p24i']/button[2]").click()  # to increase root volume
-#
-#         # Machine credentials
-#         page.wait_for_timeout(3000)
-#         page.wait_for_selector("//p[normalize-space()='Username / Password']").click()
-#
-#         page.wait_for_selector("//input[@id='vm_username']").type("vinisharma")
-#         page.wait_for_selector("//input[@id='vm_password']").type("India@1435")
-#         page.wait_for_selector("//input[@id='vm_confirm_password']").type("India@1435")
-#
-#         # add Labels
-#         page.wait_for_timeout(3000)
-#         no_of_labels = 4
-#         for no in range(no_of_labels):
-#             randm_num = random.randint(1, 500)
-#             final_nm = f"VM{randm_num}"
-#             page.wait_for_selector("//input[@name='label']").type(final_nm)
-#             page.wait_for_selector("//div[contains(text(),'Add Label')]").click()
-#
-#         # create VM
-#         page.wait_for_timeout(3000)
-#         page.wait_for_selector("//div[contains(text(),'Create')]").click()
-#
-#         # confirmation
-#         page.wait_for_selector("//div[contains(text(),'Yes')]").click()
-#
-#         validate_new_vm = page.locator(f"//span[contains(text(),'{vm_username}')]").text_content()
-#         #    expect(validate_new_vm).to_have_text(vm_username)
-#         print(validate_new_vm)
-#         #    rn = "xyz"
-#         assert validate_new_vm == vm_username, "VM could not be created due to some issue!!"
-#         print("VM successfully created!!!")
+@pytest.mark.testrail(27321)
+def test_Verify_Your_Machine_Credentials_is_divided_in_two_groups(page, tejas_create_vm_setup):
+    public_image_tab = page.get_by_test_id(locators['PUBLIC_IMAGE']).is_visible()
+    public_image_text = page.get_by_test_id(locators['PUBLIC_IMAGE']).inner_text()
+    assert "Public Image" in public_image_text, f"Unexpected text in Public Image section: {public_image_text}"
+    public_image_card = page.query_selector_all(f'[data-testid="tab-public-image-card"]')
+    public_card_count = len(public_image_card)
+    print("Number of elements matching the selector:", public_card_count)
+    for index, element in enumerate(public_image_card, start=1):
+        element_text = element.inner_text()
+        print("Public_Images_Card", element_text)
+    if public_card_count > 0:
+        public_image_card[0].click()
+        page.wait_for_timeout(TIMEOUT)
+    machine_credentials_visible = page.get_by_text("Machine Credentials").is_visible()
+    key_pair_tab = page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).is_visible()
+    keypair_text = page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).inner_text()
+    assert keypair_text == "Key Pair"
+    password_tab = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).is_visible()
+    password_text = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).inner_text()
+    assert password_text == "Username / Password"
+
+
 #
 #
-# #    availability_zone_drpdwn =page.locator("[name='availability_zone']")
-# #    availability_zone_drpdwn.select_option(value="Mum1")
+#     # machine_credentials_visible = page.get_by_text("Machine Credentials").is_visible()
+#     # machines_key = page.query_selector_all(f'[data-testid="key-pair-tab"]')
+#     # #machines_key = page.query_selector_all(f'[data-testid="tab"]')
+#     # machine_Creds = len(machines_key)
+#     # print("counts for machine credentials", machine_Creds)
+#     # for index, element in enumerate(machines_key):
+#     #     element_text = element.inner_text()
+#     #     print("text",element_text)
+#     #     if "Key Pair" in element_text:
+#     #         element.click()
+#     #         page.wait_for_timeout(80000)
+#     #         break
+#     #
+#     # username_password_visible = page.get_by_text("Username / Password").is_visible()
+#     # assert username_password_visible, "Username / Password section is not visible"
 #
-#
-# '''
-#     #Click QT
-#     page.wait_for_selector("//div[contains(text(),'QT')]/self::div[@class='MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-oeknvt']").click()
-#
-#     #Click Key pair
-#     page.wait_for_selector("//div[@class='MuiBox-root css-0']/li[5]//div[2]/p[contains(text(),'Key Pairs')]").click()
-#
-#     #Click create key pair
-#     page.wait_for_selector("//button[contains(text(),'Create Key Pair')]").click()
-#
-#     #send some value to name field
-#     page.wait_for_selector("//input[@id='name']").type("TestingVS1")
-#
-#     #click create
-#     page.wait_for_selector("//div[@class='MuiStack-root css-1qftbaz']/div[contains(text(),'Create')]").click()
-#
-# '''
-#
-#
-#     def test_goto_compute(self, page) -> None:
-#         expected_text = "Compute"
-#         actual_text = perform_click_compute_resource(page, "//a[contains(text(),'Compute')]")
-#         assert actual_text == expected_text, f"User could not be navigated to {expected_text} module!!"
-#         print(f"User has successfully navigated to {expected_text} module!")
-#
-#     def test_goto_tejas_compute(self, page) -> None:
-#         page.wait_for_selector("//p[contains(text(),'Tejas Compute')]").click()
-#         under_tejas_compute = page.locator("//div[@class='MuiStack-root css-1lpqru0']/h3").text_content()
-#         print("Heading in the Tejas Compute section:    ", under_tejas_compute)
-#         assert under_tejas_compute == "Tejas Compute", "User could not be navigated to Tejas Compute section!!"
-#         print("User successfully navigated to Tejas Compute module!")
-#
-#     # Create VM
-#     def test_vm_creation(self, page) -> None:
-#         page.wait_for_selector("//button[contains(text(),'Create Virtual Machine')]").click()
-#         page.wait_for_timeout(3000)
-#         vm_username = "TestingVM1"
-#         page.get_by_placeholder("Please enter a name").type(vm_username)
-#         page.wait_for_timeout(3000)
-#         page.wait_for_selector("//input[@value='Mum1']").click()
-#
-#         # choose an image
-#         # Public Image option
-#         page.wait_for_selector("//p[contains(text(),'Public Image')]").click()
-#         # Selecting Ubuntu
-#         page.wait_for_selector("//div[@class='MuiStack-root css-xx6efg']/h6[contains(text(),'Ubuntu')]").click()
-#         # Version
-#         page.wait_for_selector("//input[@value='20.04 x64 ( ₹100.0/Month )']").click()
-#
-#         # Choose flavor
-#         # General Compute
-#         page.wait_for_selector("//p[normalize-space()='General Compute']").click()
-#         # select options
-#         page.wait_for_selector("//span[contains(text(),'CGI_large')]").click()
-#
-#         # volume type
-#         page.wait_for_selector("//input[@value='RBD']").click()
-#         page.wait_for_selector("//div[@class='MuiBox-root css-u4p24i']/button[2]").click()  # to increase root volume
-#
-#         # Machine credentials
-#         page.wait_for_timeout(3000)
-#         page.wait_for_selector("//p[normalize-space()='Username / Password']").click()
-#
-#         page.wait_for_selector("//input[@id='vm_username']").type("vinisharma")
-#         page.wait_for_selector("//input[@id='vm_password']").type("India@1435")
-#         page.wait_for_selector("//input[@id='vm_confirm_password']").type("India@1435")
-#
-#         # add Labels
-#         page.wait_for_timeout(3000)
-#         no_of_labels = 4
-#         for no in range(no_of_labels):
-#             randm_num = random.randint(1, 500)
-#             final_nm = f"VM{randm_num}"
-#             page.wait_for_selector("//input[@name='label']").type(final_nm)
-#             page.wait_for_selector("//div[contains(text(),'Add Label')]").click()
-#
-#         # create VM
-#         page.wait_for_timeout(3000)
-#         page.wait_for_selector("//div[contains(text(),'Create')]").click()
-#
-#         # confirmation
-#         page.wait_for_selector("//div[contains(text(),'Yes')]").click()
-#
-#         validate_new_vm = page.locator(f"//span[contains(text(),'{vm_username}')]").text_content()
-#         #    expect(validate_new_vm).to_have_text(vm_username)
-#         print(validate_new_vm)
-#         #    rn = "xyz"
-#         assert validate_new_vm == vm_username, "VM could not be created due to some issue!!"
-#         print("VM successfully created!!!")
-#
-#
-# #    availability_zone_drpdwn =page.locator("[name='availability_zone']")
-# #    availability_zone_drpdwn.select_option(value="Mum1")
-#
-#
-# '''
-#     #Click QT
-#     page.wait_for_selector("//div[contains(text(),'QT')]/self::div[@class='MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-oeknvt']").click()
-#
-#     #Click Key pair
-#     page.wait_for_selector("//div[@class='MuiBox-root css-0']/li[5]//div[2]/p[contains(text(),'Key Pairs')]").click()
-#
-#     #Click create key pair
-#     page.wait_for_selector("//button[contains(text(),'Create Key Pair')]").click()
-#
-#     #send some value to name field
-#     page.wait_for_selector("//input[@id='name']").type("TestingVS1")
-#
-#     #click create
-#     page.wait_for_selector("//div[@class='MuiStack-root css-1qftbaz']/div[contains(text(),'Create')]").click()
-#
-# '''
+@pytest.mark.testrail(27323)
+def test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_and_vice_versa(page, tejas_create_vm_setup):
+    machine_credentials_visible = page.get_by_text("Machine Credentials").is_visible()
+    key_pair_tab = page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).is_visible()
+    keypair_text = page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).inner_text()
+    assert keypair_text == "Key Pair"
+    page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
+    page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).click()
+    password_tab = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).is_visible()
+    username_password_visible = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).inner_text()
+    assert username_password_visible == "Username / Password"
+    username_password_visible = page.get_by_text("Username / Password").is_visible()
+    assert username_password_visible, "Username / Password section is not visible"
+
+
+@pytest.mark.testrail(27324)
+def test_verify_Username_text_field_is_properly_displayed_and_accept_input_from_user(page, tejas_create_vm_setup):
+    test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_and_vice_versa
+    expect(page.get_by_test_id("vm-username-input")).to_be_visible()
+    Machine_name_field_visibility = page.locator(locators['NAME_FIELD_MACHINE']).is_visible()
+    if Machine_name_field_visibility == True:
+        page.locator(locators['NAME_FIELD_MACHINE']).type("vini-sdet@yopmail.com")
+        page.wait_for_timeout(TIMEOUT)
+
+@pytest.mark.testrail(27327)
+def test_verify_password_field_is_properly_displayed_and_accept_input_from_user(page, tejas_create_vm_setup):
+    test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_and_vice_versa
+    expect(page.get_by_test_id("vm-password-input")).to_be_visible()
+    Machine_name_field_visibility = page.locator(locators['PASSWORD_FIELD_MACHINE']).is_visible()
+    if Machine_name_field_visibility == True:
+        page.locator(locators['PASSWORD_FIELD_MACHINE']).type("India@143")
+        page.wait_for_timeout(TIMEOUT)
+
+
+@pytest.mark.testrail(27334)
+def test_verify_confirm_password_field_is_properly_displayed_and_accept_input_from_user(page, tejas_create_vm_setup):
+    test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_and_vice_versa
+    confirmpassword_visible = page.get_by_text("Confirm Password").is_visible()
+    expect(page.get_by_test_id("vm-confirm-password-input")).to_be_visible()
+    Machine_name_field_visibility = page.locator(locators['CONF_PASSWORD_FIELD_MACHINE']).is_visible()
+    if Machine_name_field_visibility == True:
+        page.locator(locators['CONF_PASSWORD_FIELD_MACHINE']).type("India@143")
+        page.wait_for_timeout(TIMEOUT)
+
+
+@pytest.mark.testrail(27335)
+def test_verify_password_and_confirm_password_text_field_validate_for_the_same(page, tejas_create_vm_setup):
+    test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_and_vice_versa
+    expect(page.get_by_test_id("vm-password-input")).to_be_visible()
+    page.locator(locators['PASSWORD_FIELD_MACHINE']).fill("")
+    password_value = "India@143"
+    page.fill(locators['PASSWORD_FIELD_MACHINE'], password_value)
+    page.wait_for_timeout(TIMEOUT)
+
+    expect(page.get_by_test_id("vm-confirm-password-input")).to_be_visible()
+    page.locator(locators['CONF_PASSWORD_FIELD_MACHINE']).fill("")
+    confirm_password_value = "India@143"
+    page.fill(locators['CONF_PASSWORD_FIELD_MACHINE'], confirm_password_value)
+    page.wait_for_timeout(TIMEOUT)
+
+    password_field_value = page.get_by_test_id(locators['PASSWORD_FIELD_MACHINE'])
+    confirm_password_field_value = page.get_by_test_id(locators['CONF_PASSWORD_FIELD_MACHINE'])
+
+
+@pytest.mark.testrail(27338)
+def test_verify_Username_password_and_confirm_password_text_field_valid_input(page, tejas_create_vm_setup):
+    test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_and_vice_versa
+    expect(page.get_by_test_id("vm-username-input")).to_be_visible()
+    Machine_name_field_visibility = page.locator(locators['NAME_FIELD_MACHINE']).is_visible()
+    if Machine_name_field_visibility:
+        page.locator(locators['NAME_FIELD_MACHINE']).fill("")
+        page.wait_for_timeout(TIMEOUT)
+        page.locator(locators['NAME_FIELD_MACHINE']).fill("vini-sdet@yopmail.com")
+
+    expect(page.get_by_test_id("vm-password-input")).to_be_visible()
+    password_field_visibility = page.locator(locators['PASSWORD_FIELD_MACHINE']).is_visible()
+    if password_field_visibility:
+        page.locator(locators['PASSWORD_FIELD_MACHINE']).fill("")
+        page.wait_for_timeout(TIMEOUT)
+        page.locator(locators['PASSWORD_FIELD_MACHINE']).fill("India@143")
+
+    expect(page.get_by_test_id("vm-confirm-password-input")).to_be_visible()
+    conf_password_field_visibility = page.locator(locators['CONF_PASSWORD_FIELD_MACHINE']).is_visible()
+    if conf_password_field_visibility:
+        page.locator(locators['CONF_PASSWORD_FIELD_MACHINE']).fill("")
+        page.wait_for_timeout(TIMEOUT)
+        page.locator(locators['CONF_PASSWORD_FIELD_MACHINE']).fill("India@143")
+
+
+@pytest.mark.testrail(27339)
+def test_verify_Choose_Networks_description(page, tejas_create_vm_setup):
+    page.get_by_text("Choose Networks").is_visible()
+    page.get_by_text(locators['CHOOSE_NET_DESC']).is_visible()
+    choose_network_description_value = page.locator(locators['CHOOSE_NET_DESC']).inner_text()
+    print(choose_network_description_value)
+    assert choose_network_description_value == ComputeTextData.NETWORK_DISCRIPTION
+
+@pytest.mark.testrail(27340)
+def test_Verify_Networks_dropdown_is_displayed_and_user_can_select_multiple_options_from_it(page, tejas_create_vm_setup):
+    # page.get_by_text("Networks").is_visible()
+    # page.get_by_text("Networks").is_visible()
+    expect(page.get_by_test_id("network-id-multi-select")).to_be_visible()
+
