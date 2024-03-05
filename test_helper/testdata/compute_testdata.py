@@ -11,5 +11,6 @@ class ComputeTextData:
     availability_zone_description = "An availability zone is a physically separate data center within a region that provides redundancy and fault tolerance for cloud infrastructure."
     machine_detail_description = "Choose a friendly name for virtual machine."
     FLAVOUR_DESCRIPTION= "A flavor refers to a predefined combination of virtual machine specification including CPU, memory and storage for deploying and running applications in their cloud infrastructure."
-    YOUR_MACHINE_DISCRIPTION= "Select a key pair or username & password for connecting to your virtual machine."
+    YOUR_MACHINE_DISCRIPTION= "Select a key pair or username & password for connecting to virtual machine."
     NETWORK_DISCRIPTION= "A network refers to a virtual network that connects virtual machines within the same region, allowing them to communicate securely and efficiently with each other."
+    SECURITY_DISCRIPTION= "Security Groups are virtual firewalls that control inbound and outbound traffic for virtual machines, enabling fine-grained control over network access and enhancing security measures."

@@ -4,31 +4,31 @@ from pages.resources.compute.tejas_page import *
 
 """ Fixtures for Login operation on Yntraa. """
 
-# @pytest.fixture(scope="module")
-# def browser():
-#     with sync_playwright() as p:
-#         browser = p.chromium.launch(headless=False)
-#         context = browser.new_context()
-#         page = context.new_page()
-#         yield page
-
 @pytest.fixture(scope="module")
-def browser(request):
-    browser_name = request.config.getoption("--browser")
-    if isinstance(browser_name, list):
-        browser_name = browser_name[0]
+def browser():
     with sync_playwright() as p:
-        if browser_name == "chromium":
-            browser = p.chromium.launch(headless=False)
-        elif browser_name == "firefox":
-            browser = p.firefox.launch(headless=False)
-        elif browser_name == "webkit":
-            browser = p.webkit.launch(headless=False)
-        else:
-            raise ValueError(f"Unsupported browser: {browser_name}")
+        browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
         yield page
+
+# @pytest.fixture(scope="module")
+# def browser(request):
+#     browser_name = request.config.getoption("--browser")
+#     if isinstance(browser_name, list):
+#         browser_name = browser_name[0]
+#     with sync_playwright() as p:
+#         if browser_name == "chromium":
+#             browser = p.chromium.launch(headless=False)
+#         elif browser_name == "firefox":
+#             browser = p.firefox.launch(headless=False)
+#         elif browser_name == "webkit":
+#             browser = p.webkit.launch(headless=False)
+#         else:
+#             raise ValueError(f"Unsupported browser: {browser_name}")
+#         context = browser.new_context()
+#         page = context.new_page()
+#         yield page
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chromium", help="Specify the browser to use for testing (chromium, firefox, webkit)")
@@ -45,9 +45,9 @@ def login_setup(browser, user_credentials):
 
 @staticmethod
 def verify_to_login_byusing_rolebased_credentials(page):
-    page.get_by_role("button", name="Login").click()
+    #page.get_by_role("button", name="Login").click()
     username_input = page.query_selector("input#username")
-    username_input.fill("vini.tech@yopmail.com")
+    username_input.fill("vini-sdet@yopmail.com")
     password_input = page.query_selector("input#password")
     password_input.fill("India@143")
     login_button = page.query_selector("input#kc-login")

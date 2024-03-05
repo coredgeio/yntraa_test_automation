@@ -9,7 +9,6 @@ from test_helper.testdata.compute_testdata import ComputeTextData
 def tejas_setup(page, compute_setup):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
     compute_header_count = len(compute_header_elements)
-    print("Compute header count:", compute_header_count)
     for index, element in enumerate(compute_header_elements, start=1):
         element_text = element.inner_text()
         if ComputeTextData.tejas_compute_tab in element_text:
