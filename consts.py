@@ -1,8 +1,8 @@
-USER = 'atul@coredge.io'
-PWD = '625Nw9Ai1Ww4WdZ2ln2K-kKrmUUMSHzVyVGdAUgqr'
+USER = 'vini@coredge.io'
+PWD = '9UcvqMmFSEpSW2Gjhmlw-mAoEvVVHcPyluhQHSdfa'
 URL = 'https://coredge.testrail.io/'
 PROJECT_ID = 6
-TESTRAIL_REPORT = True   #True
+TESTRAIL_REPORT = False   #True
 CASE_TYPE_TO_ID = {
     'Acceptance': 1,
     'Compatibility': 2,

@@ -9,6 +9,7 @@ def compute_setup(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
     page.wait_for_timeout(TIMEOUT)
 
+
 def perform_click_on_compute_resource(page, selector):
     page.wait_for_timeout(TIMEOUT)
     page.get_by_test_id(selector).click()

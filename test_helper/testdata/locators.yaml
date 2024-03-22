@@ -1,6 +1,7 @@
+SEARCH_BAR: "Search (Ctrl + /)"
+
 #Locators for Compute
 COMPUTE_TAB: "sidebar-compute"
-STORAGE_TAB: "sidebar-storage"
 NETWORKING_TAB: "sidebar-networking"
 SECURITY_TAB: "sidebar-security"
 CAAS_TAB: "sidebar-caa-s"
@@ -78,3 +79,14 @@ RESOURCE_NAME: "resource-name-link"
 SEARCH_FIELD: "(//input[@placeholder='Search '])[1]"
 CHOOSE_FLAVOR: "(//h6[contains(text(),'Choose Flavor')]//following::p)[1]"
 #//*[@data-testid="compute-intensive-tab"]//following::div
+
+
+#Locatore for Storage
+STORAGE_TAB: "sidebar-storage"
+STORAGE_FEATURES: "tab"
+STORAGE_HEADER: "heading-storage"
+STORAGE_DESCRP: "description-storage"
+ANANTA_HEADER: "heading-volume"
+ANANTA_DESCRP: "description-volume"
+
+

@@ -1,3 +1,5 @@
+import pytest
+
 from test_helper.library.required_library import *
 from test_helper.config_setup.yntraa_setup import *
 from pages.resources.compute.tejas_page import *
@@ -38,6 +40,8 @@ def page(browser):
     page_value = browser
     return page_value
 
+@pytest.mark.parametrize("user, pass"
+                         )
 @pytest.fixture(scope="module", autouse=True)
 def login_setup(browser, user_credentials):
     login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])

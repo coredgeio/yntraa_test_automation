@@ -22,6 +22,7 @@ def user_credentials():
 MACHINE_NAME = generate_random_machine_name()
 
 
+
 """Perform a click operation on Compute Resource and verify the header on the resulting landing page."""
 @pytest.mark.testrail(27291)
 def test_to_verify_clicking_on_compute_screen(page):

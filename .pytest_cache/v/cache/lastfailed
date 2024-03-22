@@ -38,5 +38,22 @@
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_availability_zone_dropdown[chromium]": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_image_section_is_divided_into_two_sub_sections[chromium]": true,
   "testcases/automated_cases/compute_suite/test_vistaar_autoscale.py::test_to_verify_clicking_on_compute_screen[chromium]": true,
-  "testcases/automated_cases/compute_suite/test_vistaar_autoscale.py::test_verify_UI_of_compute_home_screen[chromium]": true
+  "testcases/automated_cases/compute_suite/test_vistaar_autoscale.py::test_verify_UI_of_compute_home_screen[chromium]": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_clicking_on_tejas_compute": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_header_on_tejas_compute_screen": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_tejas_compute_screen_description": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_click_on_create_virtual_machine": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_verify_create_virtual_machine_homescreen": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_create_vm_header": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_create_vm_description": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_machine_detail_description": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_choose_availability_zone_description": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_availability_zone_dropdown": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_to_verify_image_section_is_divided_into_two_sub_sections": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_Public_Images_are_displayed_and_user_is_able_to_select_an_image": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_version_dropdown_is_displayed_and_user_can_select_option_from_it": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_that_Search_box_under_Snapshots_is_accepting_all_types_of_data": true,
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_user_is_able_to_select_Root_Volume_size": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_redirecting_to_home_page_screen_by_clicking_on_Storage[chromium]": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_UI_of_storage_home_screen": true
 }
