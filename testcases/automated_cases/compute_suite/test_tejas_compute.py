@@ -307,7 +307,7 @@ def test_Verify_that_Search_box_under_Snapshots_is_accepting_all_types_of_data(p
     search_field_locator = page.locator('(//input[@placeholder="Search "])[1]')
     if search_field_locator.is_visible():
         search_field_locator.click()
-        search_field_locator.fill("test-machine")
+        search_field_locator.fill("test")
     else:
         print("Search field is not visible")
 
@@ -336,15 +336,16 @@ def test_choose_flavor_description(page, tejas_create_vm_setup):
 
 @pytest.mark.testrail(27319)
 def test_Verify_Flavors_are_displayed_and_user_is_able_to_select_a_flavor(page, tejas_create_vm_setup):
+    page.get_by_test_id(locators['COMPUTE_GENERAL_TAB']).click()
+    page.wait_for_timeout(TIMEOUT)
     page.get_by_text("Choose Flavor").is_visible()
     expect(page.get_by_test_id("tab-compute-intensive")).to_be_visible()
-    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+    expect(page.get_by_test_id("tab-general-compute")).to_be_visible()
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     print("Compute header count1:", compute_header_count)
     if compute_header_count > 0:
-        compute_header_elements[1].click()
-    page.wait_for_timeout(TIMEOUT)
-
+        compute_header_elements[5].click()
 
 @pytest.mark.testrail(27320)
 def test_Verify_Your_Machine_Credentials_description(page, tejas_create_vm_setup):
@@ -618,10 +619,11 @@ def test_verify_Summary_popup_UI(page, tejas_create_vm_setup):
 def test_create_virtual_machine(page, tejas_create_vm_setup):
     page.locator(locators['NAME_FIELD']).fill("")
     page.locator(locators['NAME_FIELD']).type(MACHINE_NAME)
-    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+    page.get_by_test_id(locators['COMPUTE_GENERAL_TAB']).click()
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[1].click()
+        compute_header_elements[5].click()
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
     compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
@@ -817,6 +819,7 @@ def test_Verify_the_Tejas_Compute_VM_information_over_Confirm_Details_popup(page
     test_create_virtual_machine(page, tejas_create_vm_setup)
 
 
+
 @pytest.mark.testrail(59823)
 def test_Verify_the_Cancel_button_over_Confirm_Details_popup(page, tejas_create_vm_setup):
     test_create_virtual_machine(page, tejas_create_vm_setup)
@@ -847,10 +850,13 @@ def test_Verify_the_Confirm_button_over_Confirm_Details_popup(page, tejas_create
 @pytest.mark.testrail(28018)
 def test_verify_duplicity_for_Virtual_Machine_name_functionality(page, tejas_create_vm_setup):
     page.locator(locators['NAME_FIELD']).type("COMPUTE_1")
-    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+    page.get_by_test_id(locators['COMPUTE_GENERAL_TAB']).click()
+    #compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[1].click()
+        compute_header_elements[5].click()
+
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
     compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
@@ -867,10 +873,13 @@ def test_verify_duplicity_for_Virtual_Machine_name_functionality(page, tejas_cre
     page.wait_for_timeout(20000)
     page.get_by_test_id(locators['CREATE_VM_BUTTON']).click()
     page.locator(locators['NAME_FIELD']).type("COMPUTE_1")
-    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+
+    page.get_by_test_id(locators['COMPUTE_GENERAL_TAB']).click()
+    #compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_INTENSIVE_CARD"]}"]')
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[1].click()
+        compute_header_elements[5].click()
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
     compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
