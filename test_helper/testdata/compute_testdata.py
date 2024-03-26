@@ -1,7 +1,7 @@
 
 """This is the text content from labels, headers, and descriptions within the Application Under Test (AUT)"""
 class ComputeTextData:
-
+    project_selection = "automation_project"
     compute_header = "Compute"
     compute_description = "Compute refers to virtual machines that provide cloud-based processing power. Users can deploy and manage these scalable, customizable instances to run applications, websites and other workloads on the cloud."
     tejas_compute_tab= "Tejas Compute"
@@ -14,3 +14,6 @@ class ComputeTextData:
     YOUR_MACHINE_DISCRIPTION= "Select a key pair or username & password for connecting to virtual machine."
     NETWORK_DISCRIPTION= "A network refers to a virtual network that connects virtual machines within the same region, allowing them to communicate securely and efficiently with each other."
     SECURITY_DISCRIPTION= "Security Groups are virtual firewalls that control inbound and outbound traffic for virtual machines, enabling fine-grained control over network access and enhancing security measures."
+    ANTIVIRUS_DISCRIPTION= "Add Antivirus to virtual machine. This will give you added protection against malware."
+    CLOUD_INIT_DISCR= "The cloud-init utility automates the initialization of cloud instances during system boot. You can configure cloud-init to perform a variety of tasks like configuring a host name, installing packages on an instance, running scripts etc."
+    CONFIRM_HEADER_DISCRIPTION= "Are you sure you want to confirm details for Tejas Compute creation?"

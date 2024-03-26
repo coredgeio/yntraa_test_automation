@@ -46,6 +46,7 @@ def login_setup(browser, user_credentials):
 @staticmethod
 def verify_to_login_byusing_rolebased_credentials(page):
     #page.get_by_role("button", name="Login").click()
+    page.get_by_role("button", name="Login").click()
     username_input = page.query_selector("input#username")
     username_input.fill("vini-sdet@yopmail.com")
     password_input = page.query_selector("input#password")
