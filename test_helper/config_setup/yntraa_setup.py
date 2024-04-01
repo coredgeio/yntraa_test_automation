@@ -25,7 +25,7 @@ class login_setup_yntraa:
 
     # def perform_login(self):
     #     self.page.goto(self.url, timeout = 10000)
-    #     #self.page.get_by_role("button", name="Login").click()
+        self.page.get_by_role("button", name="Login").click()
     #     username_input = self.page.query_selector("input#username")
     #     self.page.wait_for_timeout(TIMEOUT)
     #     username_input.fill(self.username)

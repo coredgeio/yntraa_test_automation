@@ -69,6 +69,7 @@
   "testcases/automated_cases/storage_suite/test_ananta_store.py::test_redirecting_to_home_page_screen_by_clicking_on_Storage",
   "testcases/automated_cases/storage_suite/test_ananta_store.py::test_redirecting_to_home_page_screen_by_clicking_on_Storage[chromium]",
   "testcases/automated_cases/storage_suite/test_ananta_store.py::test_redirecting_to_home_page_screen_by_clicking_on_storage",
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_UI_of_compute_home_screen",
   "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_UI_of_storage_home_screen",
   "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_goto_compute",
   "tests/automated_cases/compute_suite/test_tejas_compute.py::Test_Tejas_Compute_Base::test_goto_tejas_compute",

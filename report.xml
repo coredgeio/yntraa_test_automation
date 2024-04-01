@@ -1,1 +1,151 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="3" tests="19" time="30.411" timestamp="2024-02-01T16:07:32.958008" hostname="Vinis-MacBook-Pro.local"><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_clicking_on_compute_screen" time="19.166" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_verify_UI_of_compute_home_screen" time="2.167" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_header_on_compute_home_screen" time="0.003" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_compute_home_screen_description" time="0.003" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_clicking_on_tejas_compute" time="1.138" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_header_on_tejas_compute_screen" time="2.078" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_tejas_compute_screen_description" time="0.009" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_verify_learn_more_section_on_tejas_compute_screen" time="0.000"><skipped type="pytest.skip" message="After clicking on Learn More link it was found that the documentation page is broken!">/Users/vinisharma/Documents/GIT/yntraa_test_automation/testcases/automated_cases/compute_suite/test_tejas_compute.py:84: After clicking on Learn More link it was found that the documentation page is broken!</skipped></testcase><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_click_on_create_virtual_machine" time="1.338" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_verify_create_virtual_machine_homescreen" time="1.054" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_create_vm_header" time="0.004" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_create_vm_description" time="0.003" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_machine_detail_description" time="0.003" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_machine_name_input_field" time="2.962" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_machine_name_field_has_required_label" time="0.001"><skipped type="pytest.skip" message="Need to recheck logic!">/Users/vinisharma/Documents/GIT/yntraa_test_automation/testcases/automated_cases/compute_suite/test_tejas_compute.py:145: Need to recheck logic!</skipped></testcase><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_name_field_against_regex" time="0.001"><skipped type="pytest.skip" message="Yet to be implemented">/Users/vinisharma/Documents/GIT/yntraa_test_automation/testcases/automated_cases/compute_suite/test_tejas_compute.py:151: Yet to be implemented</skipped></testcase><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_choose_availability_zone_description" time="0.015" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_availability_zone_dropdown" time="0.012" /><testcase classname="testcases.automated_cases.compute_suite.test_tejas_compute" name="test_to_verify_image_section_is_divided_into_two_sub_sections" time="0.381" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="3" failures="0" skipped="0" tests="3" time="33.665" timestamp="2024-04-01T10:44:34.415530" hostname="Shubhis-MacBook-Pro.local"><testcase classname="testcases.automated_cases.storage_suite.test_ananta_store" name="test_redirecting_to_home_page_screen_by_clicking_on_storage" time="32.898"><error message="failed on setup with &quot;playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.&quot;">browser = &lt;Page url='about:blank'&gt;, user_credentials = {'password': 'India@143', 'url': 'https://console-revamp-sbx.yntraa.com', 'username': 'vini-sdet@yopmail.com'}
+
+    @pytest.mark.parametrize("user, pass")
+    @pytest.fixture(scope="module", autouse=True)
+    def login_setup(browser, user_credentials):
+&gt;       login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])
+
+test_helper/fixture/login_fixture.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_helper/config_setup/yntraa_setup.py:28: in __init__
+    self.page.get_by_role("button", name="Login").click()
+venv/lib/python3.9/site-packages/playwright/sync_api/_generated.py:15784: in click
+    self._sync(
+venv/lib/python3.9/site-packages/playwright/_impl/_locator.py:159: in click
+    return await self._frame.click(self._selector, strict=True, **params)
+venv/lib/python3.9/site-packages/playwright/_impl/_frame.py:484: in click
+    await self._channel.send("click", locals_to_params(locals()))
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:62: in send
+    return await self._connection.wrap_api_call(
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:492: in wrap_api_call
+    return await cb()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Channel object at 0x10b737220&gt;, method = 'click', params = {'selector': 'internal:role=button[name="Login"i]', 'strict': True}
+return_as_dict = False
+
+    async def inner_send(
+        self, method: str, params: Optional[Dict], return_as_dict: bool
+    ) -&gt; Any:
+        if params is None:
+            params = {}
+        callback = self._connection._send_message_to_server(
+            self._object, method, params
+        )
+        if self._connection._error:
+            error = self._connection._error
+            self._connection._error = None
+            raise error
+        done, _ = await asyncio.wait(
+            {
+                self._connection._transport.on_error_future,
+                callback.future,
+            },
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        if not callback.future.done():
+            callback.future.cancel()
+&gt;       result = next(iter(done)).result()
+E       playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.
+
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:100: TimeoutError</error></testcase><testcase classname="testcases.automated_cases.storage_suite.test_ananta_store" name="test_verify_UI_of_storage_home_screen" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.&quot;">browser = &lt;Page url='about:blank'&gt;, user_credentials = {'password': 'India@143', 'url': 'https://console-revamp-sbx.yntraa.com', 'username': 'vini-sdet@yopmail.com'}
+
+    @pytest.mark.parametrize("user, pass")
+    @pytest.fixture(scope="module", autouse=True)
+    def login_setup(browser, user_credentials):
+&gt;       login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])
+
+test_helper/fixture/login_fixture.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_helper/config_setup/yntraa_setup.py:28: in __init__
+    self.page.get_by_role("button", name="Login").click()
+venv/lib/python3.9/site-packages/playwright/sync_api/_generated.py:15784: in click
+    self._sync(
+venv/lib/python3.9/site-packages/playwright/_impl/_locator.py:159: in click
+    return await self._frame.click(self._selector, strict=True, **params)
+venv/lib/python3.9/site-packages/playwright/_impl/_frame.py:484: in click
+    await self._channel.send("click", locals_to_params(locals()))
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:62: in send
+    return await self._connection.wrap_api_call(
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:492: in wrap_api_call
+    return await cb()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Channel object at 0x10b737220&gt;, method = 'click', params = {'selector': 'internal:role=button[name="Login"i]', 'strict': True}
+return_as_dict = False
+
+    async def inner_send(
+        self, method: str, params: Optional[Dict], return_as_dict: bool
+    ) -&gt; Any:
+        if params is None:
+            params = {}
+        callback = self._connection._send_message_to_server(
+            self._object, method, params
+        )
+        if self._connection._error:
+            error = self._connection._error
+            self._connection._error = None
+            raise error
+        done, _ = await asyncio.wait(
+            {
+                self._connection._transport.on_error_future,
+                callback.future,
+            },
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        if not callback.future.done():
+            callback.future.cancel()
+&gt;       result = next(iter(done)).result()
+E       playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.
+
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:100: TimeoutError</error></testcase><testcase classname="testcases.automated_cases.storage_suite.test_ananta_store" name="test_verify_UI_of_compute_home_screen" time="0.308"><error message="failed on setup with &quot;playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.&quot;">browser = &lt;Page url='about:blank'&gt;, user_credentials = {'password': 'India@143', 'url': 'https://console-revamp-sbx.yntraa.com', 'username': 'vini-sdet@yopmail.com'}
+
+    @pytest.mark.parametrize("user, pass")
+    @pytest.fixture(scope="module", autouse=True)
+    def login_setup(browser, user_credentials):
+&gt;       login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])
+
+test_helper/fixture/login_fixture.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_helper/config_setup/yntraa_setup.py:28: in __init__
+    self.page.get_by_role("button", name="Login").click()
+venv/lib/python3.9/site-packages/playwright/sync_api/_generated.py:15784: in click
+    self._sync(
+venv/lib/python3.9/site-packages/playwright/_impl/_locator.py:159: in click
+    return await self._frame.click(self._selector, strict=True, **params)
+venv/lib/python3.9/site-packages/playwright/_impl/_frame.py:484: in click
+    await self._channel.send("click", locals_to_params(locals()))
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:62: in send
+    return await self._connection.wrap_api_call(
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:492: in wrap_api_call
+    return await cb()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Channel object at 0x10b737220&gt;, method = 'click', params = {'selector': 'internal:role=button[name="Login"i]', 'strict': True}
+return_as_dict = False
+
+    async def inner_send(
+        self, method: str, params: Optional[Dict], return_as_dict: bool
+    ) -&gt; Any:
+        if params is None:
+            params = {}
+        callback = self._connection._send_message_to_server(
+            self._object, method, params
+        )
+        if self._connection._error:
+            error = self._connection._error
+            self._connection._error = None
+            raise error
+        done, _ = await asyncio.wait(
+            {
+                self._connection._transport.on_error_future,
+                callback.future,
+            },
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        if not callback.future.done():
+            callback.future.cancel()
+&gt;       result = next(iter(done)).result()
+E       playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.
+
+venv/lib/python3.9/site-packages/playwright/_impl/_connection.py:100: TimeoutError</error></testcase></testsuite></testsuites>

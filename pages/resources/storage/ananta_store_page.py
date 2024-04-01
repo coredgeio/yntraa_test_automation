@@ -10,9 +10,11 @@ def ananta_setup(page, storage_setup):
     storage_features = page.query_selector_all(f'[data-testid="{locators["STORAGE_FEATURES"]}"]')
     storage_features_count = len(storage_features)
     print("Compute header count:", storage_features_count)
-    for feature in storage_features:
+    for index, feature in enumerate(storage_features, start=1) :
         element_text = feature.inner_text()
         print(element_text)
-        if any(text in element_text for text in StorageTextData.ananta):
+        if StorageTextData.ananta_store_tab in element_text:
             feature.click()
     page.wait_for_timeout(TIMEOUT)
+
+
