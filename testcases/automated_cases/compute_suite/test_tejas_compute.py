@@ -229,14 +229,6 @@ def test_to_verify_machine_name_input_field(page, tejas_create_vm_setup):
     else:
         logging.info("Name field is not yet visible on create virtual machine screen!")
 
-# """Verify the description under Choose Availability Zone label. """
-# @]l(27305)
-# def test_to_verify_choose_availability_zone_description(page, tejas_create_vm_setup):
-#     availability_zone_description = page.locator(locators['AVAILABILITY_ZN_DESCRP']).inner_text()
-#     assert availability_zone_description == ComputeTextData.availability_zone_description, f"The Availability Zone description value - {availability_zone_description}, is different than expected!"
-#     logging.info("Description on Choose Availability zone section is correct!")
-
-
 @pytest.mark.testrail(27308)
 def test_to_verify_availability_zone_dropdown(page, tejas_create_vm_setup):
     expect(page.locator(locators['AVAILABILITY_ZONE_DROPDOWN'])).to_be_visible()
@@ -579,7 +571,7 @@ def test_verify_Summary_section_is_displayed_on_screen(page, tejas_create_vm_set
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
     page.wait_for_timeout(1000)
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
 
 @pytest.mark.testrail(27349)
@@ -589,7 +581,7 @@ def test_verify_Summary_popup_UI(page, tejas_create_vm_setup):
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     expect(page.get_by_test_id(locators['CLOSE_BTN_SUMMARY'])).to_be_visible()
     summery_elements_key = page.query_selector_all(f'[data-testid="summary-field-key"]')
     summery_fild_value = page.query_selector_all(f'[data-testid="summary-field-value"]')
@@ -639,7 +631,7 @@ def test_Verify_that_changes_on_VM_form_fields_are_reflected_on_Summary_popup(pa
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     summary_name = page.locator(locators['SUMMERY_MACHINE_NAME']).inner_text()
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
     page.wait_for_timeout(10000)
@@ -657,7 +649,7 @@ def test_verify_estimated_price_label_on_summary_popup_with_monthly_switch(page,
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     expect(page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT'])).to_be_visible()
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
     assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
@@ -675,7 +667,7 @@ def test_verify_estimated_price_label_on_summary_popup_with_hourly_switch(page, 
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     expect(page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT'])).to_be_visible()
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
     assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per hour:', but got '{estimated_price_label}'"
@@ -701,7 +693,7 @@ def test_verify_price_value_on_summary_popup_with_monthly_switch(page, tejas_cre
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
 
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+   # page.get_by_text("CREATE_VM_SUMMARY").is_visible()
 
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
     assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
@@ -722,7 +714,7 @@ def test_verify_price_value_on_summary_popup_with_hourly_switch(page, tejas_crea
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
     page.wait_for_timeout(1000)
-    page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+   # page.get_by_text("CREATE_VM_SUMMARY").is_visible()
 
     hourly_switch_selected = page.get_by_text("Hourly").is_visible()
     assert hourly_switch_selected, "Hourly switch is not selected"
@@ -816,9 +808,77 @@ def test_confirm_detail_popup_UI(page, tejas_create_vm_setup):
 
 @pytest.mark.testrail(59822)
 def test_Verify_the_Tejas_Compute_VM_information_over_Confirm_Details_popup(page, tejas_create_vm_setup):
-    test_create_virtual_machine(page, tejas_create_vm_setup)
+    page.locator(locators['NAME_FIELD']).fill("")
+    page.wait_for_timeout(10000)
+    page.locator(locators['NAME_FIELD']).type(MACHINE_NAME)
+    name = page.get_by_test_id(locators['MACHINE_NAME_VALUE']).inner_text()
+    print("test",name)
+    created_machine_name = page.locator(locators['NAME_FIELD']).inner_text()
+    print("value",created_machine_name)
+    page.get_by_test_id(locators['COMPUTE_GENERAL_TAB']).click()
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
+    compute_header_count = len(compute_header_elements)
+    if compute_header_count > 0:
+        compute_header_elements[5].click()
+    page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
+    page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
+    compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
+    compute_header_count = len(compute_header_elements1)
+    if compute_header_count > 0:
+        compute_header_elements1[1].click()
+    page.wait_for_timeout(TIMEOUT)
+    # availabilty= page.get_by_test_id(locators['AVAILABILTY_NAME']).inner_text()
+    # print(availabilty)
+    #
+    #
+    # public_image_card = page.query_selector_all(f'[data-testid="tab-public-image-card"]')
+    # public_card_count = len(public_image_card)
+    # print("Number of elements matching the selector:", public_card_count)
+    # for index, element in enumerate(public_image_card, start=1):
+    #     element_text = element.inner_text()
+    # if public_card_count > 0:
+    #     element_text= public_image_card[0].inner_text()
+    #     print("Public_Image", element_text)
+    #     page.wait_for_timeout(TIMEOUT)
+    # keypairvalue = page.locator(locators['KEY_PAIR_PLACEHOLDER']).inner_text()
+    # print(keypairvalue)
+    #
+    # estimated_cost = page.get_by_test_id(locators['ESTIMATE_COST']).inner_text()
+    # print(estimated_cost)
+    # assert changes_summary_name != summary_name, "Summary name is not updated after changes"
+    # page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
+    # page.wait_for_timeout(1000)
 
+    page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON']).click()
+    expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
+    page.get_by_text(locators['CONFIRM_DETAILS_POPUP'])
+    Cnfirmation_Discription = page.get_by_test_id(locators['CONFIRM_DISCRIPTION']).inner_text()
+    assert Cnfirmation_Discription == ComputeTextData.CONFIRM_HEADER_DISCRIPTION
+    summery_elements_key = page.query_selector_all(f'[data-testid="summary-field-key"]')
+    summery_fild_value = page.query_selector_all(f'[data-testid="summary-field-value"]')
+    expected_keys = ["Machine Name", "Image", "Flavor", "Key Pair", "Availability Zone", "Volume Type", "Networks", "Security Groups", "Antivirus", "Backup"]
 
+    if len(summery_elements_key) == len(summery_fild_value):
+        for index, (key_element, value_element) in enumerate(zip(summery_elements_key, summery_fild_value), start=1):
+            key_text = key_element.inner_text().strip()
+            value_text = value_element.inner_text().strip()
+            formatted_key = f"{index}. {key_text}"
+            print(f"{formatted_key}: {value_text}")
+            if key_text in expected_keys:
+                print(f"Key: {formatted_key}, Value: {value_text}, Status: Pass")
+            else:
+                logging.info(f"Key: {formatted_key}, Value: {value_text}, Status: Fail - Unexpected key")
+    else:
+        logging.info("Error: Lengths of key and value lists do not match.")
+
+    expect(page.get_by_test_id(locators['TOTAL_ESTIMATE_PRICE'])).to_be_visible()
+    estimated_price_label = page.get_by_test_id(locators['TOTAL_ESTIMATE_PRICE']).inner_text()
+    logging.info("price:",estimated_price_label)
+    page.wait_for_timeout(1000)
+    expect(page.get_by_test_id(locators['PRICE_DISCRIPTION'])).to_be_visible()
+    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
+    page.get_by_text("CANCEL_POPUP").is_visible()
+    page.get_by_test_id(locators['CLOSE_BTN']).click()
 
 @pytest.mark.testrail(59823)
 def test_Verify_the_Cancel_button_over_Confirm_Details_popup(page, tejas_create_vm_setup):
@@ -1006,7 +1066,7 @@ def test_virtual_machine_configuration_info_for_lable(page, tejas_setup):
     label_elemnt_count = len(label_element)
     if label_elemnt_count > 0:
         label_name = label_element[0].inner_text()
-        print("flavor",label_name)
+        logging.info("labels",label_name)
 
 @pytest.mark.testrail(27367)
 def test_Verify_Public_IP_Configuration(page, tejas_setup):

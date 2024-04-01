@@ -1,22 +1,19 @@
 #Locators for Compute
 COMPUTE_TAB: "sidebar-compute"
 STORAGE_TAB: "sidebar-storage"
+STORAGE_HEADING": "heading-storage"
 NETWORKING_TAB: "sidebar-networking"
 SECURITY_TAB: "sidebar-security"
 CAAS_TAB: "sidebar-caa-s"
 MANAGED_DATABASE_TAB: "sidebar-managed-database"
-
 COMPUTE_HEADER: "heading-compute"
 COMPUTE_DESCRP: "description-compute"
 TEJAS_COMPUTE_TAB: "tab"
 TEJAS_HEADER: "heading-machine"   #discussed
 TEJAS_DESCRP: "description-machine"
-
 CREATE_VM_BUTTON: "machine-btn-create"
 CREATE_VM_HEADER: "heading-compute"
 CREATE_VM_DESCRP: "resource-description"
-
-
 LEARN_MORE: "//button[text()='Learn more']"
 COMPUTE_CREATE_BUTTON: "//button[normalize-space()='Create']"
 CANCEL_BUTTON: "btn-cancel"
@@ -25,17 +22,18 @@ MACHINE_DETAILS_HEADER: "//h6[contains(text(),'Machine Details')]"
 MACHINE_DETAILS_DESCRP: "//h6[contains(text(),'Machine Details')]/following::p[1]"
 NAME_FIELD: "//input[@id='instance_name']"
 NAME_FIELD_LABEL: "Please enter a name"
+MACHINE_NAME_VALUE: "instance-name-input"
 
 AVAILABILITY_ZN_HEADER: "//h6[contains(text(),'Choose Availability Zone')]"
 AVAILABILITY_ZN_DESCRP: "//h6[contains(text(),'Choose Availability Zone')]/following::p[1]"
 AVAILABILITY_ZN_DROPDOWN: "#availability_zone"
 AVAILABILITY_ZONE_DROPDOWN: "//input[@id='availability_zone']"
+AVAILABILTY_NAME: "availability-zone-select"
 SECURITY_DROPDOWN_BTN: "//input[@id='sec_group_id']"
 CHOOSE_IMAGE: "//h6[contains(text(),'Choose an Image')]"
 CHOOSE_IMG_HEADER: "//h6[contains(text(),'Choose an Image')]/following::p[1]"
 PUBLIC_IMAGE: "tab-public-image"
-SNAPSHOT: "tab-snapshots"
-#IMAGE_SEARCH: "#:r1d:"
+
 IMAGE_SEARCH: "tab-public-image-card"
 PUBLIC_IMAGE_CARD: "tab-public-image-card"
 VERSION_DROPDOWN: "#image_id"    #image-id-select
@@ -122,6 +120,7 @@ SUMMERY_MACHINE_NAME: "(//p[contains(text(),'Machine Name')]//following::p)[1]"
 ESTIMATE_PRICE_TEXT: "estimate-price"
 ESTIMATE_PRICE_VALUE: "//h6[@data-testid='price']"
 CONFIRMATION_TEXT: "heading-modal"
+
 CANCEL_POPUP: "(//button[@data-testid='btn-cancel'])[2]"
 CONFIRM_DETAILS_POPUP: "//span[contains(text(),'Confirm Details')]"
 CLOSE_BTN: "btn-close"
@@ -138,6 +137,22 @@ VM_NOT_FOUND: "//p[contains(text(),'No Tejas Compute found')]"
 LABEL_TAG: "tag"
 PROJECT_CHANGE : "btn-project-change"
 PROJECT_ID : "project_id"
-#PROJECT_SELECTION_PLACEHOLDER : "//input[@id='project_id']"
 PROJECT_SELECTION_PLACEHOLDER : "(//*[contains(text(),'Project Selection')]//following::*[@data-testid='ArrowDropDownIcon'])[1]"
 BTN_SELECT: "btn-select"
+
+SNAPSHOT: "tab-snapshots"
+SNAPSHOT_HEADER : "heading-snapshots"
+SNAPSHOT_DISCRIPTION : "description-snapshots"
+SNAPSHOT_NOT_FOUND: "//p[contains(text(),'No Snapshots found')]"
+SNAPSHOTE_CREATE_COMPUTE: "snapshots-btn-create"
+SNAPSHOT_NAME_FIELD: "//input[@id='snapshot_name']"
+SNAPSHOTS_DROPDOWN: "//input[@id='compute_id']"
+SECTION_HEADER_NAME: "heading-modal"
+#SNAPSHOTS_DROPDOWN: "ArrowDropDownIcon"
+SNAPSHOTS_NAME: "(//*[contains(text(),'Compute Name')]//following::*[@data-testid='value'])[1]"
+SNAPSHOT_HELPER: "//p[@id='snapshot_name-helper-text']"
+
+
+##NETWORKING SECTION
+IP_CREATE_BTN: "ip-address-btn-create"
+NETWORK_HEADER: "heading-networking"
