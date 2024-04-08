@@ -8,3 +8,4 @@ class StorageTextData:
     ananta_description = "Volumes are block storage devices that provide scalable and persistent storage for virtual machines. They can be attached and detached as needed, allowing users to expand storage capacity without modifying the underlying infrastructure, offering flexibility and data durability."
     ananta = ["Ananta Store", "Block Storage"]
     storage_all_tabs = ["Home", "Ananta Store", "Block Storage", "Volume Snapshots", "Vastu Store", "Object Storage", "Patrika Store", "File Storage", "Smriti Store", "Archival Storage", "Suraksha Store", "Backup & Recovery", "Yotta Safe", "Resiliency Assurance Service"]
+    create_vol_header = "Create Volume"

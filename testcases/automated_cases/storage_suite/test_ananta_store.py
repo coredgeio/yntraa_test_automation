@@ -1,9 +1,11 @@
-from test_helper.testdata.storage_testdata import StorageTextData
-from pages.resources.storage.storage_page import *
+import logging
+import pytest
 from test_helper.library.required_library import *
 from test_helper.fixture.login_fixture import *
 from pages.resources.compute.tejas_page import *
 from pages.resources.storage.ananta_store_page import *
+from test_helper.testdata.storage_testdata import StorageTextData
+from pages.resources.storage.storage_page import *
 
 
 @pytest.fixture(scope="module")
@@ -24,37 +26,48 @@ def test_redirecting_to_home_page_screen_by_clicking_on_storage(page):
     assert storage_header_value == StorageTextData.storage_header, "User could not be navigated to storage page!!"
     logging.info("User has successfully navigated to Storage page!")
 
-@pytest.mark.testrail(27652)
-def test_verify_UI_of_storage_home_screen(page, storage_setup):
+
+@pytest.mark.testrail(27653)
+def test_verify_header_of_storage_home_screen(page, storage_setup):
     expect(page.get_by_test_id(locators['STORAGE_HEADER'])).to_be_visible()
+    storage_header = page.get_by_test_id(locators['STORAGE_HEADER']).inner_text()
+    assert storage_header == StorageTextData.storage_header, "User could not found the Storage Header"
+
+@pytest.mark.testrail(27654)
+def test_verify_description_under_storage_header(page, storage_setup):
     expect(page.get_by_test_id(locators['STORAGE_DESCRP'])).to_be_visible()
-    expect(page.locator(locators['COMPUTE_CREATE_BUTTON'])).to_be_visible()
+    storage_descp = page.get_by_test_id(locators['STORAGE_DESCRP']).inner_text()
+    assert storage_descp == StorageTextData.storage_description, "User could not found the Description under Storage Header"
 
-    tabs = page.query_selector_all('#tab-id')
-    for text in StorageTextData.storage_all_tabs:
-        assert text == page.query_selector_all(f'[data-testid="{locators["STORAGE_FEATURES"]}"]')
+@pytest.mark.testrail(27654)
+def test_redirecting_to_ananta_store_screen_by_clicking_on_ananta_store(page, storage_setup):
+    tab = page.query_selector_all(f'[data-testid="{locators["STORAGE_FEATURES"]}"]')
+    for feature in tab:
+        text = feature.inner_text()
+        if text == StorageTextData.storage_all_tabs[1]:
+            feature.click()
+            header = page.get_by_test_id(locators['ANANTA_HEADER']).inner_text()
+            print(header)
+            assert header == StorageTextData.ananta_header, "User could not redirected to Ananta Store Screen!!"
 
-@pytest.mark.testrail(27292)
-def test_verify_UI_of_compute_home_screen(page, compute_setup):
-    expect(page.get_by_test_id(locators['COMPUTE_DESCRP'])).to_be_visible()
-    expected_texts = ["Tejas Compute", "Snapshots", "Vistaar", "Swayam Run"]
-    visibility_status = {}
-    for text in expected_texts:
-        elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
-        if elements:
-            visibility_status[text] = True
-        else:
-            visibility_status[text] = False
-    all_visible = all(visibility_status.values())
-    for text, visible in visibility_status.items():
-        print(f"{text} is {'visible' if visible else 'not visible'}")
-    print("All texts are visible:", all_visible)
-    expect(page.locator(locators['COMPUTE_CREATE_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['COMPUTE_OPERATION'])).to_be_visible()
-    expect(page.get_by_test_id(locators['DEPLOY_OPERATION'])).to_be_visible()
-    expect(page.get_by_test_id(locators['DATABASE_OPERATION'])).to_be_visible()
-    expect(page.get_by_test_id(locators['PLATFORM_OPERATION'])).to_be_visible()
-    expect(page.get_by_test_id(locators['MANAGED_DATABASE_TAB'])).to_be_visible()
-    expect(page.get_by_test_id(locators['QUICK_LINK'])).to_be_visible()
-    expect(page.get_by_test_id(locators['LEARN_MORE_TAB'])).to_be_visible()
-    # expect(page.get_by_test_id(locators['MY_EDGE_SITE_TAB'])).to_be_visible()
+@pytest.mark.testrail(65130)
+def test_verify_header_of_ananta_store_page(page,ananta_setup):
+    expect(page.get_by_test_id(locators['ANANTA_HEADER'])).to_be_visible()
+    header = page.get_by_test_id(locators['ANANTA_HEADER']).inner_text()
+    assert header == StorageTextData.ananta_header, "User could not found the Ananta Store page Header!!"
+
+@pytest.mark.testrail(65131)
+def test_verify_desc_of_ananta_store_page(page,ananta_setup):
+    expect(page.get_by_test_id(locators['ANANTA_DESCRP'])).to_be_visible()
+    descp = page.get_by_test_id(locators['ANANTA_DESCRP']).inner_text()
+    assert descp == StorageTextData.ananta_description, "User could not found the Ananta Store page Description!!"
+
+@pytest.mark.testrail(27656)
+def test_redirecting_to_create_volume_screen_by_clicking_on_create_volume(page,ananta_setup):
+     expect(page.get_by_test_id(locators['CREATE_VOL_BUTTON'])).to_be_visible()
+     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+     page.wait_for_timeout(TIMEOUT)
+     vol_create_page = page.get_by_test_id(locators['CREATE_VOL_HEADER']).inner_text()
+     assert vol_create_page == StorageTextData.create_vol_header, "User could not found the Volume Creation page Header!!"
+
+

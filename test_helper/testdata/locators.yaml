@@ -88,5 +88,7 @@ STORAGE_HEADER: "heading-storage"
 STORAGE_DESCRP: "description-storage"
 ANANTA_HEADER: "heading-volume"
 ANANTA_DESCRP: "description-volume"
+CREATE_VOL_BUTTON: "volume-btn-create"
+CREATE_VOL_HEADER: "heading-modal"
 
 
