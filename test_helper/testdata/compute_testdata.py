@@ -21,3 +21,13 @@ class ComputeTextData:
     snapshot_discription="Virtual machine snapshots are backups of virtual machines that capture their state at a specific time, enabling easy restoration or replication, ensuring data protection and simplifying recovery processes."
     create_snapshot_header_text="Create Compute Snapshot"
     ip_address_section= "IP Address"
+    kshetra_network= "Kshetra"
+    network_discription= "Networking refers to the configuration and management of virtual private clouds, firewalls, load balancers and networking components to connect and secure cloud-based infrastructure and enable data transfer and communication among virtual machines and external resources."
+    ip_address_discription= "Public IPs are unique, routable IPv4 addresses assigned to virtual machines. They allow direct access to the virtual machine from the internet, enabling users to host websites, applications and services that are publicly accessible."
+    reserve_screen= "Reserve Public IP"
+    ip_address_statement= "Do you want to reserve public IP?"
+    ip_address_toast_msg="Public IP reserved successfully"
+    network_header_section = ["Kshetra", "Port Security", "LBaaS", "IP Address", "Global Cloud Konnect", "Internet Peering Services"]
+    kshetra_discription = "Networks are virtualized environments for secure resource communication. Users configure settings, manage traffic and establish connections between virtual machines and services."
+    create_network_discription = "Networks are the infrastructure components and services that enable connectivity and communication between resources, such as virtual machines and load balancers, within the cloud environment."
+    kshetra_create_network_toast_msg = "Network created successfully"

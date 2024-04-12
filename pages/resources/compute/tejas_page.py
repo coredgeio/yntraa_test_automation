@@ -60,16 +60,21 @@ def verify_to_click_tejas_compute_tab(page):
     compute_header_count = len(compute_header_elements)
     for index, element in enumerate(compute_header_elements, start=1):
         element_text = element.inner_text()
+        print(element_text)
         if ComputeTextData.tejas_compute_tab in element_text:
             element.click()
     page.wait_for_timeout(TIMEOUT)
 
+"""Constant and Global Tejas Compute VM Name!"""
+MACHINE_NAME = generate_random_machine_name()
+
 def to_create_virtual_Compute_machine(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
+    page.wait_for_timeout(TIMEOUT)
     verify_to_click_tejas_compute_tab(page)
     perform_click_on_create_vm_button(page, locators['CREATE_VM_BUTTON'])
     page.locator(locators['NAME_FIELD']).fill("")
-    page.locator(locators['NAME_FIELD']).type("virtual_machine01")
+    page.locator(locators['NAME_FIELD']).type(MACHINE_NAME)
     page.get_by_test_id(locators['COMPUTE_GENERAL_TAB']).click()
     page.wait_for_timeout(1000)
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
@@ -94,6 +99,7 @@ def to_create_virtual_Compute_machine(page):
     print("Toast Text:", toast_text)
     assert toast_text == "Creating virtual machine"
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
+    page.wait_for_timeout(10000)
 def to_delete_the_created_virtual_machine(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
     verify_to_click_tejas_compute_tab(page)

@@ -29,7 +29,8 @@ MACHINE_NAME = generate_random_machine_name()
 
 
 """Perform a click operation on Compute Resource and verify the header on the resulting landing page."""
-@pytest.mark.testrail(27291)
+#@pytest.mark.testrail(27291)
+@pytest.mark.testrail(65137)
 def test_to_verify_clicking_on_compute_screen(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
     compute_header_element = page.get_by_test_id(locators['COMPUTE_HEADER'])
@@ -39,7 +40,8 @@ def test_to_verify_clicking_on_compute_screen(page):
 
 
 """Verify the Compute page UI."""
-@pytest.mark.testrail(27292)
+#@pytest.mark.testrail(27292)
+@pytest.mark.testrail(65138)
 def test_verify_UI_of_compute_home_screen(page, compute_setup):
     expect(page.get_by_test_id(locators['COMPUTE_DESCRP'])).to_be_visible()
     expected_texts = ["Tejas Compute", "Snapshots", "Vistaar", "Swayam Run"]
@@ -65,7 +67,8 @@ def test_verify_UI_of_compute_home_screen(page, compute_setup):
     # expect(page.get_by_test_id(locators['MY_EDGE_SITE_TAB'])).to_be_visible()
 
 """Verify the header on the Compute page."""
-@pytest.mark.testrail(27293)
+#@pytest.mark.testrail(27293)
+@pytest.mark.testrail(65139)
 def test_to_verify_header_on_compute_home_screen(page, compute_setup):
     expect(page.get_by_test_id(locators['COMPUTE_HEADER'])).to_be_visible()
     compute_header_element = page.get_by_test_id(locators['COMPUTE_HEADER'])
@@ -74,7 +77,8 @@ def test_to_verify_header_on_compute_home_screen(page, compute_setup):
     logging.info("Header on Compute home screen is correct!")
 
 """Verify the description on the Compute page."""
-@pytest.mark.testrail(27294)
+#@pytest.mark.testrail(27294)
+@pytest.mark.testrail(65140)
 def test_to_verify_compute_home_screen_description(page, compute_setup):
     expect(page.get_by_test_id(locators['COMPUTE_DESCRP'])).to_be_visible()
     compute_discription_element = page.get_by_test_id(locators['COMPUTE_DESCRP'])
@@ -83,7 +87,8 @@ def test_to_verify_compute_home_screen_description(page, compute_setup):
     logging.info("Description on Compute home screen is correct!")
 
 """Perform a click operation on Tejas Compute and validate the header on the resulting landing page."""
-@pytest.mark.testrail(27295)
+#@pytest.mark.testrail(27295)
+@pytest.mark.testrail(65141)
 def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
     compute_header_count = len(compute_header_elements)
@@ -100,7 +105,8 @@ def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
     logging.info("User successfully navigated to Tejas Compute screen!")
 
 """Verify the header on the Tejas Compute page."""
-@pytest.mark.testrail(27296)
+#@pytest.mark.testrail(27296)
+@pytest.mark.testrail(65142)
 def test_to_verify_header_on_tejas_compute_screen(page, tejas_setup):
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
     tejas_compute_header = page.get_by_test_id(locators['TEJAS_HEADER'])
@@ -110,7 +116,8 @@ def test_to_verify_header_on_tejas_compute_screen(page, tejas_setup):
 
 
 """Verify the description on the Tejas Compute page."""
-@pytest.mark.testrail(27297)
+#@pytest.mark.testrail(27297)
+@pytest.mark.testrail(65143)
 def test_to_verify_tejas_compute_screen_description(page, tejas_setup):
     expect(page.get_by_test_id(locators['TEJAS_DESCRP'])).to_be_visible()
     tejas_description_value = page.get_by_test_id(locators['TEJAS_DESCRP'])
@@ -120,8 +127,8 @@ def test_to_verify_tejas_compute_screen_description(page, tejas_setup):
     logging.info("Description on Tejas Compute home screen is correct!")
 
 
-@pytest.mark.testrail(27298)
-#@pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
+#@pytest.mark.testrail(27298)
+@pytest.mark.testrail(65144)
 def test_verify_learn_more_section_on_tejas_compute_screen(page, tejas_setup):
     page.wait_for_timeout(TIMEOUT)
     VM_field_visibility = page.locator(locators['VM_NOT_FOUND']).is_visible()
@@ -144,7 +151,8 @@ def test_verify_learn_more_section_on_tejas_compute_screen(page, tejas_setup):
 
 
 """Perform a click operation on the Create Virtual Machine button and and verify the header on the resulting landing page."""
-@pytest.mark.testrail(27299)
+#@pytest.mark.testrail(27299)
+@pytest.mark.testrail(65145)
 def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
     perform_click_on_create_vm_button(page, locators['CREATE_VM_BUTTON'])
     expect(page.get_by_test_id(locators['CREATE_VM_HEADER'])).to_be_visible()
@@ -155,7 +163,8 @@ def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
 
 
 """Verify the UI of Create Virtual Machine page."""
-@pytest.mark.testrail(27300)
+#@pytest.mark.testrail(27300)
+@pytest.mark.testrail(65146)
 def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
     page.wait_for_timeout(TIMEOUT)
     expect(page.locator(locators['MACHINE_DETAILS_HEADER'])).to_be_visible()
@@ -175,7 +184,8 @@ def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON'])).to_be_visible()
 
-@pytest.mark.testrail(27353)
+#@pytest.mark.testrail(27353)
+# @pytest.mark.testrail(65147)
 def test_verify_create_button_is_present_and_displyed_the_disable_till_All_required_fillvalue(page, tejas_create_vm_setup):
     expect(page.get_by_test_id("btn-summary")).to_be_visible()
     create_button= page.get_by_test_id("confirm")
@@ -186,6 +196,7 @@ def test_verify_create_button_is_present_and_displyed_the_disable_till_All_requi
         pytest.fail("Create button not found on the page")
 
 """Verify the header on Create Virtual Machine page."""
+@pytest.mark.testrail(65147)
 @pytest.mark.testrail(27301)
 def test_to_verify_create_vm_header(page, tejas_create_vm_setup):
     expect(page.get_by_test_id(locators['CREATE_VM_HEADER'])).to_be_visible()
@@ -827,27 +838,6 @@ def test_Verify_the_Tejas_Compute_VM_information_over_Confirm_Details_popup(page
     if compute_header_count > 0:
         compute_header_elements1[1].click()
     page.wait_for_timeout(TIMEOUT)
-    # availabilty= page.get_by_test_id(locators['AVAILABILTY_NAME']).inner_text()
-    # print(availabilty)
-    #
-    #
-    # public_image_card = page.query_selector_all(f'[data-testid="tab-public-image-card"]')
-    # public_card_count = len(public_image_card)
-    # print("Number of elements matching the selector:", public_card_count)
-    # for index, element in enumerate(public_image_card, start=1):
-    #     element_text = element.inner_text()
-    # if public_card_count > 0:
-    #     element_text= public_image_card[0].inner_text()
-    #     print("Public_Image", element_text)
-    #     page.wait_for_timeout(TIMEOUT)
-    # keypairvalue = page.locator(locators['KEY_PAIR_PLACEHOLDER']).inner_text()
-    # print(keypairvalue)
-    #
-    # estimated_cost = page.get_by_test_id(locators['ESTIMATE_COST']).inner_text()
-    # print(estimated_cost)
-    # assert changes_summary_name != summary_name, "Summary name is not updated after changes"
-    # page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
-    # page.wait_for_timeout(1000)
 
     page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON']).click()
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
