@@ -81,7 +81,7 @@ CHOOSE_FLAVOR: "(//h6[contains(text(),'Choose Flavor')]//following::p)[1]"
 #//*[@data-testid="compute-intensive-tab"]//following::div
 
 
-#Locatore for Storage
+#Locators for Storage
 STORAGE_TAB: "sidebar-storage"
 STORAGE_FEATURES: "tab"
 STORAGE_HEADER: "heading-storage"
@@ -90,5 +90,13 @@ ANANTA_HEADER: "heading-volume"
 ANANTA_DESCRP: "description-volume"
 CREATE_VOL_BUTTON: "volume-btn-create"
 CREATE_VOL_HEADER: "heading-modal"
-
+VOL_NAME: "//input[@id='volume_name']"
+VOL_NAME_PLACEHOLDER: "//input[@placeholder='Please enter name']"
+VOL_HELPER_TEXT: "#volume_name-helper-text"
+VOL_SIZE: "//input[@id='volume_size']"
+VOLUME_SIZE: "volume-size-input"
+VOL_RATE: "//p[contains(text(),'₹5 /50 GB/Month')]"
+VOL_RATE_DROPDOWN: "//input[@id='billing_unit']"
+VOL_SWIPE_BUTTON: "attach-machine-switch"
+V0L_CONFIRM_BTN: "btn-confirm"
 

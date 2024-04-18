@@ -9,3 +9,8 @@ class StorageTextData:
     ananta = ["Ananta Store", "Block Storage"]
     storage_all_tabs = ["Home", "Ananta Store", "Block Storage", "Volume Snapshots", "Vastu Store", "Object Storage", "Patrika Store", "File Storage", "Smriti Store", "Archival Storage", "Suraksha Store", "Backup & Recovery", "Yotta Safe", "Resiliency Assurance Service"]
     create_vol_header = "Create Volume"
+    name_min_char = "Name must be at least 3 characters long."
+    name_blank_error = "Name is required."
+    name_start_end = "Name must start and end with an alphanumeric character."
+    name_text_error = "Name can have alphanumeric characters, hyphens, underscores and spaces only."
+    vol_price = "₹5 /50 GB/Month"

@@ -55,5 +55,16 @@
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_Public_Images_are_displayed_and_user_is_able_to_select_an_image": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_version_dropdown_is_displayed_and_user_can_select_option_from_it": true,
   "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_that_Search_box_under_Snapshots_is_accepting_all_types_of_data": true,
-  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_user_is_able_to_select_Root_Volume_size": true
+  "testcases/automated_cases/compute_suite/test_tejas_compute.py::test_Verify_user_is_able_to_select_Root_Volume_size": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_redirecting_to_home_page_screen_by_clicking_on_storage": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_header_of_storage_home_screen": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_description_under_storage_header": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_volume_size_in_GiB": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_default_volume_size_is_50": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_header_of_create_volume_screen": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_volume_name_text_field_functionality": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_volume_name_textfield_placeholder": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_verify_regex_for_volume_name_textfield": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_Create_button_functionality_for_creating_volume": true,
+  "testcases/automated_cases/storage_suite/test_ananta_store.py::test_created_status_against_volume": true
 }
