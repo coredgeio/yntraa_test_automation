@@ -11,8 +11,7 @@ import asyncio
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "qa-test-user002@yopmail.com",
-        #"username": "vini-sdet@yopmail.com",
+        "username": "atul0@yopmail.com",
         "password": "India@143"
     }
 
@@ -24,7 +23,6 @@ def test_verify_header_on_Networking_screen(page, network_setup):
     snapshot_page_heading = snapshot_compute_page_heading.inner_text()
     assert snapshot_page_heading == "Networking", "User could not be navigated to Compute snapshot section!!"
     logging.info("User successfully navigated to Compute snapshot screen!")
-    #page.wait_for_timeout(10000)
 
 """Verify description under Header part """
 @pytest.mark.testrail(29501)
@@ -44,7 +42,7 @@ def test_Verify_user_is_able_to_redirect_to_Kshetra_Network_screenby_clicking_on
     snapshot_page_heading = snapshot_compute_page_heading.inner_text()
     assert snapshot_page_heading == ComputeTextData.kshetra_network, "User could not be navigated to Kshetra network screen!!"
     logging.info("User successfully navigated to Kshetra network screen!")
-    #page.wait_for_timeout(10000)
+
 
 @pytest.mark.testrail(29502) #503 same
 def test_Verify_user_is_redirect_to_Keshtra_Network_screen(page, kshetra_setup):
@@ -53,7 +51,6 @@ def test_Verify_user_is_redirect_to_Keshtra_Network_screen(page, kshetra_setup):
     snapshot_page_heading = snapshot_compute_page_heading.inner_text()
     assert snapshot_page_heading == ComputeTextData.kshetra_network, "User could not be navigated to Kshetra network screen!!"
     logging.info("User successfully navigated to Kshetra network screen!")
-    #page.wait_for_timeout(10000)
 
 
 """Verify description under header part on Kshetra Network screen """
@@ -95,8 +92,7 @@ def test_verify_UI_networking_screen(page, create_kshetra_network):
     page.get_by_text(locators['ADD_LABEL_BTN']).is_visible()
     assert page.get_by_test_id(locators['CANCEL_BUTTON']).is_visible(), "Cancel button is not visible."
     assert page.get_by_test_id(locators['CONFIRM_BUTTON']).is_visible(), "Confirm button is not visible."
-    #page.get_by_test_id(locators['CLOSE_BTN']).click()
-#
+
 @pytest.mark.testrail(29508)
 def test_Verify_that_Create_Network_header_is_displayed_on_top_of_page(page, create_kshetra_network):
     section_header_element = page.get_by_test_id(locators['SECTION_HEADER_NAME'])
@@ -162,11 +158,6 @@ def test_Verify_Network_Name_text_field_for_regex_validation(page, create_kshetr
     helper_text = helper_text_element.inner_text()
     assert "Name cannot exceed 30 characters." in helper_text, "Exceeds maximum character limit"
 
-    # clear_and_fill_field(page, locators['CREATE_NAME'], MACHINE_NAME)
-    # helper_text_element = page.locator(locators['NETWORK_NAME_HELPER_TEXT'])
-    # helper_text = helper_text_element.inner_text()
-    # assert not helper_text, "Unexpected error message for valid name"
-
 
 @pytest.mark.testrail(29513)
 def test_verify_IP_Version_dropdown_is_displayed_and_user_can_select_option_from(page, create_kshetra_network):
@@ -188,7 +179,6 @@ def test_Verify_Network_Address_text_field_is_properly_displayed_and_accept_inpu
     CIDR_element = page.locator(locators['NETWORK_CIDR'])
     assert  CIDR_element.is_visible(), "Network CIDR field is not visible."
     NETWORK_ADDRESS = "192.168.1.0/24"
-    #page.wait_for_timeout(10000)
     ip_version_dropdown_element = page.locator(locators['NETWORK_CIDR'])
     ip_version_dropdown_element.click()
     clear_and_fill_field(page, locators['NETWORK_CIDR'], "")
@@ -198,13 +188,7 @@ def test_Verify_Network_Address_text_field_is_properly_displayed_and_accept_inpu
     input_box_text = input_box_locator.inner_text()
     print(input_box_text)
     assert input_box_text == "", "Input box text is not empty"
-    page.wait_for_timeout(10000)
 
-    # if count > 0:
-    #     ip_address = Dropdown_elements[0].click()
-    #     print(ip_address)
-    #     Dropdown_elements[0].click()
-    # page.wait_for_timeout(TIMEOUT)
 
 @pytest.mark.testrail(29515)
 def test_verfy_label_inside_network_address_text_field_displays_label_inside_the_text_area(page, create_kshetra_network):
@@ -318,10 +302,10 @@ def test_Verify_Create_button_functionality_for_creating_network(page, create_ks
     yes_button_element = page.get_by_test_id(locators['CONFIRM_BUTTON'])
     assert yes_button_element.is_visible(), "confirm button is not visible."
     yes_button_element.click()
-    toast_element = page.locator('//div[@role="alert"]')
-    toast_text = toast_element.inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print(toast_text)
     page.wait_for_timeout(10000)
+    expected_toast_msg = "Network created successfully."
     assert toast_text == ComputeTextData.kshetra_create_network_toast_msg, f"The toast message '{toast_text}' is different than expected: '{expected_toast_msg}'"
     expect(page.get_by_test_id(locators['KSHETRA_HEADER'])).to_be_visible()
     page.wait_for_timeout(10000)

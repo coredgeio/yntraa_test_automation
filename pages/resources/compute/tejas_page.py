@@ -80,7 +80,7 @@ def to_create_virtual_Compute_machine(page):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[5].click()
+        compute_header_elements[4].click()
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.wait_for_timeout(1000)
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
@@ -95,9 +95,9 @@ def to_create_virtual_Compute_machine(page):
     page.locator(locators['ADD_LABEL_BTN']).click()
     page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON']).click()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Creating virtual machine"
+    assert toast_text == "Creating virtual machine."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
     page.wait_for_timeout(10000)
 def to_delete_the_created_virtual_machine(page):
@@ -130,7 +130,7 @@ def to_delete_the_created_virtual_machine(page):
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     page.wait_for_timeout(1000)
     #assert toast_text == "Deleting virtual machine"
     page.wait_for_timeout(10000)

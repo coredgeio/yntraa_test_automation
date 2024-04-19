@@ -4,7 +4,7 @@ EXECUTION command-
 
 XML  --report
 pytest testcases/automated_cases/compute_suite/test_tejas_compute.py --junitxml=report.xml
-pytest --browser=chromium testcases/automated_cases/compute_suite/test_vistaar_autoscale.py --junitxml=report.xml
+pytest --browser=chromium testcases/test_sanitycheck.py --junitxml=report.xml
 pytest --browser=firefox testcases/automated_cases/compute_suite/test_vistaar_autoscale.py --junitxml=report.xml
 
 HTML REPORT  --pip install pytest-html

@@ -11,8 +11,7 @@ import asyncio
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "qa-test-user002@yopmail.com",
-        #"username": "vini-sdet@yopmail.com",
+        "username": "atul0@yopmail.com",
         "password": "India@143"
     }
 
@@ -20,15 +19,25 @@ def user_credentials():
 """Verify user is able to redirect to Networking screen by clicking on Networking  """
 @pytest.mark.testrail(27267)
 def test_verify_user_is_able_to_redirect_to_networking_screen_by_clicking_on_networking(page, network_setup):
+    # change_project_details(page)
+    # perform_click_on_compute_resource(page, locators['NETWORKING_TAB'])
+    # compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
+    # for index, element in enumerate(compute_header_elements, start=1):
+    #     element_text = element.inner_text()
+    #     if ComputeTextData.ip_address_section in element_text:
+    #         element.click()
+    # perform_click_on_create_vm_button(page, locators['IP_CREATE_BTN'])
+    #
+
     page.wait_for_timeout(TIMEOUT)
     to_create_virtual_Compute_machine(page)
     page.wait_for_timeout(10000)
     perform_click_on_compute_resource(page, locators['NETWORKING_TAB'])
     expect(page.get_by_test_id(locators['NETWORK_HEADER'])).to_be_visible()
-    snapshot_compute_page_heading = page.get_by_test_id(locators['NETWORK_HEADER'])
-    snapshot_page_heading = snapshot_compute_page_heading.inner_text()
-    assert snapshot_page_heading == "Networking", "User could not be navigated to Compute snapshot section!!"
-    logging.info("User successfully navigated to Compute snapshot screen!")
+    network_page_heading = page.get_by_test_id(locators['NETWORK_HEADER'])
+    networking_header = network_page_heading.inner_text()
+    assert networking_header == "Networking", "User could not be navigated to networking section!!"
+    logging.info("User successfully navigated to networking  screen!")
 
 
 @pytest.mark.testrail(27268)
@@ -61,10 +70,10 @@ def test_verify_UI_networking_screen(page, network_setup):
 @pytest.mark.testrail(27269)
 def test_verify_header_on_networking_screen(page, network_setup):
     expect(page.get_by_test_id(locators['NETWORK_HEADER'])).to_be_visible()
-    snapshot_compute_page_heading = page.get_by_test_id(locators['NETWORK_HEADER'])
-    snapshot_page_heading = snapshot_compute_page_heading.inner_text()
-    assert snapshot_page_heading == "Networking", "User could not be navigated to Compute snapshot section!!"
-    logging.info("User successfully navigated to Compute snapshot screen!")
+    network_page_heading = page.get_by_test_id(locators['NETWORK_HEADER'])
+    networking_header = network_page_heading.inner_text()
+    assert networking_header == "Networking", "User could not be navigated to networking section!!"
+    logging.info("User successfully navigated to networking  screen!")
 
 """Verify description under Header part """
 @pytest.mark.testrail(27270)
@@ -168,8 +177,7 @@ def test_verify_Yes_button_functionality_for_reserving_Public_IP(page, create_re
     yes_button_element = page.get_by_test_id(locators['CONFIRM_BUTTON'])
     assert yes_button_element.is_visible(), "Yes button is not visible."
     yes_button_element.click()
-    toast_element = page.locator('//div[@role="alert"]')
-    toast_text = toast_element.inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     assert toast_text == ComputeTextData.ip_address_toast_msg, f"The toast message '{toast_text}' is different than expected: '{expected_toast_msg}'"
     expect(page.get_by_test_id(locators['IP_ADDRESS_HEADER'])).to_be_visible()
 
@@ -349,8 +357,8 @@ def test_Verify_user_is_able_to_detach_public_IP_from_a_VM(page, ip_address_setu
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
-    print("Toast Text:", toast_text)
+
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     assert toast_text == "Public IP detached successfully"
     perform_the_network_homeTab(page)
     page.wait_for_timeout(TIMEOUT)
