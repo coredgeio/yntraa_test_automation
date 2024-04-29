@@ -14,7 +14,7 @@ from pages.resources.compute.compute_page import *
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "shubhi@yopmail.com",
+        "username": "techiee@yopmail.com",
         "password": "India@143"
     }
 
@@ -84,14 +84,38 @@ def test_redirecting_to_create_volume_screen_by_clicking_on_create_volume(page,a
      assert vol_create_page == StorageTextData.create_vol_header, "User could not found the Volume Creation page Header!!"
      logging.info("User is successfully redirected to Create Volume Screen!")
 
-#"""Verify UI of create volume screen."""
-# @pytest.mark.testrail(27657)
-# def test_verify_create_volume_screen_UI(page, ananta_setup):
-#     expect(page.get_by_test_id(locators['CREATE_VOL_BUTTON'])).to_be_visible()
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     vol_create_page = page.get_by_test_id(locators['CREATE_VOL_HEADER']).inner_text()
-#      assert vol_create_page == StorageTextData.create_vol_header, "User could not  the Volume Creation page Header!!"
+"""Verify UI of create volume screen."""
+@pytest.mark.testrail(27657)
+def test_verify_create_volume_screen_UI(page, ananta_setup):
+    expect(page.get_by_test_id(locators['CREATE_VOL_BUTTON'])).to_be_visible()
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    vol_create_page = page.get_by_test_id(locators['CREATE_VOL_HEADER']).inner_text()
+    assert vol_create_page == StorageTextData.create_vol_header, "User could not  the Volume Creation page Header!!"
+    vol_name = page.locator(locators['VOL_NAME_LABEL']).inner_text()
+    assert vol_name == StorageTextData.volume_name, "Volume name is not present"
+    vol_size = page.locator(locators['GIB_SIZE']).inner_text()
+    assert vol_size == StorageTextData.size_in_gib, "Volume size is not present"
+    default_size = page.locator(locators['VOL_SIZE']).input_value()
+    assert default_size == StorageTextData.vol_default_size, "Default value for size is not present"
+    vol_type = page.locator(locators['VOL_TYPE']).inner_text()
+    assert vol_type == StorageTextData.volume_type, "Volume Type is not present"
+    bill_rate = page.locator(locators['BILL_RATE']).inner_text()
+    assert bill_rate == StorageTextData.bill_rate, "Billing Rate is not present"
+    attach_vm = page.locator(locators['ATTACH_VM']).inner_text()
+    assert attach_vm == StorageTextData.attach_vm_text, "Attach it to VM is is not present"
+    rate = page.locator(locators['VOL_RATE']).inner_text()
+    assert rate == StorageTextData.vol_price, "Volume price is not present"
+    add_label = page.get_by_test_id(locators['ADD_LABEL']).inner_text()
+    assert add_label == StorageTextData.label, "Add Label is not present"
+    cancel_btn = page.get_by_test_id(locators['VOL_CANCEL_BTN']).inner_text()
+    assert cancel_btn == StorageTextData.cancel, "Close button is not present"
+    vol_create_btn = page.get_by_test_id(locators['V0L_CONFIRM_BTN']).inner_text()
+    assert vol_create_btn == StorageTextData.create, "Create button is not present"
+    vol_cross_btn = page.get_by_test_id(locators['VOL_CROSS_BTN'])
+    if vol_cross_btn:
+     vol_cross_btn.click()
+    logging.info("The UI of Create Volume Screen is correct!")
 
 """Verify the header of create volume screen."""
 @pytest.mark.testrail(27658)
@@ -108,19 +132,21 @@ def test_verify_volume_name_text_field_functionality(page, ananta_setup):
     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
     page.wait_for_timeout(TIMEOUT)
     volume_name_field = page.locator(locators['VOL_NAME'])
-    if volume_name_field.is_visible():
-        page.locator(locators['VOL_NAME']).type(VOLUME_NAME)
-        logging.info("Name field is accepting input!")
-    else:
-        logging.info("Name field is not yet visible on create volume screen!")
+    volume_name_field.is_visible()
+    page.locator(locators['VOL_NAME']).type(VOLUME_NAME)
+    page.locator(locators['VOL_NAME']).fill('')
+    page.wait_for_timeout(TIMEOUT)
+    vol_name_error = page.query_selector(locators['VOL_HELPER_TEXT']).inner_text()
+    assert vol_name_error == StorageTextData.name_blank_error, "name field is not mandatory"
+    logging.info("Name field is accepting input and is mandatory!")
 
 """Verify the volume name placeholder."""
 @pytest.mark.testrail(27661)
 def test_verify_volume_name_textfield_placeholder(page, ananta_setup):
     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
     page.wait_for_timeout(TIMEOUT)
-    vol_name_text_placeholder = page.locator(locators['VOL_NAME_PLACEHOLDER'])
-    expect(vol_name_text_placeholder).to_be_visible()
+    vol_name_text_placeholder = page.locator(locators['VOL_NAME_PLACEHOLDER']).get_attribute("placeholder")
+    assert vol_name_text_placeholder == StorageTextData.vol_placeholder, "name placeholder is not present "
     logging.info("Volume name textfield placeholder is correct!")
 
 """Verify the regex validation for volume name."""
@@ -146,71 +172,73 @@ def test_verify_regex_for_volume_name_textfield(page, ananta_setup):
     assert vol_name_error == StorageTextData.name_blank_error, "no error on leaving field empty"
     logging.info("Volume name is as per regex validation!")
 
-#Commented TCs will be done in future
-#"""Verify the volume size in GiB."""
-# @pytest.mark.testrail(27663)
-# def test_verify_volume_size_in_GiB(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     vol_size = page.locator(locators['VOl_GIB_SIZE'])
-#     print(vol_size)
-#     logging.info("Volume size is in GiB!")
+"""Verify the volume size in GiB."""
+@pytest.mark.testrail(27663)
+def test_verify_volume_size_in_GiB(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    vol_size = page.locator(locators['GIB_SIZE']).inner_text()
+    assert vol_size == StorageTextData.size_in_gib, "volume size is not in GiB"
+    logging.info("Volume size is in GiB!")
 
-#"""Verify the default volume size."""
-# @pytest.mark.testrail(27664)
-# def test_verify_default_volume_size_is_50(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     expect(page.get_by_text("Size (in GiB) *")).to_be_visible()
-#     # page.get_by_test_id(locators['VOL_SIZE']).inner_text()
-#     # default_size = page.locator(locators['VOL_SIZE']).inner_text()
-#     # print(default_size)
-#     input_field = page.locator("#volume_size")
-#     value = input_field.get_attribute("value")
-#     assert value == "50", "Input field value is not 50"
-#     page.wait_for_timeout(40000)
-#     logging.info("The default Volume size is correct!")
+"""Verify the default volume size."""
+@pytest.mark.testrail(27664)
+def test_verify_default_volume_size_is_50(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    default_size = page.locator(locators['VOL_SIZE']).input_value()
+    assert default_size == StorageTextData.vol_default_size, "default volume is not 50"
+    logging.info("The default Volume size is correct!")
 
-#"""Verify the volume size is a multiple of 50."""
-# @pytest.mark.testrail(28023)
-# def test_verify_volume_size_is_a_multiple_of_50(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     logging.info("The Volume size is a multiple of 50!")
+"""Verify the volume size is a multiple of 50."""
+@pytest.mark.testrail(28023)
+def test_verify_volume_size_is_a_multiple_of_50(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    if page.locator(locators['VOL_SIZE']).clear():
+       vol_50 = page.locator(locators['VOL_50']).inner_text()
+       assert vol_50 == StorageTextData.vol_size_50, "colume size is not multiple of 50"
+       page.wait_for_timeout(TIMEOUT)
+    logging.info("The Volume size is a multiple of 50!")
 
-#"""Verify the volume rate is displayed."""
+"""Verify the volume rate is displayed."""
 @pytest.mark.testrail(27669)
 def test_verify_volume_rate_is_displayed(page, ananta_setup):
     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
     page.wait_for_timeout(TIMEOUT)
     val = page.locator(locators['VOL_RATE']).inner_text()
-    print(val)
-    # assert val == StorageTextData.vol_price, "could not locate volume size"
+    assert val == StorageTextData.vol_price, "could not locate volume size"
     logging.info("The Volume rate is correct!")
 
 #"""Verify the volume rate on selecting monthly and hourly."""
 # @pytest.mark.testrail(27670)
 # def test_Verify_volume_rate_upon_selecting_monthly_and_hourly(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     dropdown = page.get_by_test_id(locators['VOL_RATE_DROPDOWN'])
-#     logging.info("The Volume rate is correctly displayed on monthly or hourly basis!")
+#     This functionality is yet to be implemented
 
-#"""Verify swipe button for attach it to a virtual machine."""
-# @pytest.mark.testrail(65132)
-# def test_Attach_it_to_a_Virtual_machine_swipe_button_functionality(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     print(page.get_by_role(locators['VOL_SWIPE_BUTTON']))
-#     logging.info("The swipe button is working properly!")
+"""Verify swipe button for attach it to a virtual machine."""
+@pytest.mark.testrail(65132)
+def test_Attach_it_to_a_Virtual_machine_swipe_button_functionality(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    swipe_btn = page.get_by_test_id(locators['VOL_SWIPE_BUTTON'])
+    if swipe_btn.click():
+        select_a_vm = page.locator(locators['SELECT_VM_TEXT']).inner_text()
+        assert select_a_vm == StorageTextData.select_vm, "please select a VM"
+    logging.info("The swipe button is working properly!")
 
-#"""Verify dropdown for virtual machine."""
-# @pytest.mark.testrail(27671)
-# def test_dropdown_is_displayed_and_user_can_select_virtual_machine(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     print(page.get_by_role(locators['VOL_SWIPE_BUTTON']))
-#     logging.info("The dropdown is displayed and user is successfully able to select the virtual machine!")
+"""Verify dropdown for virtual machine."""
+@pytest.mark.testrail(27671)
+def test_dropdown_is_displayed_and_user_can_select_virtual_machine(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    page.get_by_test_id(locators['VOL_SWIPE_BUTTON']).click()
+    page.get_by_test_id(locators['ARROW_BTN']).click()
+    page.wait_for_timeout(TIMEOUT)
+    Dropdown_elements = page.query_selector_all(f'[data-testid="compute-id-option"]')
+    count = len(Dropdown_elements)
+    if count > 0:
+        Dropdown_elements[0].click()
+        page.wait_for_timeout(TIMEOUT)
+    logging.info("The dropdown is displayed and user is successfully able to select the virtual machine!")
 
 """Verify create button is displayed as disabled until all required fields have values."""
 @pytest.mark.testrail(27674)
@@ -239,33 +267,55 @@ def test_create_button_becomes_enable_once_required_fields_have_values(page, ana
 logging.info("The create button becomes enabled once required fields have values!")
 
 
-"""Verify create button is displayed as disabled until all required fields have values."""
-# @pytest.mark.testrail(27676)
-# def test_Create_button_functionality_for_creating_volume(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     page.locator(locators['VOL_NAME']).type(VOLUME_NAME)
-#     create_button = page.get_by_test_id(locators['V0L_CONFIRM_BTN']).click()
-#     assert not create_button.is_enabled(), "Create button should be disabled initially"
+"""Verify Create button functionality for creating volume."""
+@pytest.mark.testrail(27676)
+def test_Create_button_functionality_for_creating_volume(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    page.locator(locators['VOL_NAME']).type(VOLUME_NAME)
+    create_button = page.get_by_test_id(locators['V0L_CONFIRM_BTN'])
+    expect(create_button).to_be_enabled(), "Create button is disabled"
+    create_button.click()
+    page.wait_for_timeout(TIMEOUT)
+    toaster_msg = page.locator(locators['VOL_TOASTER_MSG']).inner_text()
+    assert toaster_msg == StorageTextData.creating_msg, "Toaster msg is not appeared"
+    logging.info("User should be able to click on Create button and volume should get created.")
+
+"""Verify that volume name should not be same as existing ones."""
+@pytest.mark.testrail(27676)
+def test_volume_name_should_not_be_same_as_existing_ones(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    page.locator(locators['VOL_NAME']).type('volume')
+    page.get_by_test_id(locators['V0L_CONFIRM_BTN']).click()
+    page.wait_for_timeout(TIMEOUT)
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(3000)
+    page.locator(locators['VOL_NAME']).type('volume')
+    page.get_by_test_id(locators['V0L_CONFIRM_BTN']).click()
+    duplicate_msg = page.locator(locators['VOL_TOASTER_MSG']).inner_text()
+    page.wait_for_timeout(TIMEOUT)
+    assert duplicate_msg == StorageTextData.duplicate_name, "There is no volume with the same name"
+    logging.info("Volume name is must be different from the existing ones")
 
 
-# """Verify that volume name should not be same as existing ones."""
-# @pytest.mark.testrail(27676)
-# def test_volume_name_should_not_be_same_as_existing_ones(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     page.locator(locators['VOL_NAME']).type('abc')
-#     page.get_by_test_id(locators['VOL_CONFIRM_BTN']).click()
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     if page.locator(locators['VOL_NAME']).type('abc'):
-#         assert
 
-# """Verify created status against volume"""
-# @pytest.mark.testrail(65133)
-# def test_created_status_against_volume(page, ananta_setup):
-#     page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
-#     page.wait_for_timeout(TIMEOUT)
-#     page.locator(locators['VOL_NAME']).type(VOLUME_NAME)
-#     page.get_by_test_id(locators['VOL_CONFIRM_BTN']).click()
-#     expect(locator).to_contain_text()
+"""Verify created status against volume"""
+@pytest.mark.testrail(65133)
+def test_created_status_against_volume(page, ananta_setup):
+    page.get_by_test_id(locators['CREATE_VOL_BUTTON']).click()
+    page.wait_for_timeout(TIMEOUT)
+    page.locator(locators['VOL_NAME']).type(VOLUME_NAME)
+    page.get_by_test_id(locators['V0L_CONFIRM_BTN']).click()
+    page.wait_for_timeout(TIMEOUT)
+    page.locator(locators['VOL_TOASTER_MSG']).inner_text()
+    creating_status = page.locator(locators['VOl_STATUS']).inner_text()
+    assert creating_status == StorageTextData.vol_status, "volume is not in creating state"
+    page.locator(locators['VOl_STATUS']).click()
+    page.wait_for_timeout(6000)
+    page.get_by_test_id(locators['BACK_BTN']).click()
+    created_status = page.locator(locators['CREATED_STATUS']).inner_text()
+    page.wait_for_timeout(TIMEOUT)
+    assert created_status == StorageTextData.created_status, "volume is not in created"
+    logging.info("Volume is created")
+

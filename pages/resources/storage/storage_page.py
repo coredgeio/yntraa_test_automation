@@ -8,3 +8,4 @@ def storage_setup(page):
 def perform_click_on_storage_resource(page, selector):
     page.wait_for_timeout(TIMEOUT)
     page.get_by_test_id(selector).click()
+
