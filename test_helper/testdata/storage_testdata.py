@@ -23,6 +23,7 @@ class StorageTextData:
     select_vm = "Please select a virtual machine"
     vol_status = "Creating"
     created_status = "Created"
+    attached_status = "Attached"
     volume_name = "Name *"
     volume_type = "Type *"
     bill_rate = "Billing Rate *"
