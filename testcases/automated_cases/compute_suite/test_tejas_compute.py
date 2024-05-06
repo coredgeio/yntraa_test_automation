@@ -10,7 +10,7 @@ def user_credentials():
     return {
         #"url": "https://console.yntraa.com",
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "atul0@yopmail.com",
+        "username": "atul159@yopmail.com",
         "password": "India@143"
     }
 
@@ -1268,22 +1268,6 @@ def change_project_details(page):
             element.click()
             break
     page.get_by_test_id(locators['BTN_SELECT']).click()
-
-def verify_to_setup(page):
-
-    perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
-    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
-    compute_header_count = len(compute_header_elements)
-    for index, element in enumerate(compute_header_elements, start=1):
-        element_text = element.inner_text()
-        print(element_text)
-        if ComputeTextData.tejas_compute_tab in element_text:
-            element.click()
-    page.wait_for_timeout(TIMEOUT)
-    expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
-
-
-
 
 @pytest.mark.testrail(64980)
 def test_verify_shutoff_feature(page ,tejas_create_vm_setup):

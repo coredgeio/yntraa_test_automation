@@ -17,7 +17,7 @@ def perform_click_on_compute_resource(page, selector):
 def generate_random_machine_name():
     random_char = random.choice(string.ascii_lowercase)
     random_number = random.randint(1, 99)
-    random_name = f"TestMachine-{random_number}"
+    random_name = f"testmachine{random_number}"
 
     # allowed_characters = string.ascii_letters + string.digits + "-_ "
     # min_length = 3

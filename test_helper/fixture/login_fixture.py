@@ -49,7 +49,7 @@ def verify_to_login_byusing_rolebased_credentials(page):
     #page.get_by_role("button", name="Login").click()
     page.get_by_role("button", name="Login").click()
     username_input = page.query_selector("input#username")
-    username_input.fill("atul0@yopmail.com")
+    username_input.fill("atul159@yopmail.com")
     password_input = page.query_selector("input#password")
     password_input.fill("India@143")
     login_button = page.query_selector("input#kc-login")
@@ -87,3 +87,15 @@ def change_project_details(page):
             element.click()
             break
     page.get_by_test_id(locators['BTN_SELECT']).click()
+
+def verify_to_setup(page):
+    perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
+    compute_header_count = len(compute_header_elements)
+    for index, element in enumerate(compute_header_elements, start=1):
+        element_text = element.inner_text()
+        #print(element_text)
+        if ComputeTextData.tejas_compute_tab in element_text:
+            element.click()
+    page.wait_for_timeout(TIMEOUT)
+    expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
