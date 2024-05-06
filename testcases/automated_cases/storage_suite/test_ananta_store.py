@@ -89,7 +89,7 @@ def test_redirecting_to_create_volume_screen_by_clicking_on_create_volume(page,a
 @pytest.mark.testrail(27669)
 def test_verify_volume_rate_is_displayed(page, ananta_setup):
     val = page.locator(locators['VOL_RATE']).inner_text()
-    assert val == StorageTextData.vol_price, "could not locate volume size"
+    assert val == StorageTextData.vol_price, "could not locate volume rate"
     logging.info("The Volume rate is correct!")
 
 """Verify UI of create volume screen."""
@@ -132,7 +132,7 @@ def test_verify_header_of_create_volume_screen(page, ananta_setup):
     logging.info("The header on Create Volume Screen is correct!")
 
 """Verify the volume name text field functionality."""
-@pytest.mark.testrail(27600)
+@pytest.mark.testrail(27660)
 def test_verify_volume_name_text_field_functionality(page, ananta_setup):
     volume_name_field = page.locator(locators['VOL_NAME'])
     volume_name_field.is_visible()
