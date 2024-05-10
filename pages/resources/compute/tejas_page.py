@@ -133,7 +133,8 @@ def to_create_virtual_Compute_machine(page):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[4].click()
+        compute_header_elements[7].click()
+        page.wait_for_timeout(10000)
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.wait_for_timeout(1000)
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
@@ -233,15 +234,18 @@ def fill_the_manage_label_for_selected_feature(page, items_to_verify):
     for item_to_click in items_to_verify:
         if item_to_click == "Manage Labels":
             click_ellipsis_item(page, item_to_click)
-    page.wait_for_timeout(10000)
+    page.wait_for_timeout(1000)
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
     page.get_by_test_id('label-input').click()
     page.get_by_text("Add Labels").is_visible()
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()

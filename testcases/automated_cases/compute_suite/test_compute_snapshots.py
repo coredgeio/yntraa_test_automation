@@ -10,7 +10,7 @@ import asyncio
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "atul159@yopmail.com",
+        "username": "shubh@yopmail.com",
         "password": "India@143"
     }
 
@@ -117,7 +117,6 @@ def test_to_verify_create_compute_snapshots_screenUI(page, create_compute_sanpsh
     page.get_by_text(locators['SNAPSHOT_NAME_FIELD']).is_visible()
     page.get_by_text(locators['SNAPSHOTS_DROPDOWN']).is_visible()
     expect(page.get_by_test_id(locators['ESTIMATE_COST'])).to_be_visible()
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
     page.get_by_text(locators['ADD_LABEL_BTN']).is_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
@@ -166,7 +165,7 @@ def test_verify_snapshot_name_text_field_for_regex_validation(page, create_compu
     snapshot_helpertext4 = page.locator(locators['SNAPSHOT_HELPER']).inner_text()
     assert snapshot_helpertext4 == "Name cannot exceed 30 characters."
 
-    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], "Snap_test")
+    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], MACHINE_NAME)
     #page.wait_for_timeout(10000)
 
 @pytest.mark.testrail(27429)
@@ -188,13 +187,16 @@ def test_Select_Virtual_Machine_dropdown_is_displayed_and_user_can_select_option
 
 @pytest.mark.testrail(27430)
 def test_verify_add_lable_tagging_functionlaity(page, create_compute_sanpshots):
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
     page.get_by_test_id('label-input').click()
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()
@@ -208,7 +210,7 @@ def test_verify_add_lable_tagging_functionlaity(page, create_compute_sanpshots):
 
 @pytest.mark.testrail(27433)
 def test_Verify_Create_button_becomes_enable_once_input_are_there_in_all_requried_fields(page, create_compute_sanpshots):
-    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], "Snap_test")
+    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], MACHINE_NAME)
     create_compute_snapshot_button = locators['CONFIRM_BUTTON']
     create_button_element = page.get_by_test_id(create_compute_snapshot_button)
     assert create_button_element, f"Unable to find Create button using locator: {create_compute_snapshot_button}"

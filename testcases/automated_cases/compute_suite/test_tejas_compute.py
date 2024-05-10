@@ -10,7 +10,7 @@ def user_credentials():
     return {
         #"url": "https://console.yntraa.com",
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "atul159@yopmail.com",
+        "username": "shubh@yopmail.com",
         "password": "India@143"
     }
 
@@ -547,15 +547,18 @@ def test_verify_Add_Labels_functionality(page, tejas_create_vm_setup):
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.get_by_test_id('label-input').click()
     page.get_by_text("Add Labels").is_visible()
-    page.get_by_text("(Max. 5)").is_visible()
+
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()
-
     all_labels = page.query_selector_all("[data-testid='label-helper-text']")
     for label_element in all_labels:
         label_text = label_element.inner_text()

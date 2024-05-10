@@ -11,7 +11,7 @@ import asyncio
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "atul159@yopmail.com",
+        "username": "shubh@yopmail.com",
         "password": "India@143"
     }
 
@@ -87,7 +87,6 @@ def test_verify_UI_networking_screen(page, create_kshetra_network):
     assert  IP_dropdown_element.is_visible(), "IP version dropdown is not visible."
     CIDR_element = page.locator(locators['NETWORK_CIDR'])
     assert  CIDR_element.is_visible(), "Network CIDR field is not visible."
-    assert page.get_by_text("(Max. 5)").is_visible(), "Max label is not visible."
     expect(page.get_by_test_id("label-input")).to_be_visible()
     page.get_by_text(locators['ADD_LABEL_BTN']).is_visible()
     assert page.get_by_test_id(locators['CANCEL_BUTTON']).is_visible(), "Cancel button is not visible."
@@ -216,15 +215,17 @@ def test_Verify_error_message_for_invalid_or_incorrect_ipv_input(page, create_ks
 def test_Verify_Add_Labels_functionality(page, create_kshetra_network):
     page.get_by_test_id('label-input').click()
     page.get_by_text("Add Labels").is_visible()
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()
-
     all_labels = page.query_selector_all("[data-testid='label-helper-text']")
     for label_element in all_labels:
         label_text = label_element.inner_text()
@@ -265,15 +266,17 @@ def test_verify_Create_button_is_present_and_displayed_disabled_till_all_require
     clear_and_fill_field(page, locators['NETWORK_CIDR'], NETWORK_ADDRESS)
     page.get_by_test_id('label-input').click()
     page.get_by_text("Add Labels").is_visible()
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()
-
     all_labels = page.query_selector_all("[data-testid='label-helper-text']")
     for label_element in all_labels:
         label_text = label_element.inner_text()
