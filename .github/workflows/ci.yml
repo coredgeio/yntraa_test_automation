@@ -1,6 +1,5 @@
 name: CI/CD Pipeline
 
-# Schedule the workflow to run every 5 minutes and allow manual triggering
 on:
   workflow_dispatch:
     inputs:
@@ -31,6 +30,7 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
+        pip install --upgrade pip  # Ensure pip is up-to-date
         pip install -r requirements.txt
 
     - name: Run selected test file
@@ -55,12 +55,13 @@ jobs:
         password: ${{ secrets.SMTP_PASSWORD }}
         subject: "CI Test Results - Build #${{ github.run_number }}"
         to: atul@coredge.io
+        from: no-reply@example.com
         body: |
+          Please find the attached test results.
+
           Total Tests: ${{ steps.get-test-count.outputs.total }}
           Passed Tests: ${{ steps.get-test-count.outputs.passed }}
           Failed Tests: ${{ steps.get-test-count.outputs.failed }}
-        from: no-reply@example.com
-        content_type: text/plain
         attachments: results.xml
 
   get-test-count:
