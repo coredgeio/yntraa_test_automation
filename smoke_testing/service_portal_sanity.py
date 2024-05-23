@@ -118,7 +118,6 @@ def test_Verify_the_Global_search_bar_functionality(page):
 @pytest.mark.testrail(65440)
 def test_verify_create_button(page):
     page.get_by_test_id("btn-global-create").is_visible()
-    #page.get_by_test_id(locators['YNTRAA_CREATE_BTN']).click()
     page.locator(locators['BTN_CREATEA']).click()
     expect(page.get_by_test_id(locators['CREATE_RESOURCES'])).to_be_visible()
     create_resource_heading = page.get_by_test_id(locators['CREATE_RESOURCES']).inner_text()
@@ -132,7 +131,6 @@ def test_verify_create_button(page):
 
 @pytest.mark.testrail(65441)
 def test_verify_create_button_Quota_service(page):
-    #page.get_by_test_id("btn-global-create").is_visible()
     expect(page.get_by_test_id(locators['CREATE_RESOURCES'])).to_be_visible()
     create_resource_heading = page.get_by_test_id(locators['CREATE_RESOURCES']).inner_text()
     print(create_resource_heading)
@@ -239,9 +237,6 @@ def test_verify_create_button_Verify_the_Search_Bar(page):
     page.wait_for_timeout(1000)
     clear_and_fill_field(page, locators['SEARCH_FIELD_CREATE'], "")
     page.wait_for_timeout(1000)
-    # page.get_by_test_id(locators['CREATE_BTN_UNDER_CREATE_RESOURCE']).click()
-    # # page.wait_for_timeout(10000)
-
 
 
 @pytest.mark.testrail(65450)
@@ -482,6 +477,7 @@ def test_User_Profile_Popup_Projects_Verify_Projects_Screen(page):
     page.get_by_test_id(locators['PROJECT_CREATE_BTN']).click()
     expect(page.get_by_test_id(locators['PROJECT_CREATE_HEADING'])).to_be_visible()
     clear_and_fill_field(page, locators['INPUT_NAME'], MACHINE_NAME)
+    page.wait_for_timeout(10000)
     page.locator(locators['DISCRIPTION_FIELD']).click()
     clear_and_fill_field(page, locators['DISCRIPTION_FIELD'], "External create project for the manage and group resources")
     project_name_text =page.get_by_test_id(locators['INPUT_PROJECT']).inner_text()
@@ -1206,15 +1202,6 @@ def item_is_displayed(page, item_to_verify):
             return True
     return False
 
-
-# @pytest.mark.testrail(65850)
-# def test_Verify_the_VM_action_btn(page, tejas_setup):
-#     verify_to_headersection(page)
-#     ellipse_section = ComputeTextData.ellipse_section
-#     for item_to_verify in ellipse_section:
-#         assert item_is_displayed(page, item_to_verify), f"{item_to_verify} is not visible"
-#
-
 @pytest.mark.testrail(65518)
 def test_Verify_the_VM_Shutoff_action(page, tejas_setup):
     verify_to_headersection(page)
@@ -1897,7 +1884,6 @@ def test_Verify_Object_Storage_download_config_action(page, volumeObject_storage
     items_to_verify = ["Extend Bucket Size", "Download S3 config", "Share Bucket", "Make Bucket Public", "Manage Labels", "Empty bucket", "Delete bucket"]
     for item_to_click in items_to_verify:
         if item_to_click == "Download S3 config":
-            #click_ellipsis_item(page, item_to_click)
             downloaded_file_path = click_ellipsis_item(page, item_to_click)
 
     page.wait_for_timeout(10000)
@@ -1956,21 +1942,7 @@ def test_Verify_Object_storage_emptyBucket_action(page, volumeObject_storage):
         if item_to_click == "Empty bucket":
             click_ellipsis_item(page, item_to_click)
     page.wait_for_timeout(10000)
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
-    page.wait_for_timeout(1000)
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
-    print("Toast Text:", toast_text)
+    copy_to_clipboard_and_paste_value_function(page)
     page.wait_for_timeout(1000)
 
 @pytest.mark.testrail(65551)
@@ -1980,22 +1952,9 @@ def test_Verify_object_storage_delete_action(page, volumeObject_storage):
         if item_to_click == "Delete bucket":
             click_ellipsis_item(page, item_to_click)
     page.wait_for_timeout(10000)
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
+    copy_to_clipboard_and_paste_value_function(page)
     page.wait_for_timeout(1000)
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
-    print("Toast Text:", toast_text)
-    page.wait_for_timeout(1000)
+
 @pytest.mark.testrail(65554)
 def test_Verify_object_storage_share_bucket_action(page, volumeObject_storage):
     items_to_verify = ["Extend Bucket Size", "Download S3 config", "Share Bucket", "Make Bucket Public", "Manage Labels", "Empty bucket", "Delete bucket"]
@@ -2119,41 +2078,13 @@ def test_Verify_Archival_Storage_empty_and_delete_action(page ,volume_Archival_s
         if item_to_click == "Empty container":
             click_ellipsis_item(page, item_to_click)
     page.wait_for_timeout(10000)
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
-    page.wait_for_timeout(1000)
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
-    logging.info("Toast Text:", toast_text)
+    copy_to_clipboard_and_paste_value_function(page)
     page.wait_for_timeout(1000)
     for item_to_click in items_to_verify:
         if item_to_click == "Delete container":
             click_ellipsis_item(page, item_to_click)
     page.wait_for_timeout(10000)
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
-    page.wait_for_timeout(1000)
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
-    logging.info("Toast Text:", toast_text)
+    copy_to_clipboard_and_paste_value_function(page)
     page.wait_for_timeout(1000)
     # Container emptied successfully.
     # Container deleted successfully.
@@ -2595,7 +2526,7 @@ def test_verify_Stack_creation(page):
     time.sleep(1)
     #pyautogui.click(pyautogui.center(pyautogui.locateOnScreen('file_dialog.png')))
     #file_path = "/Users/atultayade/Documents/Git/yntraa_test_automation/test_helper/downloadFile/volume_template.yaml"
-    file_path = "/Users/atultayade/Documents/Git/yntraa_test_automation/test_helper/downloadFile/volume_template.yaml"
+    file_path = "/test_helper/downloadFile/volume_template.yaml"
     # yaml_file = "downloadFile/volume_template.yaml"
     # file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), yaml_file)
     for char in file_path:
@@ -2743,20 +2674,7 @@ def test_Verify_Cancellation_Quota_Request(page):
     expect(page.get_by_test_id(locators['QUOTA_CANCEL_BTN'])).to_be_visible()
     page.get_by_test_id(locators['QUOTA_CANCEL_BTN']).click()
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
-
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
+    copy_to_clipboard_and_paste_value_function(page)
     # assert toast_text == "Quota request cancellation in progress."
     page.wait_for_timeout(10000)
     toast_text = page.locator(locators['REQUEST_STATUS']).inner_text()

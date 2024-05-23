@@ -15,21 +15,9 @@ def perform_click_on_compute_resource(page, selector):
 
 
 def generate_random_machine_name():
-    # random_char = random.choice(string.ascii_lowercase)
-    # random_number = random.randint(1, 99)
-    # random_name = f"testmachine{random_number}"
+    current_time = int(time.time())
     random_char = random.choice(string.ascii_lowercase)
     random_number = random.randint(1, 999)
-    random_name = f"testmachine{random_char}{random_number}"
+    random_name = f"testmachine_{current_time}_{random_char}{random_number}"
     return random_name
-
-    # allowed_characters = string.ascii_letters + string.digits + "-_ "
-    # min_length = 3
-    # max_length = 30
-    # name_length = random.randint(min_length, max_length)
-    # random_name = ''.join(random.choice(allowed_characters) for _ in range(name_length))
-    # if not random_name[0].isalnum():
-    #     random_name = random.choice(string.ascii_letters + string.digits) + random_name[1:]
-    # if not random_name[-1].isalnum():
-    #     random_name = random_name[:-1] + random.choice(string.ascii_letters + string.digits)
-    return random_name
+    #testmachine_1715573630_a704

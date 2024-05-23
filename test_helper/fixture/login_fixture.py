@@ -44,6 +44,12 @@ def login_setup(browser, user_credentials):
     login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=user_credentials["password"])
     login.perform_login()
 
+# @pytest.fixture(scope="module")
+# def admin_login_setup(browser, user_credentials):
+#     login = login_setup_yntraa(page=browser, url=user_credentials["url"], username=user_credentials["username"], password=admin_user_credentials["password"])
+#     login.admin_login_setup_yntraa()
+#     return browser
+
 @staticmethod
 def verify_to_login_byusing_rolebased_credentials(page):
     #page.get_by_role("button", name="Login").click()

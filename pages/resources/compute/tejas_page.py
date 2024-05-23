@@ -39,19 +39,6 @@ def snapshots_setup(page, compute_setup):
         if ComputeTextData.compute_snapshot_tab in element_text:
             element.click()
 
-# @pytest.fixture(scope='module', params=["Block Storage", "Volume Snapshots", "Object Storage", "File Storage", "Archival Storage", "Backup & Recovery", "Yotta Safe", "Resiliency Assurance Service"])
-# def storage_setup(request, page):
-#     tab_name_to_click = request.param
-#     perform_click_on_compute_resource(page, locators['STORAGE_TAB'])
-#     page.wait_for_timeout(TIMEOUT)
-#     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
-#     for index, element in enumerate(compute_header_elements, start=1):
-#         element_text = element.inner_text()
-#         if tab_name_to_click in element_text:
-#             element.click()
-#             break  # Exit the loop after clicking the selected tab
-#     return tab_name_to_click
-
 @pytest.fixture(scope='module')
 def storage_setup(page):
     perform_click_on_compute_resource(page, locators['STORAGE_TAB'])
@@ -171,22 +158,7 @@ def to_delete_the_created_virtual_machine(page):
                 print("Clicked on delete")
                 break
     page.wait_for_timeout(10000)
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
-    page.wait_for_timeout(1000)
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
-    page.wait_for_timeout(1000)
-    #assert toast_text == "Deleting virtual machine"
+    copy_to_clipboard_and_paste_value_function(page)
     page.wait_for_timeout(10000)
 
 def clear_and_fill_field(page, locator, value):
@@ -198,21 +170,7 @@ def delete_the_action_for_selected_feture(page, items_to_verify):
         if item_to_click == "Delete":
             click_ellipsis_item(page, item_to_click)
     page.wait_for_timeout(10000)
-    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
-    page.locator(button_locator).click()
-    input_locator = "//input[@id='name']"
-    input_element = page.locator(input_locator)
-    input_element.focus()
-    page.keyboard.down("Meta")
-    page.keyboard.press("V")
-    page.keyboard.up("Meta")
-    page.wait_for_timeout(1000)
-    pasted_text = input_element.evaluate('(el) => el.value')
-    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
-    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
-    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
-    print("Toast Text:", toast_text)
+    copy_to_clipboard_and_paste_value_function(page)
     page.wait_for_timeout(1000)
 
 def click_ellipsis_item(page, item_to_click):
@@ -258,3 +216,22 @@ def fill_the_manage_label_for_selected_feature(page, items_to_verify):
     toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     assert toast_text == "Labels updated successfully."
     page.wait_for_timeout(10000)
+
+
+def copy_to_clipboard_and_paste_value_function(page):
+    button_locator = "(//button[@data-testid='btn-copy-clipboard'])[last()]"
+    page.locator(button_locator).click()
+    input_locator = "//input[@id='name']"
+    input_element = page.locator(input_locator)
+    input_element.focus()
+    page.keyboard.down("Meta")
+    page.keyboard.press("V")
+    page.keyboard.up("Meta")
+    page.wait_for_timeout(1000)
+    pasted_text = input_element.evaluate('(el) => el.value')
+    expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
+    expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
+    page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
+    logging.info("Toast Text:", toast_text)
+
