@@ -1,0 +1,66 @@
+name: CI
+
+# Schedule the workflow to run every 5 minutes and allow manual triggering
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      TEST_SUITE:
+        description: 'Select the test suite to run'
+        required: true
+        default: 'admin_portal_sanity.py'
+        type: choice
+        options:
+          - 'admin_portal_sanity.py'
+          - 'service_portal_sanity.py'
+          - 'sanity_for_different_function.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        source venv/bin/activate
+        pytest --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
+
+    - name: Publish Test Results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: results.xml
+
+    - name: Send Email with Test Results
+      if: always()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.example.com
+        server_port: 587
+        username: ${{ secrets.SMTP_USERNAME }}
+        password: ${{ secrets.SMTP_PASSWORD }}
+        subject: "CI Test Results - Build #${{ github.run_number }}"
+        to: atul@coredge.io
+        body: |
+          Total Tests: ${{ steps.tests.outputs.total }}
+          Passed Tests: ${{ steps.tests.outputs.passed }}
+          Failed Tests: ${{ steps.tests.outputs.failed }}
+        from: no-reply@example.com
+        content_type: text/plain
+        attachments: results.xml
