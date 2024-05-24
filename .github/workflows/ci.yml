@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -23,26 +23,19 @@ jobs:
       with:
         ref: 'feature'
 
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
     - name: Install dependencies
       run: |
-        # Check if Python3 is installed
-        if ! command -v python3 &> /dev/null; then
-            echo "Python3 is not installed. Please install Python3."
-            exit 1
-        fi
-
-        # Create virtual environment
-        python3 -m venv venv
-
-        # Activate virtual environment and install dependencies
-        source venv/bin/activate
-        pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install pytest pytest-playwright pyyaml selenium pyautogui
         playwright install
 
     - name: Run Tests
       run: |
-        source venv/bin/activate
         pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
 
     - name: Archive Test Results
@@ -55,7 +48,7 @@ jobs:
     - name: Parse Test Results
       id: parse-results
       run: |
-        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
+        TOTAL=$(grep -o 'tests="[0-9]*"' results.xml | grep -o '[0-9]*')
         FAILED=$(grep -o 'failure message=' results.xml | wc -l)
         PASSED=$((TOTAL - FAILED))
         echo "total=$TOTAL" >> $GITHUB_ENV
@@ -66,17 +59,22 @@ jobs:
       if: always()
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: smtp.example.com
-        server_port: 587
+        server_address: ${{ secrets.SMTP_SERVER }}
+        server_port: ${{ secrets.SMTP_PORT }}
         username: ${{ secrets.SMTP_USERNAME }}
         password: ${{ secrets.SMTP_PASSWORD }}
-        subject: "Sanity Result for Service portal"
+        subject: "Sanity Result for Yntraa"
         to: 'atul@coredge.io'
-        from: 'no-reply@example.com'
+        from: 'atul@coredge.io'
         body: |
           Total Tests: ${{ env.total }}
           Passed Tests: ${{ env.passed }}
           Failed Tests: ${{ env.failed }}
+          {% if env.failed == 0 %}
+          All tests passed successfully.
+          {% else %}
+          Some tests failed. See attached results for details.
+          {% endif %}
         attachments: results.xml
 
     - name: Upload Logs
