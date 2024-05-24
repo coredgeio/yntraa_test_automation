@@ -1,6 +1,14 @@
 name: Python application
 
-on: [push, pull_request]
+on:
+ push:
+   branches:
+     - feature
+     - develop
+ pull_request:
+   branches:
+     - feature
+     - main
 
 jobs:
   build:
