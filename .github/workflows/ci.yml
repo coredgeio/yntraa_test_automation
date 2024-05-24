@@ -53,6 +53,6 @@ jobs:
         username: atul@coredge.io
         password: Rakuten@1234
         subject: "Test Email from GitHub Actions"
-        to: "recipient@example.com"
+        to: "atul@coredge.io"
         from: "atul@coredge.io"
         body: "This is a test email sent from GitHub Actions."
