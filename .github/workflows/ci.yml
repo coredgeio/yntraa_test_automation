@@ -12,10 +12,6 @@ on:
           - 'admin_portal_sanity.py'
           - 'service_portal_sanity.py'
           - 'sanity_for_different_function.py'
-      BRANCH:
-        description: 'Select the branch to run the tests on'
-        required: true
-        default: 'feature'
 
 jobs:
   build:
@@ -37,10 +33,11 @@ jobs:
         python -m venv venv
         source venv/bin/activate
         pip install --upgrade pip  # Ensure pip is up-to-date
-        pip install -r requirements.txt
+        pip install -r requirements-ci.txt  # Use the CI-specific requirements file
 
     - name: Install browser dependencies
       run: |
+        pip install --upgrade pip
         sudo apt-get update
         sudo apt-get install -y wget gnupg
         wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -53,7 +50,7 @@ jobs:
     - name: Run selected test file
       run: |
         source venv/bin/activate
-        pytest --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_FILE }}
+        pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_FILE }}
 
     - name: Publish Test Results
       if: always()
