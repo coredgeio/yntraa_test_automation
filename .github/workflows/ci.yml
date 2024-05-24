@@ -68,8 +68,8 @@ jobs:
       with:
         server_address: smtp.gmail.com
         server_port: 587
-        username: atul@coredge.io
-        password: Rakuten@1234
+        username: atultayade-a
+        password: Coredge@2024
         subject: "Sanity Result for Service portal"
         to: 'atul@coredge.io'
         from: 'atul@coredge.io'
