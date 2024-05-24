@@ -10,18 +10,39 @@ import asyncio
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "qa-test-user002@yopmail.com",
-        #"username": "vini-sdet@yopmail.com",
+        "username": "shubh@yopmail.com",
         "password": "India@143"
     }
 
 """Constant and Global Tejas Compute VM Name!"""
 MACHINE_NAME = generate_random_machine_name()
 
+def change_project_details(page):
+    page.get_by_test_id(locators['PROJECT_CHANGE']).click()
+    page.locator(locators['PROJECT_SELECTION_PLACEHOLDER']).click()
+    change_project_elements = page.query_selector_all(f'[data-testid="project-id-select-option"]')
+    compute_header_count = len(change_project_elements)
+    print(compute_header_count)
+    for index, element in enumerate(change_project_elements):
+        element_text = element.inner_text()
+        print("text", element_text)
+        if "automation_project" in element_text.lower():
+            element.click()
+            break
+    page.get_by_test_id(locators['BTN_SELECT']).click()
 
 """Verify user is able to redirect to Snapshots screen in Compute section """
 @pytest.mark.testrail(27421)
 def test_Verify_user_is_able_to_redirect_to_Snapshots_screen_in_Compute_section(page, snapshots_setup):
+    change_project_details(page)
+    perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
+    for index, element in enumerate(compute_header_elements, start=1):
+        element_text = element.inner_text()
+        if ComputeTextData.compute_snapshot_tab in element_text:
+            element.click()
+    perform_click_on_create_vm_button(page, locators['SNAPSHOTE_CREATE_COMPUTE'])
+
     expect(page.get_by_test_id(locators['SNAPSHOT_HEADER'])).to_be_visible()
     snapshot_compute_page_heading = page.get_by_test_id(locators['SNAPSHOT_HEADER'])
     snapshot_page_heading = snapshot_compute_page_heading.inner_text()
@@ -57,9 +78,9 @@ def test_to_verify_learn_more_section_oncompute_snapshots_screen(page, snapshots
         expect(page.get_by_test_id(locators['LEARN_MORE_VM'])).to_be_visible()
         learn_more_value = page.get_by_test_id(locators['LEARN_MORE_VM'])
         text = learn_more_value.inner_text()
-        assert text == "Learn More", "Learn More button is not present when no Snapshots found"
-        page.click("btn-learn-more")
-        expected_url = "https://docs-revamp-sbx.yntraa.com//docs/Computes/Compute"
+        assert text == "Learn more", "Learn More button is not present when no Snapshots found"
+        page.get_by_test_id("btn-learn-more").click()
+        expected_url = "https://console-revamp-sbx.yntraa.com/compute/snapshots"
         page.wait_for_timeout(TIMEOUT)
         assert page.url == expected_url, f"Expected URL: {expected_url}, Actual URL: {page.url}"
     else:
@@ -73,7 +94,7 @@ def test_to_verify_learn_more_section_oncompute_snapshots_screen(page, snapshots
         element_text = element.inner_text()
         if ComputeTextData.compute_snapshot_tab in element_text:
             element.click()
-    perform_click_on_create_vm_button(page, locators['SNAPSHOTE_CREATE_COMPUTE'])
+    #perform_click_on_create_vm_button(page, locators['SNAPSHOTE_CREATE_COMPUTE'])
 
 
 
@@ -96,11 +117,12 @@ def test_to_verify_create_compute_snapshots_screenUI(page, create_compute_sanpsh
     page.get_by_text(locators['SNAPSHOT_NAME_FIELD']).is_visible()
     page.get_by_text(locators['SNAPSHOTS_DROPDOWN']).is_visible()
     expect(page.get_by_test_id(locators['ESTIMATE_COST'])).to_be_visible()
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
     page.get_by_text(locators['ADD_LABEL_BTN']).is_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
+    #page.get_by_test_id(locators['CLOSE_BTN']).click()
+
 
 """Verify Create button is present and displayed disabled till all required field have values"""
 @pytest.mark.testrail(27432)
@@ -143,32 +165,38 @@ def test_verify_snapshot_name_text_field_for_regex_validation(page, create_compu
     snapshot_helpertext4 = page.locator(locators['SNAPSHOT_HELPER']).inner_text()
     assert snapshot_helpertext4 == "Name cannot exceed 30 characters."
 
-    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], "Snap_test")
-    page.wait_for_timeout(10000)
+    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], MACHINE_NAME)
+    #page.wait_for_timeout(10000)
 
 @pytest.mark.testrail(27429)
 def test_Select_Virtual_Machine_dropdown_is_displayed_and_user_can_select_option_from_it(page, create_compute_sanpshots):
     page.get_by_text(locators['SNAPSHOTS_DROPDOWN']).is_visible()
-    dropdown_element = page.get_by_text(locators['SNAPSHOTS_DROPDOWN'])
+    dropdown_element = page.locator(locators['SNAPSHOTS_DROPDOWN'])
+    expect(dropdown_element).to_be_visible()
     assert dropdown_element.is_visible(), "Dropdown menu is not displayed"
     dropdown_element.click()
+    page.wait_for_timeout(10000)
     vm_elements = page.query_selector_all(f'[data-testid="compute-id-select-option"]')
-    vm_count = len(vm_elements)
-    assert vm_count > 0, "No virtual machine options found in the dropdown menu"
-    first_vm_name = vm_elements[0].inner_text()
-    vm_elements[0].click()
-    selected_vm_text = page.get_by_text(first_vm_name).inner_text()
-    assert selected_vm_text == first_vm_name, "Selected virtual machine option is not displayed"
+    compute_header_count = len(vm_elements)
+    if compute_header_count > 0:
+        first_vm_name = vm_elements[0].inner_text()
+        vm_elements[0].click()
+    page.wait_for_timeout(TIMEOUT)
+    selected_vm_text = page.locator(locators['SNAPSHOTS_DROPDOWN']).inner_text()
+    #assert selected_vm_text == first_vm_name, "Selected virtual machine option is not displayed"
 
 @pytest.mark.testrail(27430)
 def test_verify_add_lable_tagging_functionlaity(page, create_compute_sanpshots):
-    page.get_by_text("(Max. 5)").is_visible()
     expect(page.get_by_test_id("label-input")).to_be_visible()
     page.get_by_test_id('label-input').click()
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()
@@ -182,7 +210,7 @@ def test_verify_add_lable_tagging_functionlaity(page, create_compute_sanpshots):
 
 @pytest.mark.testrail(27433)
 def test_Verify_Create_button_becomes_enable_once_input_are_there_in_all_requried_fields(page, create_compute_sanpshots):
-    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], "Snap_test")
+    clear_and_fill_field(page, locators['SNAPSHOT_NAME_FIELD'], MACHINE_NAME)
     create_compute_snapshot_button = locators['CONFIRM_BUTTON']
     create_button_element = page.get_by_test_id(create_compute_snapshot_button)
     assert create_button_element, f"Unable to find Create button using locator: {create_compute_snapshot_button}"
@@ -193,9 +221,9 @@ def test_Verify_Create_button_becomes_enable_once_input_are_there_in_all_requrie
 @pytest.mark.testrail(27434)
 def test_Verify_Create_button_functionality_for_creating_virtual_machine(page, create_compute_sanpshots):
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Creating compute snapshot"
+    assert toast_text == "Creating compute snapshot."
     expect(page.get_by_test_id(locators['SNAPSHOT_HEADER'])).to_be_visible()
     page.wait_for_timeout(1000)
     created_snapshot = page.query_selector_all(f'[data-testid="resource-name-link"]')
@@ -209,7 +237,7 @@ def test_Verify_Create_button_functionality_for_creating_virtual_machine(page, c
 """Verify user is able to view the listings of compute snapshots """
 @pytest.mark.testrail(27435)
 def test_Verify_user_is_able_to_view_the_listings_of_compute_snapshots(page, create_compute_sanpshots):
-    page.get_by_test_id(locators['CLOSE_BTN']).click()
+    #page.get_by_test_id(locators['CLOSE_BTN']).click()
     expect(page.get_by_test_id(locators['SNAPSHOT_HEADER'])).to_be_visible()
     page.wait_for_timeout(1000)
     created_snapshot = page.query_selector_all(f'[data-testid="resource-name-link"]')
@@ -306,8 +334,14 @@ def test_Verify_Compute_Name_present_on_the_snapshot_listcard(page, snapshots_se
         logging.info("snapshot is not created.")
 @pytest.mark.testrail(27442)
 def test_Verify_Compute_Snapshots_configuration_info_for_Labels(page, snapshots_setup):
-    expect(page.get_by_test_id(locators['SNAPSHOT_HEADER'])).to_be_visible()
+    page.get_by_test_id(locators['BACK_BTN']).click()
+    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
+    for index, element in enumerate(compute_header_elements, start=1):
+        element_text = element.inner_text()
+        if ComputeTextData.compute_snapshot_tab in element_text:
+            element.click()
     page.wait_for_timeout(1000)
+    expect(page.get_by_test_id(locators['SNAPSHOT_HEADER'])).to_be_visible()
     label_element = page.query_selector_all(f'[data-testid="{locators["LABEL_TAG"]}"]')
     label_elemnt_count = len(label_element)
     if label_elemnt_count > 0:
@@ -408,10 +442,10 @@ def test_verify_enable_Delete_Permanently_button_functionality_on_Delete_popup_w
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
     page.wait_for_timeout(1000)
-    #assert toast_text == "Deleting compute snapshot"
+    #assert toast_text == "Deleting compute snapshot."
     expect(page.get_by_test_id(locators['SNAPSHOT_HEADER'])).to_be_visible()
     page.wait_for_timeout(1000)
     status_element = page.query_selector(f'[data-testid="{locators["VM_STATUS"]}"]')

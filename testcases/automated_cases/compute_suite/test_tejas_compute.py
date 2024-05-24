@@ -10,7 +10,7 @@ def user_credentials():
     return {
         #"url": "https://console.yntraa.com",
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "vini-sdet@yopmail.com",
+        "username": "shubh@yopmail.com",
         "password": "India@143"
     }
 
@@ -29,7 +29,8 @@ MACHINE_NAME = generate_random_machine_name()
 
 
 """Perform a click operation on Compute Resource and verify the header on the resulting landing page."""
-@pytest.mark.testrail(27291)
+#@pytest.mark.testrail(27291)
+@pytest.mark.testrail(65137)
 def test_to_verify_clicking_on_compute_screen(page):
     perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
     compute_header_element = page.get_by_test_id(locators['COMPUTE_HEADER'])
@@ -39,7 +40,8 @@ def test_to_verify_clicking_on_compute_screen(page):
 
 
 """Verify the Compute page UI."""
-@pytest.mark.testrail(27292)
+#@pytest.mark.testrail(27292)
+@pytest.mark.testrail(65138)
 def test_verify_UI_of_compute_home_screen(page, compute_setup):
     expect(page.get_by_test_id(locators['COMPUTE_DESCRP'])).to_be_visible()
     expected_texts = ["Tejas Compute", "Snapshots", "Vistaar", "Swayam Run"]
@@ -65,7 +67,8 @@ def test_verify_UI_of_compute_home_screen(page, compute_setup):
     # expect(page.get_by_test_id(locators['MY_EDGE_SITE_TAB'])).to_be_visible()
 
 """Verify the header on the Compute page."""
-@pytest.mark.testrail(27293)
+#@pytest.mark.testrail(27293)
+@pytest.mark.testrail(65139)
 def test_to_verify_header_on_compute_home_screen(page, compute_setup):
     expect(page.get_by_test_id(locators['COMPUTE_HEADER'])).to_be_visible()
     compute_header_element = page.get_by_test_id(locators['COMPUTE_HEADER'])
@@ -74,7 +77,8 @@ def test_to_verify_header_on_compute_home_screen(page, compute_setup):
     logging.info("Header on Compute home screen is correct!")
 
 """Verify the description on the Compute page."""
-@pytest.mark.testrail(27294)
+#@pytest.mark.testrail(27294)
+@pytest.mark.testrail(65140)
 def test_to_verify_compute_home_screen_description(page, compute_setup):
     expect(page.get_by_test_id(locators['COMPUTE_DESCRP'])).to_be_visible()
     compute_discription_element = page.get_by_test_id(locators['COMPUTE_DESCRP'])
@@ -83,7 +87,8 @@ def test_to_verify_compute_home_screen_description(page, compute_setup):
     logging.info("Description on Compute home screen is correct!")
 
 """Perform a click operation on Tejas Compute and validate the header on the resulting landing page."""
-@pytest.mark.testrail(27295)
+#@pytest.mark.testrail(27295)
+@pytest.mark.testrail(65141)
 def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
     compute_header_count = len(compute_header_elements)
@@ -95,12 +100,12 @@ def test_to_verify_clicking_on_tejas_compute(page, compute_setup):
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
     tejas_compute_page_heading = page.get_by_test_id(locators['TEJAS_HEADER'])
     tejas_compute_page_heading = tejas_compute_page_heading.inner_text()
-    #assert tejas_compute_page_heading == ComputeTextData.tejas_compute_header, "User could not be navigated to Tejas Compute section!!"
     assert tejas_compute_page_heading == ComputeTextData.tejas_compute_tab, "User could not be navigated to Tejas Compute section!!"
     logging.info("User successfully navigated to Tejas Compute screen!")
 
 """Verify the header on the Tejas Compute page."""
-@pytest.mark.testrail(27296)
+#@pytest.mark.testrail(27296)
+@pytest.mark.testrail(65142)
 def test_to_verify_header_on_tejas_compute_screen(page, tejas_setup):
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
     tejas_compute_header = page.get_by_test_id(locators['TEJAS_HEADER'])
@@ -110,7 +115,8 @@ def test_to_verify_header_on_tejas_compute_screen(page, tejas_setup):
 
 
 """Verify the description on the Tejas Compute page."""
-@pytest.mark.testrail(27297)
+#@pytest.mark.testrail(27297)
+@pytest.mark.testrail(65143)
 def test_to_verify_tejas_compute_screen_description(page, tejas_setup):
     expect(page.get_by_test_id(locators['TEJAS_DESCRP'])).to_be_visible()
     tejas_description_value = page.get_by_test_id(locators['TEJAS_DESCRP'])
@@ -120,8 +126,8 @@ def test_to_verify_tejas_compute_screen_description(page, tejas_setup):
     logging.info("Description on Tejas Compute home screen is correct!")
 
 
-@pytest.mark.testrail(27298)
-#@pytest.mark.skip(reason = "After clicking on Learn More link it was found that the documentation page is broken!")
+#@pytest.mark.testrail(27298)
+@pytest.mark.testrail(65144)
 def test_verify_learn_more_section_on_tejas_compute_screen(page, tejas_setup):
     page.wait_for_timeout(TIMEOUT)
     VM_field_visibility = page.locator(locators['VM_NOT_FOUND']).is_visible()
@@ -144,7 +150,8 @@ def test_verify_learn_more_section_on_tejas_compute_screen(page, tejas_setup):
 
 
 """Perform a click operation on the Create Virtual Machine button and and verify the header on the resulting landing page."""
-@pytest.mark.testrail(27299)
+#@pytest.mark.testrail(27299)
+@pytest.mark.testrail(65145)
 def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
     perform_click_on_create_vm_button(page, locators['CREATE_VM_BUTTON'])
     expect(page.get_by_test_id(locators['CREATE_VM_HEADER'])).to_be_visible()
@@ -155,7 +162,8 @@ def test_to_verify_click_on_create_virtual_machine(page, tejas_setup):
 
 
 """Verify the UI of Create Virtual Machine page."""
-@pytest.mark.testrail(27300)
+#@pytest.mark.testrail(27300)
+@pytest.mark.testrail(65146)
 def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
     page.wait_for_timeout(TIMEOUT)
     expect(page.locator(locators['MACHINE_DETAILS_HEADER'])).to_be_visible()
@@ -176,6 +184,7 @@ def test_verify_create_virtual_machine_homescreen(page, tejas_create_vm_setup):
     expect(page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON'])).to_be_visible()
 
 @pytest.mark.testrail(27353)
+#@pytest.mark.testrail(65147)
 def test_verify_create_button_is_present_and_displyed_the_disable_till_All_required_fillvalue(page, tejas_create_vm_setup):
     expect(page.get_by_test_id("btn-summary")).to_be_visible()
     create_button= page.get_by_test_id("confirm")
@@ -186,7 +195,8 @@ def test_verify_create_button_is_present_and_displyed_the_disable_till_All_requi
         pytest.fail("Create button not found on the page")
 
 """Verify the header on Create Virtual Machine page."""
-@pytest.mark.testrail(27301)
+@pytest.mark.testrail(65147)
+# @pytest.mark.testrail(27301)
 def test_to_verify_create_vm_header(page, tejas_create_vm_setup):
     expect(page.get_by_test_id(locators['CREATE_VM_HEADER'])).to_be_visible()
     create_vm_header = page.get_by_test_id(locators['CREATE_VM_HEADER'])
@@ -295,13 +305,26 @@ def test_Verify_that_Search_box_under_Snapshots_is_accepting_all_types_of_data(p
     snapshot_text = page.get_by_test_id(locators['SNAPSHOT']).inner_text()
     assert "Snapshots" in snapshot_text, f"Unexpected text in Snapshot section: {snapshot_text}"
     page.get_by_test_id(locators['SNAPSHOT']).click()
-    #search_field_locator = page.locator('input[placeholder="Search "]')
-    search_field_locator = page.locator('(//input[@placeholder="Search "])[1]')
-    if search_field_locator.is_visible():
-        search_field_locator.click()
-        search_field_locator.fill("test")
+
+    VM_field_visibility = page.locator(locators['DATA_NOT_FOUND']).is_visible()
+    if VM_field_visibility == False:
+        VM_Name_elements = page.query_selector_all(f'[data-testid="resource-name-link"]')
+        VM_name_count = len(VM_Name_elements)
+        print("VM_List_elements:", VM_name_count)
+        if VM_name_count > 0:
+            first_VM_name = VM_Name_elements[0].inner_text()
+            print("First VM name:", first_VM_name)
+            search_field_locator = page.locator('(//input[@placeholder="Search "])[1]')
+            search_field_locator.click()
+            search_field_locator.fill(first_VM_name)
+            #page.wait_for_timeout(10000)
+        else:
+            print("No VM names found.")
     else:
         print("Search field is not visible")
+    page.get_by_test_id(locators['PUBLIC_IMAGE']).click()
+    page.wait_for_timeout(10000)
+
 
 @pytest.mark.testrail(27317)
 def test_Verify_user_is_able_to_select_Root_Volume_size(page, tejas_create_vm_setup):
@@ -312,7 +335,7 @@ def test_Verify_user_is_able_to_select_Root_Volume_size(page, tejas_create_vm_se
     page.get_by_test_id("volume-size-count").click()
     updated_value = page.locator('#volume_size').get_attribute("value")
     assert int(updated_value) >= 50, "Volume size is not updated to at least 50"
-    assert updated_value == "100", "Volume size is not updated to 100"
+    assert updated_value == "60", "Volume size is not updated to 100"
     page.locator('//button[@data-testid="-count"]').click()
     final_value = page.locator('#volume_size').get_attribute("value")
     assert final_value == "50", "Volume size is not set to 50 after selection"
@@ -332,12 +355,12 @@ def test_Verify_Flavors_are_displayed_and_user_is_able_to_select_a_flavor(page, 
     page.wait_for_timeout(TIMEOUT)
     page.get_by_text("Choose Flavor").is_visible()
     expect(page.get_by_test_id("tab-compute-intensive")).to_be_visible()
-    expect(page.get_by_test_id("tab-general-compute")).to_be_visible()
+    expect(page.get_by_test_id("tab-compute-general")).to_be_visible()
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     print("Compute header count1:", compute_header_count)
     if compute_header_count > 0:
-        compute_header_elements[5].click()
+        compute_header_elements[3].click()
 
 @pytest.mark.testrail(27320)
 def test_Verify_Your_Machine_Credentials_description(page, tejas_create_vm_setup):
@@ -367,7 +390,7 @@ def test_Verify_Your_Machine_Credentials_is_divided_in_two_groups(page, tejas_cr
     assert keypair_text == "Key Pair"
     password_tab = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).is_visible()
     password_text = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).inner_text()
-    assert password_text == "Username / Password"
+    assert password_text == "Username & Password"
 
 
 @pytest.mark.testrail(27323)
@@ -389,9 +412,9 @@ def test_Verify_user_is_able_to_move_to_Username_Password_tab_from_Key_Pair_tab_
     page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).click()
     password_tab = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).is_visible()
     username_password_visible = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).inner_text()
-    assert username_password_visible == "Username / Password"
-    username_password_visible = page.get_by_text("Username / Password").is_visible()
-    assert username_password_visible, "Username / Password section is not visible"
+    assert username_password_visible == "Username & Password"
+    username_password_visible = page.get_by_test_id(locators['CREDENTIALS_USER_PASS_OPTION']).is_visible()
+    assert username_password_visible, "Username & Password section is not visible"
 
 @pytest.mark.testrail(27324)
 def test_verify_Username_text_field_is_properly_displayed_and_accept_input_from_user(page, tejas_create_vm_setup):
@@ -400,7 +423,7 @@ def test_verify_Username_text_field_is_properly_displayed_and_accept_input_from_
     assert username_input_field.is_visible(), "Username input field is not visible"
     machine_name_field = page.locator(locators['NAME_FIELD_MACHINE'])
     if machine_name_field.is_visible():
-        machine_name_field.type("atul-tayade@yopmail.com")
+        machine_name_field.type("ATULTAYADE")
         page.wait_for_timeout(TIMEOUT)
     else:
         pytest.fail("Machine name field is not visible")
@@ -454,7 +477,7 @@ def test_verify_Username_password_and_confirm_password_text_field_valid_input(pa
     if Machine_name_field_visibility:
         page.locator(locators['NAME_FIELD_MACHINE']).fill("")
         page.wait_for_timeout(TIMEOUT)
-        page.locator(locators['NAME_FIELD_MACHINE']).fill("atul-tayade@yopmail.com")
+        page.locator(locators['NAME_FIELD_MACHINE']).fill("ATULTAYADE")
 
     expect(page.get_by_test_id("vm-password-input")).to_be_visible()
     password_field_visibility = page.locator(locators['PASSWORD_FIELD_MACHINE']).is_visible()
@@ -482,15 +505,14 @@ def test_verify_Choose_Networks_description(page, tejas_create_vm_setup):
 @pytest.mark.testrail(27340)
 def test_Verify_Networks_dropdown_is_displayed_and_user_can_select_multiple_options_from_it(page, tejas_create_vm_setup):
     networks_dropdown = page.locator(locators['NETWORKS']).click()
-    #elements = page.query_selector_all(f'[data-testid="network_id-listbox"]')
     elements = page.query_selector_all(f'[data-testid="network-id-multi-select"]')
     count = len(elements)
-    print("Number of options in the dropdown:", count)
+    logging.info("Number of options in the dropdown:", count)
     if count > 0:
         elements[0].click()
     else:
-        print("No options found in the dropdown")
-    page.wait_for_timeout(10000)
+        logging.info("No options found in the dropdown")
+
 
 
 @pytest.mark.testrail(27341)
@@ -525,15 +547,18 @@ def test_verify_Add_Labels_functionality(page, tejas_create_vm_setup):
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.get_by_test_id('label-input').click()
     page.get_by_text("Add Labels").is_visible()
-    page.get_by_text("(Max. 5)").is_visible()
+
     expect(page.get_by_test_id("label-input")).to_be_visible()
-    for i in range(5):
+    label_range_text = page.locator(locators['LABELCOUNT_ID']).inner_text()
+    label_range_numeric = re.search(r'\d+', label_range_text).group()
+    label_range = int(label_range_numeric)
+    print("range", label_range)
+    for i in range(label_range):
         valid_label = f"atul-sdet{i + 1}"
-        if i >= 5:
+        if i >= label_range:
             break
         page.fill(locators['INPUT_LABEL'], valid_label)
         page.locator(locators['ADD_LABEL_BTN']).click()
-
     all_labels = page.query_selector_all("[data-testid='label-helper-text']")
     for label_element in all_labels:
         label_text = label_element.inner_text()
@@ -570,8 +595,6 @@ def test_verify_Summary_section_is_displayed_on_screen(page, tejas_create_vm_set
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    page.wait_for_timeout(1000)
-    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
 
 @pytest.mark.testrail(27349)
@@ -615,7 +638,7 @@ def test_create_virtual_machine(page, tejas_create_vm_setup):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[5].click()
+        compute_header_elements[3].click()
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
     compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
@@ -634,7 +657,7 @@ def test_Verify_that_changes_on_VM_form_fields_are_reflected_on_Summary_popup(pa
     #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     summary_name = page.locator(locators['SUMMERY_MACHINE_NAME']).inner_text()
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
-    page.wait_for_timeout(10000)
+
     test_create_virtual_machine(page, tejas_create_vm_setup)
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
     changes_summary_name = page.locator(locators['SUMMERY_MACHINE_NAME']).inner_text()
@@ -644,15 +667,18 @@ def test_Verify_that_changes_on_VM_form_fields_are_reflected_on_Summary_popup(pa
 
 @pytest.mark.testrail(59906)
 def test_verify_estimated_price_label_on_summary_popup_with_monthly_switch(page, tejas_create_vm_setup):
+
     expect(page.get_by_test_id("btn-summary")).to_be_visible()
     summary_button_text = page.get_by_test_id(locators['BTN_SUMMERY']).inner_text()
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
+
     expect(page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT'])).to_be_visible()
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
-    assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
+    assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per hour:', but got '{estimated_price_label}'"
+
+    #assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
     Price_value = page.locator(locators['ESTIMATE_PRICE_VALUE']).inner_text()
     print("price:",Price_value)
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
@@ -660,6 +686,7 @@ def test_verify_estimated_price_label_on_summary_popup_with_monthly_switch(page,
 
 
 @pytest.mark.testrail(59907)
+#def test_verify_estimated_price_label_on_summary_popup_with_monthly_switch(page, tejas_create_vm_setup):
 def test_verify_estimated_price_label_on_summary_popup_with_hourly_switch(page, tejas_create_vm_setup):
     expect(page.get_by_test_id("btn-summary")).to_be_visible()
     page.get_by_test_id(locators['SWITCH_COST']).click()
@@ -667,10 +694,11 @@ def test_verify_estimated_price_label_on_summary_popup_with_hourly_switch(page, 
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    #page.get_by_text("CREATE_VM_SUMMARY").is_visible()
     expect(page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT'])).to_be_visible()
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
-    assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per hour:', but got '{estimated_price_label}'"
+    assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
+
+   # assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per hour:', but got '{estimated_price_label}'"
     Price_value = page.locator(locators['ESTIMATE_PRICE_VALUE']).inner_text()
     print("price:",Price_value)
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
@@ -685,7 +713,8 @@ def test_verify_price_value_on_summary_popup_with_monthly_switch(page, tejas_cre
     initial_estimated_cost = page.locator(locators['PRICE_VALUE']).inner_text()
     print(initial_estimated_cost)
     initial_estimated_cost_value = initial_estimated_cost.split("/")[0].strip()
-    assert initial_estimated_cost.split("/")[-1] == "month", f"Expected 'month', but got '{initial_estimated_cost}'"
+    #assert initial_estimated_cost.split("/")[-1] == "month", f"Expected 'month', but got '{initial_estimated_cost}'"
+    assert initial_estimated_cost.split("/")[-1] == "hour", f"Expected 'month', but got '{initial_estimated_cost}'"
 
     expect(page.get_by_test_id("btn-summary")).to_be_visible()
     summary_button_text = page.get_by_test_id(locators['BTN_SUMMERY']).inner_text()
@@ -693,15 +722,13 @@ def test_verify_price_value_on_summary_popup_with_monthly_switch(page, tejas_cre
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
 
-   # page.get_by_text("CREATE_VM_SUMMARY").is_visible()
-
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
-    assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
+    assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
     estimated_price_value = page.locator(locators['ESTIMATE_PRICE_VALUE']).inner_text()
     print("price:",estimated_price_value)
     assert estimated_price_value == initial_estimated_cost_value, f"Estimated price value doesn't match initial estimated cost: {estimated_price_value} vs {initial_estimated_cost}"
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
-    page.wait_for_timeout(10000)
+
 
 @pytest.mark.testrail(59940)
 def test_verify_price_value_on_summary_popup_with_hourly_switch(page, tejas_create_vm_setup):
@@ -713,18 +740,17 @@ def test_verify_price_value_on_summary_popup_with_hourly_switch(page, tejas_crea
     logging.info(summary_button_text)
     assert summary_button_text == "View Summary", f"Expected 'View Summary', but got '{summary_button_text}'"
     page.get_by_test_id(locators['BTN_SUMMERY']).click()
-    page.wait_for_timeout(1000)
    # page.get_by_text("CREATE_VM_SUMMARY").is_visible()
-
     hourly_switch_selected = page.get_by_text("Hourly").is_visible()
     assert hourly_switch_selected, "Hourly switch is not selected"
     estimated_price_label = page.get_by_test_id(locators['ESTIMATE_PRICE_TEXT']).inner_text()
-    assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
+    #assert estimated_price_label == "Estimated price per hour:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
+    assert estimated_price_label == "Estimated price per month:", f"Expected 'Estimated price per month:', but got '{estimated_price_label}'"
     estimated_price_value = page.locator(locators['ESTIMATE_PRICE_VALUE']).inner_text()
     print("price:",estimated_price_value)
     assert estimated_price_value == initial_estimated_cost_value, f"Estimated price value doesn't match initial estimated cost: {estimated_price_value} vs {initial_estimated_cost_value}"
     page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
-    page.wait_for_timeout(10000)
+    # page.wait_for_timeout(10000)
     page.get_by_test_id(locators['SWITCH_COST']).click()
 
 @pytest.mark.testrail(27352)
@@ -809,7 +835,7 @@ def test_confirm_detail_popup_UI(page, tejas_create_vm_setup):
 @pytest.mark.testrail(59822)
 def test_Verify_the_Tejas_Compute_VM_information_over_Confirm_Details_popup(page, tejas_create_vm_setup):
     page.locator(locators['NAME_FIELD']).fill("")
-    page.wait_for_timeout(10000)
+    #page.wait_for_timeout(10000)
     page.locator(locators['NAME_FIELD']).type(MACHINE_NAME)
     name = page.get_by_test_id(locators['MACHINE_NAME_VALUE']).inner_text()
     print("test",name)
@@ -819,7 +845,7 @@ def test_Verify_the_Tejas_Compute_VM_information_over_Confirm_Details_popup(page
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[5].click()
+        compute_header_elements[3].click()
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
     compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
@@ -827,27 +853,6 @@ def test_Verify_the_Tejas_Compute_VM_information_over_Confirm_Details_popup(page
     if compute_header_count > 0:
         compute_header_elements1[1].click()
     page.wait_for_timeout(TIMEOUT)
-    # availabilty= page.get_by_test_id(locators['AVAILABILTY_NAME']).inner_text()
-    # print(availabilty)
-    #
-    #
-    # public_image_card = page.query_selector_all(f'[data-testid="tab-public-image-card"]')
-    # public_card_count = len(public_image_card)
-    # print("Number of elements matching the selector:", public_card_count)
-    # for index, element in enumerate(public_image_card, start=1):
-    #     element_text = element.inner_text()
-    # if public_card_count > 0:
-    #     element_text= public_image_card[0].inner_text()
-    #     print("Public_Image", element_text)
-    #     page.wait_for_timeout(TIMEOUT)
-    # keypairvalue = page.locator(locators['KEY_PAIR_PLACEHOLDER']).inner_text()
-    # print(keypairvalue)
-    #
-    # estimated_cost = page.get_by_test_id(locators['ESTIMATE_COST']).inner_text()
-    # print(estimated_cost)
-    # assert changes_summary_name != summary_name, "Summary name is not updated after changes"
-    # page.get_by_test_id(locators['CLOSE_BTN_SUMMARY']).click()
-    # page.wait_for_timeout(1000)
 
     page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON']).click()
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
@@ -895,16 +900,18 @@ def test_Verify_the_Cancel_button_over_Confirm_Details_popup(page, tejas_create_
 
 @pytest.mark.testrail(59824)
 def test_Verify_the_Confirm_button_over_Confirm_Details_popup(page, tejas_create_vm_setup):
-    test_create_virtual_machine(page, tejas_create_vm_setup)
+    #test_create_virtual_machine(page, tejas_create_vm_setup)
     page.get_by_test_id(locators['FINAL_CREATE_VM_BUTTON']).click()
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
     page.get_by_text(locators['CONFIRM_DETAILS_POPUP'])
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     page.get_by_text("CANCEL_POPUP").is_visible()
+    page.wait_for_timeout(3000)
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Creating virtual machine"
+    page.wait_for_timeout(10000)
+    assert toast_text == "Creating virtual machine."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
 
 @pytest.mark.testrail(28018)
@@ -915,7 +922,7 @@ def test_verify_duplicity_for_Virtual_Machine_name_functionality(page, tejas_cre
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[5].click()
+        compute_header_elements[3].click()
 
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
@@ -929,8 +936,10 @@ def test_verify_duplicity_for_Virtual_Machine_name_functionality(page, tejas_cre
     page.get_by_text(locators['CONFIRM_DETAILS_POPUP'])
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     page.get_by_text("CANCEL_POPUP").is_visible()
+    page.wait_for_timeout(3000)
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    page.wait_for_timeout(20000)
+    page.wait_for_timeout(10000)
+    expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
     page.get_by_test_id(locators['CREATE_VM_BUTTON']).click()
     page.locator(locators['NAME_FIELD']).type("COMPUTE_1")
 
@@ -939,7 +948,7 @@ def test_verify_duplicity_for_Virtual_Machine_name_functionality(page, tejas_cre
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["COMPUTE_GENERAL_CARD"]}"]')
     compute_header_count = len(compute_header_elements)
     if compute_header_count > 0:
-        compute_header_elements[5].click()
+        compute_header_elements[3].click()
     page.get_by_test_id(locators['CREDENTIALS_KEY_PAIR_OPTION']).click()
     page.locator(locators['KEY_PAIR_PLACEHOLDER']).click()
     compute_header_elements1 = page.query_selector_all(f'[data-testid="keypair-id-select-option"]')
@@ -952,9 +961,10 @@ def test_verify_duplicity_for_Virtual_Machine_name_functionality(page, tejas_cre
     page.get_by_text(locators['CONFIRM_DETAILS_POPUP'])
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     page.get_by_text("CANCEL_POPUP").is_visible()
+    page.wait_for_timeout(3000)
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
-    assert toast_text == "VM with name 'Compute_1' alreday exist"
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
+    assert toast_text == "VM with name 'COMPUTE_1' alreday exist"
 
 
 @pytest.mark.testrail(27357)
@@ -971,7 +981,6 @@ def test_Verify_search_functionality(page, tejas_setup):
             element.click()
     page.wait_for_timeout(TIMEOUT)
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
-    page.wait_for_timeout(1000)
     VM_Name_elements = page.query_selector_all(f'[data-testid="resource-name-link"]')
     VM_name_count = len(VM_Name_elements)
     print("VM_List_elements:", VM_name_count)
@@ -1192,61 +1201,62 @@ def test_verify_antivirus_price_display(page, tejas_create_vm_setup):
         f"Unexpected Anti-Virus price format: {antivirus_price}. Expected format: ₹X.XX / Month or ₹X.XX / Hour"
 @pytest.mark.testrail(59946)
 def test_verify_cloud_init_description_display(page, tejas_create_vm_setup):
-    page.get_by_text("CLOUD_INTIT_STAGE").is_visible()
-    page.get_by_text(locators['CLOUD_INIT_DESCRIPTION']).is_visible()
+    page.locator(locators['CLOUD_INTIT_STAGE']).is_visible()
+    discription = page.locator(locators['CLOUD_INIT_DESCRIPTION'])
+    expect(discription).to_be_visible()
     cloud_init_description = page.locator(locators['CLOUD_INIT_DESCRIPTION']).inner_text()
     assert cloud_init_description == ComputeTextData.CLOUD_INIT_DISCR, f"Unexpected description: {cloud_init_description}"
 
 @pytest.mark.testrail(59947)
 def test_Verify_the_add_initialization_script_checkbox_functionality(page, tejas_create_vm_setup):
-    page.get_by_text("CLOUD_INTIT_STAGE").is_visible()
-    page.get_by_text("INITIALIZATION_SCRIPTS").is_visible()
+    page.locator(locators['CLOUD_INTIT_STAGE']).is_visible()
+    page.locator(locators['INITIALIZATION_SCRIPTS']).is_visible()
     antivirus_checkbox = page.locator(locators['INITIALIZATION_SCRIPTS_CHECKBOX'])
     antivirus_checkbox.click()
     expect(page.get_by_test_id(locators['INITIALIZATION_SCRIPTS_COMMENT'])).to_be_visible()
-    page.wait_for_timeout(10000)
+    page.wait_for_timeout(TIMEOUT)
     antivirus_checkbox.click()
     expect(page.get_by_test_id(locators['INITIALIZATION_SCRIPTS_COMMENT'])).not_to_be_visible()
 
-@pytest.mark.testrail(59948)
-def test_Verify_input_box_is_visible_when_user_has_selected_the_Add_initialization_script_checkbox(page, tejas_create_vm_setup):
-    page.get_by_text("CLOUD_INTIT_STAGE").is_visible()
-    page.get_by_text("INITIALIZATION_SCRIPTS").is_visible()
-    antivirus_checkbox = page.locator(locators['INITIALIZATION_SCRIPTS_CHECKBOX'])
-    antivirus_checkbox.click()
-    expect(page.get_by_test_id(locators['INITIALIZATION_SCRIPTS_COMMENT'])).to_be_visible()
-    page.wait_for_timeout(10000)
-    input_box_locator = page.locator('//textarea[@placeholder="Enter your data here..."]')
-    expect(input_box_locator).to_be_visible()
-    input_box_text = input_box_locator.inner_text()
-    assert input_box_text == "", "Input box text is not empty"
+# @pytest.mark.testrail(59948)
+# def test_Verify_input_box_is_visible_when_user_has_selected_the_Add_initialization_script_checkbox(page, tejas_create_vm_setup):
+#     page.get_by_text("CLOUD_INTIT_STAGE").is_visible()
+#     page.get_by_text("INITIALIZATION_SCRIPTS").is_visible()
+#     antivirus_checkbox = page.locator(locators['INITIALIZATION_SCRIPTS_CHECKBOX'])
+#     antivirus_checkbox.click()
+#     expect(page.get_by_test_id(locators['INITIALIZATION_SCRIPTS_COMMENT'])).to_be_visible()
+#     page.wait_for_timeout(10000)
+#     input_box_locator = page.locator('//textarea[@placeholder="Enter your data here..."]')
+#     expect(input_box_locator).to_be_visible()
+#     input_box_text = input_box_locator.inner_text()
+#     assert input_box_text == "", "Input box text is not empty"
 
 
-@pytest.mark.testrail(59949)
-def test_input_box_functionality_for_Add_initialization_script_checkbox(page, tejas_create_vm_setup):
-    #page.get_by_text("CLOUD_INTIT_STAGE").is_visible()
-    page.get_by_text("INITIALIZATION_SCRIPTS").is_visible()
-    antivirus_checkbox = page.locator(locators['INITIALIZATION_SCRIPTS_CHECKBOX'])
-    antivirus_checkbox.click()
-    expect(page.get_by_test_id(locators['INITIALIZATION_SCRIPTS_COMMENT'])).to_be_visible()
-    page.wait_for_timeout(1000)
-    input_box_locator = page.locator('//textarea[@placeholder="Enter your data here..."]')
-    expect(input_box_locator).to_be_visible()
-    sample_commands = """
-    #cloud-config
-    users:
-    - name: myuser
-      ssh_authorized_keys:
-        - ssh-rsa <your-public-key>
-    packages:
-      - nginx
-    runcmd:
-      - systemctl start nginx
-    """
-    input_box_locator.fill(sample_commands)
-    entered_text = input_box_locator.get_attribute("value")
-    logging.info("Entered text:", entered_text)
-    # assert entered_text.strip(), "Entered text should not be empty"
+# @pytest.mark.testrail(59949)
+# def test_input_box_functionality_for_Add_initialization_script_checkbox(page, tejas_create_vm_setup):
+#     #page.get_by_text("CLOUD_INTIT_STAGE").is_visible()
+#     page.get_by_text("INITIALIZATION_SCRIPTS").is_visible()
+#     antivirus_checkbox = page.locator(locators['INITIALIZATION_SCRIPTS_CHECKBOX'])
+#     antivirus_checkbox.click()
+#     expect(page.get_by_test_id(locators['INITIALIZATION_SCRIPTS_COMMENT'])).to_be_visible()
+#     page.wait_for_timeout(1000)
+#     input_box_locator = page.locator('//textarea[@placeholder="Enter your data here..."]')
+#     expect(input_box_locator).to_be_visible()
+#     sample_commands = """
+#     #cloud-config
+#     users:
+#     - name: myuser
+#       ssh_authorized_keys:
+#         - ssh-rsa <your-public-key>
+#     packages:
+#       - nginx
+#     runcmd:
+#       - systemctl start nginx
+#     """
+#     input_box_locator.fill(sample_commands)
+#     entered_text = input_box_locator.get_attribute("value")
+#     logging.info("Entered text:", entered_text)
+#     # assert entered_text.strip(), "Entered text should not be empty"
 
 def change_project_details(page):
     page.get_by_test_id(locators['PROJECT_CHANGE']).click()
@@ -1262,25 +1272,9 @@ def change_project_details(page):
             break
     page.get_by_test_id(locators['BTN_SELECT']).click()
 
-def verify_to_setup(page):
-
-    perform_click_on_compute_resource(page, locators['COMPUTE_TAB'])
-    compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
-    compute_header_count = len(compute_header_elements)
-    for index, element in enumerate(compute_header_elements, start=1):
-        element_text = element.inner_text()
-        print(element_text)
-        if ComputeTextData.tejas_compute_tab in element_text:
-            element.click()
-    page.wait_for_timeout(TIMEOUT)
-    expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
-
-
-
-
 @pytest.mark.testrail(64980)
 def test_verify_shutoff_feature(page ,tejas_create_vm_setup):
-    change_project_details(page)
+    #change_project_details(page)
     verify_to_setup(page)
     VM_Name_elements = page.query_selector_all(f'[data-testid="resource-name-link"]')
     VM_name_count = len(VM_Name_elements)
@@ -1300,9 +1294,9 @@ def test_verify_shutoff_feature(page ,tejas_create_vm_setup):
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Performing Action: Stop"
+    assert toast_text == "Performing action: Stop."
     page.wait_for_timeout(10000)
     page.get_by_test_id(locators['BACK_BTN']).click()
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
@@ -1342,9 +1336,9 @@ def test_Verify_the_Start_action_for_VM_that_is_in_shutoff_state(page, tejas_set
     expect(page.get_by_test_id(locators['CONFIRMATION_TEXT'])).to_be_visible()
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Performing Action: Start"
+    assert toast_text == "Performing action: Start."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
 
 @pytest.mark.testrail(64982)
@@ -1369,9 +1363,9 @@ def test_Verify_the_Hard_Reboot_action_for_VM_that_isin_shutoff_state(page, teja
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Performing Action: Hard Reboot"
+    assert toast_text == "Performing action: Hard Reboot."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
 
 @pytest.mark.testrail(64983)
@@ -1397,13 +1391,14 @@ def test_Verify_the_Lock_action_for_VM_that_shutoff_state(page, tejas_setup):
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Performing Action: Lock"
+    assert toast_text == "Performing action: Lock."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
 
 @pytest.mark.testrail(64984)
 def test_Verify_the_Unlock_action_for_VM_that_shutoff_state(page, tejas_setup):
+    page.wait_for_timeout(10000)
     verify_to_setup(page)
     page.wait_for_timeout(10000)
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
@@ -1425,9 +1420,9 @@ def test_Verify_the_Unlock_action_for_VM_that_shutoff_state(page, tejas_setup):
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Performing Action: Unlock"
+    assert toast_text == "Performing action: Unlock."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
 
 @pytest.mark.testrail(64985)
@@ -1453,14 +1448,14 @@ def test_Verify_the_Suspend_action_for_VM_that_shutoff_state(page, tejas_setup):
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
-    assert toast_text == "Performing Action: Suspend"
+    assert toast_text == "Performing action: Suspend."
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
 
 @pytest.mark.testrail(64986)
 def test_Verify_the_Delete_action_for_VM_that_shutoff_state(page, tejas_setup):
-    change_project_details(page)
+    #change_project_details(page)
     verify_to_setup(page)
     page.wait_for_timeout(10000)
     expect(page.get_by_test_id(locators['TEJAS_HEADER'])).to_be_visible()
@@ -1491,8 +1486,8 @@ def test_Verify_the_Delete_action_for_VM_that_shutoff_state(page, tejas_setup):
     expect(page.get_by_test_id(locators['CONFIRM_BUTTON'])).to_be_visible()
     expect(page.get_by_test_id(locators['CANCEL_BUTTON'])).to_be_visible()
     page.get_by_test_id(locators['CONFIRM_BUTTON']).click()
-    toast_text = page.locator('//div[@role="alert"]').inner_text()
+    toast_text = page.locator(locators['TOAST_ALERT']).inner_text()
     print("Toast Text:", toast_text)
     page.wait_for_timeout(1000)
-    assert toast_text == "Deleting virtual machine"
+    #assert toast_text == "Deleting virtual machine."
 

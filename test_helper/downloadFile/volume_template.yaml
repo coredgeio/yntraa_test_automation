@@ -1,0 +1,14 @@
+heat_template_version: rocky
+
+description: Heat Template for Creating a Cinder Volume
+resources:
+ my_volume:
+   type: OS::Cinder::Volume
+   properties:
+     name: demo-volume
+     size: 10
+outputs:
+ volume_id:
+   description: The ID of the created Cinder volume.
+   value: { get_resource: my_volume }
+

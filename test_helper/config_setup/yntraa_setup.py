@@ -33,10 +33,12 @@ class login_setup_yntraa:
         password_input.fill(self.password)
         login_button = self.page.query_selector("input#kc-login")
         login_button.click()
+        #self.page.wait_for_timeout(20000)
         self.page.wait_for_load_state("load")
         #self.page.wait_for_timeout(20000)
         expect(self.page.get_by_test_id("btn-yntraa")).to_be_visible()
         expect(self.page.get_by_test_id("btn-project")).to_be_visible()
+
 
     # def perform_login(self):
     #     try:
@@ -60,4 +62,28 @@ class login_setup_yntraa:
     #     except Exception as e:
     #         print(f"An error occurred during login process: {e}")
 
+
+class admin_login_setup_yntraa:
+    def __init__(self, page, url, username, password):
+        self.page = page
+        self.url = url
+        self.username = username
+        self.password = password
+
+    def admin_perform_login(self):
+        self.page.goto(self.url, timeout=80000)
+        #self.page.get_by_role("button", name="Login").click()
+        self.page.wait_for_timeout(1000)
+        username_input = self.page.query_selector("input#username")
+        self.page.wait_for_timeout(TIMEOUT)
+        username_input.fill(self.username)
+        password_input = self.page.query_selector("input#password")
+        password_input.fill(self.password)
+        login_button = self.page.query_selector("input#kc-login")
+        login_button.click()
+        #self.page.wait_for_timeout(20000)
+        self.page.wait_for_load_state("load")
+        # #self.page.wait_for_timeout(20000)
+        # expect(self.page.get_by_test_id("btn-yntraa")).to_be_visible()
+        # expect(self.page.get_by_test_id("btn-project")).to_be_visible()
 
