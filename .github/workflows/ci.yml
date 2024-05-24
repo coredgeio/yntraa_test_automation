@@ -48,10 +48,10 @@ jobs:
     - name: Send email
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: smtp.example.com
+        server_address: smtp.gmail.com  # Replace with your SMTP server address
         server_port: 587
-        username: atul@coredge.io
-        password: Rakuten@1234
+        username: ${{ secrets.SMTP_USERNAME }}  # Use GitHub Secrets to store and access SMTP username
+        password: ${{ secrets.SMTP_PASSWORD }}  # Use GitHub Secrets to store and access SMTP password
         subject: "Test Email from GitHub Actions"
         to: "atul@coredge.io"
         from: "atul@coredge.io"
