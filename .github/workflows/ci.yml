@@ -1,89 +1,29 @@
-name: CI/CD Pipeline
+name: Python application
 
-on:
-  schedule:
-    - cron: '0 */23 * * *'  # Runs every 23 hours
-  workflow_dispatch:
-    inputs:
-      TEST_SUITE:
-        description: 'Select the test suite to run'
-        required: true
-        default: 'admin_portal_sanity.py'
-        type: choice
-        options:
-          - 'admin_portal_sanity.py'
-          - 'service_portal_sanity.py'
-          - 'sanity_for_different_function.py'
+on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: macos-latest
+
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Check out the code
       uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        ref: 'feature'
+        python-version: '3.x'  # Specify the Python version you need
 
     - name: Install dependencies
       run: |
-        # Check if Python3 is installed
-        if ! command -v python3 &> /dev/null; then
-            echo "Python3 is not installed. Please install Python3."
-            exit 1
-        fi
-
-        # Create virtual environment
-        python3 -m venv venv
-
-        # Activate virtual environment and install dependencies
-        source venv/bin/activate
-        pip install --upgrade pip
-        pip install pytest pytest-playwright pyyaml selenium pyautogui
+        python -m pip install --upgrade pip
+        pip install pytest
+        pip install playwright
         playwright install
 
-    - name: Run Tests
+    - name: Run tests
       run: |
-        source venv/bin/activate
-        pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
+        pytest --browser=chromium smoke_testing/sanity_for_different_function.py
 
-    - name: Archive Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: results.xml
-
-    - name: Parse Test Results
-      id: parse-results
-      run: |
-        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
-        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
-        PASSED=$((TOTAL - FAILED))
-        echo "total=$TOTAL" >> $GITHUB_ENV
-        echo "failed=$FAILED" >> $GITHUB_ENV
-        echo "passed=$PASSED" >> $GITHUB_ENV
-
-    - name: Send Email with Test Results
-      if: always()
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.example.com
-        server_port: 587
-        username: ${{ secrets.SMTP_USERNAME }}
-        password: ${{ secrets.SMTP_PASSWORD }}
-        subject: "Sanity Result for Service portal"
-        to: 'atul@coredge.io'
-        from: 'no-reply@example.com'
-        body: |
-          Total Tests: ${{ env.total }}
-          Passed Tests: ${{ env.passed }}
-          Failed Tests: ${{ env.failed }}
-        attachments: results.xml
-
-    - name: Upload Logs
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: logs
-        path: '**/*.log'
