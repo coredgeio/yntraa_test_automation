@@ -45,43 +45,14 @@ jobs:
         source venv/bin/activate
         pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
 
-    - name: Archive Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: results.xml
-
-    - name: Parse Test Results
-      id: parse-results
-      run: |
-        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
-        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
-        PASSED=$((TOTAL - FAILED))
-        echo "total=$TOTAL" >> $GITHUB_ENV
-        echo "failed=$FAILED" >> $GITHUB_ENV
-        echo "passed=$PASSED" >> $GITHUB_ENV
-
-    - name: Send Email with Test Results
-      if: always()
+    - name: Send email
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: smtp.gmail.com
+        server_address: smtp.example.com
         server_port: 587
-        username: atultayade-a
-        password: Coredge@2024
-        subject: "Sanity Result for Service portal"
-        to: 'atul@coredge.io'
-        from: 'atul@coredge.io'
-        body: |
-          Total Tests: ${{ env.total }}
-          Passed Tests: ${{ env.passed }}
-          Failed Tests: ${{ env.failed }}
-        attachments: results.xml
-
-    - name: Upload Logs
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: logs
-        path: '**/*.log'
+        username: atul@coredge.io
+        password: Rakuten@1234
+        subject: "Test Email from GitHub Actions"
+        to: "recipient@example.com"
+        from: "atul@coredge.io"
+        body: "This is a test email sent from GitHub Actions."
