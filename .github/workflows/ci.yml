@@ -12,6 +12,10 @@ on:
           - 'admin_portal_sanity.py'
           - 'service_portal_sanity.py'
           - 'sanity_for_different_function.py'
+      BRANCH:
+        description: 'Select the branch to run the tests on'
+        required: true
+        default: 'feature'
 
 jobs:
   build:
@@ -20,6 +24,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.BRANCH }}
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -32,6 +38,17 @@ jobs:
         source venv/bin/activate
         pip install --upgrade pip  # Ensure pip is up-to-date
         pip install -r requirements.txt
+
+    - name: Install browser dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget gnupg
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+        pip install pytest-playwright
+        playwright install
 
     - name: Run selected test file
       run: |
