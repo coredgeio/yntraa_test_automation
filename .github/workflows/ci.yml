@@ -40,12 +40,20 @@ jobs:
         pip install pytest pytest-playwright pyyaml selenium pyautogui
         playwright install
 
-    - name: Run Tests
+    - name: Run Tests and Parse Logs
       run: |
-        source venv/bin/activate
-        
-        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
-        python parse_log.py
+        source venv/bin/activate &&
+        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt &&
+        python parse_log.py &&
+        logs=$(cat pytest_output.txt) &&
+        passed=$(echo "$logs" | grep -o 'passed: [0-9]*' | grep -o '[0-9]*') &&
+        failed=$(echo "$logs" | grep -o 'failed: [0-9]*' | grep -o '[0-9]*') &&
+        skipped=$(echo "$logs" | grep -o 'skipped: [0-9]*' | grep -o '[0-9]*') &&
+        errors=$(echo "$logs" | grep -o 'errors: [0-9]*' | grep -o '[0-9]*') &&
+        echo "passed=$passed" >> $GITHUB_ENV &&
+        echo "failed=$failed" >> $GITHUB_ENV &&
+        echo "skipped=$skipped" >> $GITHUB_ENV &&
+        echo "errors=$errors" >> $GITHUB_ENV
 
     - name: Check Logs
       id: check-logs
