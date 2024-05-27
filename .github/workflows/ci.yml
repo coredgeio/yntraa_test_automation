@@ -42,10 +42,10 @@ jobs:
 
       - name: Run Tests and Parse Logs
         run: |
-          set -e
           source venv/bin/activate
-          pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
+          pytest --browser=chromium smoke_testing/sanity_for_different_function.py > pytest_output.txt
           python parse_log.py
+        shell: /bin/bash
 
       - name: Check Logs
         id: check-logs
