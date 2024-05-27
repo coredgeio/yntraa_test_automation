@@ -18,104 +18,44 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        ref: 'feature'
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: 'feature'
 
-    - name: Install dependencies
-      run: |
-        # Check if Python3 is installed
-        if ! command -v python3 &> /dev/null; then
-            echo "Python3 is not installed. Please install Python3."
-            exit 1
-        fi
+      - name: Install dependencies
+        run: |
+          # Check if Python3 is installed
+          if ! command -v python3 &> /dev/null; then
+              echo "Python3 is not installed. Please install Python3."
+              exit 1
+          fi
 
-        # Create virtual environment
-        python3 -m venv venv
+          # Create virtual environment
+          python3 -m venv venv
 
-        # Activate virtual environment and install dependencies
-        source venv/bin/activate
-        pip install --upgrade pip
-        pip install pytest pytest-playwright pyyaml selenium pyautogui
-        playwright install
+          # Activate virtual environment and install dependencies
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install pytest pytest-playwright pyyaml selenium pyautogui
+          playwright install
 
-    - name: Run Tests and Parse Logs
-      run: |
-        source venv/bin/activate &&
-        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt &&
-        python parse_log.py &&
-        logs=$(cat pytest_output.txt) &&
-        passed=$(echo "$logs" | grep -o 'passed: [0-9]*' | grep -o '[0-9]*') &&
-        failed=$(echo "$logs" | grep -o 'failed: [0-9]*' | grep -o '[0-9]*') &&
-        skipped=$(echo "$logs" | grep -o 'skipped: [0-9]*' | grep -o '[0-9]*') &&
-        errors=$(echo "$logs" | grep -o 'errors: [0-9]*' | grep -o '[0-9]*') &&
-        echo "passed=$passed" >> $GITHUB_ENV &&
-        echo "failed=$failed" >> $GITHUB_ENV &&
-        echo "skipped=$skipped" >> $GITHUB_ENV &&
-        echo "errors=$errors" >> $GITHUB_ENV
+      - name: Run Tests and Parse Logs
+        run: |
+          set -e
+          source venv/bin/activate
+          pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
+          python parse_log.py
 
-    - name: Check Logs
-      id: check-logs
-      run: |
-        logs=$(cat pytest_output.txt)
-        passed=$(echo "$logs" | grep -o 'passed: [0-9]*' | grep -o '[0-9]*')
-        failed=$(echo "$logs" | grep -o 'failed: [0-9]*' | grep -o '[0-9]*')
-        skipped=$(echo "$logs" | grep -o 'skipped: [0-9]*' | grep -o '[0-9]*')
-        errors=$(echo "$logs" | grep -o 'errors: [0-9]*' | grep -o '[0-9]*')
-        echo "passed=$passed" >> $GITHUB_ENV
-        echo "failed=$failed" >> $GITHUB_ENV
-        echo "skipped=$skipped" >> $GITHUB_ENV
-        echo "errors=$errors" >> $GITHUB_ENV
-
-    - name: Upload Test Results
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: results.xml
-
-    - name: Upload pytest Logs
-      uses: actions/upload-artifact@v2
-      with:
-        name: pytest-logs
-        path: pytest.log
-
-    - name: Parse Test Results
-      id: parse-results
-      run: |
-        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
-        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
-        SKIPPED=$(grep -o 'skipped="[0-9]*"' results.xml | grep -o '[0-9]*')
-        PASSED=$((TOTAL - FAILED - SKIPPED))
-        echo "total=$TOTAL" >> $GITHUB_ENV
-        echo "failed=$FAILED" >> $GITHUB_ENV
-        echo "skipped=$SKIPPED" >> $GITHUB_ENV
-        echo "passed=$PASSED" >> $GITHUB_ENV
-
-    - name: Send Email with Test Results
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.outlook.com
-        server_port: 587
-        username: ${{ secrets.SMTP_USERNAME }}
-        password: ${{ secrets.SMTP_PASSWORD }}
-        subject: "Test Email from GitHub Actions"
-        to: "atul@coredge.io"
-        from: "atul@coredge.io"
-        body: |
-          This is a test email sent from GitHub Actions.
-          
-          Test Summary:
-          Total Tests: ${{ env.total }}
-          Passed Tests: ${{ env.passed }}
-          Failed Tests: ${{ env.failed }}
-          Skipped Tests: ${{ env.skipped }}
-          Errors: ${{ env.errors }}
-        attachments: results.xml, pytest.log
-
-    - name: Upload Logs
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: logs
-        path: '**/*.log'
+      - name: Check Logs
+        id: check-logs
+        run: |
+          logs=$(python parse_log.py)
+          passed=$(echo "$logs" | grep -o 'passed: [0-9]*' | grep -o '[0-9]*')
+          failed=$(echo "$logs" | grep -o 'failed: [0-9]*' | grep -o '[0-9]*')
+          skipped=$(echo "$logs" | grep -o 'skipped: [0-9]*' | grep -o '[0-9]*')
+          errors=$(echo "$logs" | grep -o 'errors: [0-9]*' | grep -o '[0-9]*')
+          echo "passed=$passed" >> $GITHUB_ENV
+          echo "failed=$failed" >> $GITHUB_ENV
+          echo "skipped=$skipped" >> $GITHUB_ENV
+          echo "errors=$errors" >> $GITHUB_ENV
