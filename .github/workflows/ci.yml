@@ -43,5 +43,20 @@ jobs:
       - name: Run Tests and Parse Logs
         run: |
           source venv/bin/activate
+          if [ $? -ne 0 ]; then
+            echo "Failed to activate virtual environment"
+            exit 1
+          fi
+          
           pytest --browser=chromium smoke_testing/sanity_for_different_function.py > pytest_output.txt
+          if [ $? -ne 0 ]; then
+            echo "Failed to run pytest command"
+            exit 1
+          fi
+          
           python parse_log.py
+          if [ $? -ne 0 ]; then
+            echo "Failed to run parse_log.py command"
+            exit 1
+          fi
+        shell: /bin/bash
