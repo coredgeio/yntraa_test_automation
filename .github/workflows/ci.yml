@@ -18,35 +18,30 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: 'feature'
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: 'feature'
 
-      - name: Install dependencies
-        run: |
-          # Check if Python3 is installed
-          if ! command -v python3 &> /dev/null; then
-              echo "Python3 is not installed. Please install Python3."
-              exit 1
-          fi
+    - name: Install dependencies
+      run: |
+        if ! command -v python3 &> /dev/null; then
+            echo "Python3 is not installed. Please install Python3."
+            exit 1
+        fi
 
-          # Create virtual environment
-          python3 -m venv venv
+        python3 -m venv venv
 
-          # Activate virtual environment and install dependencies
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install pytest pytest-playwright pyyaml selenium pyautogui
-          playwright install
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install pytest pytest-playwright pyyaml selenium pyautogui
+        playwright install
 
-      - name: Run Tests
-        run: |
-          source venv/bin/activate
-          pytest --browser=chromium smoke_testing/sanity_for_different_function.py > pytest_output.txt
-    
-      - name: Parse Logs
-        run: |
-          source venv/bin/activate
-          python parse_log.py
-        if: always()
+    - name: Run Tests
+      run: |
+        source venv/bin/activate
+        pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
+    - name: Parse Logs
+      run: |
+        python parse_log.py
+      if: always()
