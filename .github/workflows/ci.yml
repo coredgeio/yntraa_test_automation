@@ -59,4 +59,3 @@ jobs:
             echo "Failed to run parse_log.py command"
             exit 1
           fi
-        shell: /bin/bash
