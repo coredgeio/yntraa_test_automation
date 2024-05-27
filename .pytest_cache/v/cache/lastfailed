@@ -262,5 +262,12 @@
   "smoke_testing/admin_portal_sanity.py::test_compute_snapshots_Verify_view_column_apply_filter_export_data_functionality_user_should_be_able_to_view_selected_columns_apply_filter_and_export_data": true,
   "smoke_testing/admin_portal_sanity.py::test_Verify_the_tab_under_Storage": true,
   "smoke_testing/admin_portal_sanity.py::test_Verify_the_UI_of_block_storage_page": true,
-  "smoke_testing/admin_portal_sanity.py::test_block_storage_Verify_view_column_apply_filter_export_data_functionality_user_should_be_able_to_view_selected_columns_apply_filter_and_export_data": true
+  "smoke_testing/admin_portal_sanity.py::test_block_storage_Verify_view_column_apply_filter_export_data_functionality_user_should_be_able_to_view_selected_columns_apply_filter_and_export_data": true,
+  "smoke_testing/sanity_for_different_function.py::test_user_redirected_to_yntraa_documentation_page": true,
+  "smoke_testing/sanity_for_different_function.py::test_caas_screen_redirects_to_orbitor_screen_with_same_profile": true,
+  "smoke_testing/sanity_for_different_function.py::test_redirect_to_orbiter_upon_clicking_caas": true,
+  "smoke_testing/sanity_for_different_function.py::test_user_is_able_to_navigate_to_yntraa_documentation_page": true,
+  "smoke_testing/sanity_for_different_function.py::test_user_redirected_to_yotta_environment": true,
+  "smoke_testing/sanity_for_different_function.py::test_user_profile_poupup_redirected_to_billing_screen_upon_cliking_billing": true,
+  "smoke_testing/sanity_for_different_function.py::test_verify_the_yotta_safe": true
 }

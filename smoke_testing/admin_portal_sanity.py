@@ -42,8 +42,7 @@ def user_credentials():
 
 
 """Verify the header on CCP home page - "Enabling Possibilities. Empowering Ideas." """
-@pytest.mark.testrail(67117)
-def test_Verify_the_header_on_Yntraa_home_page(page):
+def test_Verify_the_header_on_Yntraa_home_page():
     page.wait_for_timeout(10000)
 
 @pytest.mark.testrail(67118)
