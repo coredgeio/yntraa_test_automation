@@ -12,7 +12,6 @@ on:
           - 'admin_portal_sanity.py'
           - 'service_portal_sanity.py'
           - 'sanity_for_different_function.py'
-          - 'parse_log.py'
 
 jobs:
   build:
@@ -47,6 +46,19 @@ jobs:
         
         pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
         python parse_log.py
+
+    - name: Check Logs
+      id: check-logs
+      run: |
+        logs=$(cat pytest_output.txt)
+        passed=$(echo "$logs" | grep -o 'passed: [0-9]*' | grep -o '[0-9]*')
+        failed=$(echo "$logs" | grep -o 'failed: [0-9]*' | grep -o '[0-9]*')
+        skipped=$(echo "$logs" | grep -o 'skipped: [0-9]*' | grep -o '[0-9]*')
+        errors=$(echo "$logs" | grep -o 'errors: [0-9]*' | grep -o '[0-9]*')
+        echo "passed=$passed" >> $GITHUB_ENV
+        echo "failed=$failed" >> $GITHUB_ENV
+        echo "skipped=$skipped" >> $GITHUB_ENV
+        echo "errors=$errors" >> $GITHUB_ENV
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v2
@@ -90,6 +102,7 @@ jobs:
           Passed Tests: ${{ env.passed }}
           Failed Tests: ${{ env.failed }}
           Skipped Tests: ${{ env.skipped }}
+          Errors: ${{ env.errors }}
         attachments: results.xml, pytest.log
 
     - name: Upload Logs
