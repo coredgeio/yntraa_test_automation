@@ -1,112 +1,10 @@
-#name: CI/CD Pipeline
-#
-#on:
-#  schedule:
-#    - cron: '*/5 * * * *'
-#name: CI/CD Pipeline
-#
-#on:
-#  schedule:
-#    - cron: '*/5 * * * *'
-#  workflow_dispatch:
-#    inputs:
-#      TEST_SUITE:
-#        description: 'Select the test suite to run'
-#        required: true
-#        default: 'admin_portal_sanity.py'
-#        type: choice
-#        options:
-#          - 'admin_portal_sanity.py'
-#          - 'service_portal_sanity.py'
-#          - 'sanity_for_different_function.py'
-#
-#jobs:
-#  build:
-#    runs-on: macos-latest
-#
-#    steps:
-#    - name: Checkout code
-#      uses: actions/checkout@v2
-#      with:
-#        ref: 'feature'
-#
-#    - name: Install dependencies
-#      run: |
-#        if ! command -v python3 &> /dev/null; then
-#            echo "Python3 is not installed. Please install Python3."
-#            exit 1
-#        fi
-#
-#        python3 -m venv venv
-#
-#        source venv/bin/activate
-#        pip install --upgrade pip
-#        pip install pytest pytest-playwright pyyaml selenium pyautogui
-#        playwright install
-#
-#    - name: Run Tests
-#      run: |
-#        source venv/bin/activate
-#        pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
-#
-#    - name: Archive Test Results
-#      if: always()
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: test-results
-#        path: results.xml
-#
-#    - name: Parse Test Results
-#      id: parse-results
-#      run: |
-#        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
-#        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
-#        PASSED=$((TOTAL - FAILED))
-#        echo "total=$TOTAL" >> $GITHUB_ENV
-#        echo "failed=$FAILED" >> $GITHUB_ENV
-#        echo "passed=$PASSED" >> $GITHUB_ENV
-#
-#    - name: Send Email with Test Results
-#      if: always()
-#      uses: dawidd6/action-send-mail@v3
-#      with:
-#        server_address: smtp.outlook.com
-#        server_port: 587
-#        username: ${{ secrets.SMTP_USERNAME }}
-#        password: ${{ secrets.SMTP_PASSWORD }}
-#        subject: "Sanity Result for Service portal"
-#        to: 'atul@coredge.io'
-#        from: 'atul@coredge.io'
-#        body: |
-#          Total Tests: ${{ env.total }}
-#          Passed Tests: ${{ env.passed }}
-#          Failed Tests: ${{ env.failed }}
-#        attachments: results.xml
-#
-#    - name: Upload Logs
-#      if: always()
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: logs
-#        path: '**/*.log'
-
 name: CI/CD Pipeline
 
 on:
   workflow_dispatch:
     inputs:
-      TEST_SUITE_1:
-        description: 'Select the first test suite to run'
-        required: true
-        default: 'admin_portal_sanity.py'
-        type: choice
-        options:
-          - 'admin_portal_sanity.py'
-          - 'service_portal_sanity.py'
-          - 'sanity_for_different_function.py'
-          - 'parse_log.py'
-      TEST_SUITE_2:
-        description: 'Select the second test suite to run'
+      TEST_SUITE:
+        description: 'Select the test suite to run'
         required: true
         default: 'admin_portal_sanity.py'
         type: choice
@@ -147,14 +45,52 @@ jobs:
       run: |
         source venv/bin/activate
         
-        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE_1 }} > pytest_output1.txt
-        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE_2 }} > pytest_output2.txt
+        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
+        python parse_log.py
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: results.xml
+
+    - name: Upload pytest Logs
+      uses: actions/upload-artifact@v2
+      with:
+        name: pytest-logs
+        path: pytest.log
 
     - name: Parse Test Results
       id: parse-results
       run: |
-        python parse_log.py pytest_output1.txt
-        python parse_log.py pytest_output2.txt
+        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
+        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
+        SKIPPED=$(grep -o 'skipped="[0-9]*"' results.xml | grep -o '[0-9]*')
+        PASSED=$((TOTAL - FAILED - SKIPPED))
+        echo "total=$TOTAL" >> $GITHUB_ENV
+        echo "failed=$FAILED" >> $GITHUB_ENV
+        echo "skipped=$SKIPPED" >> $GITHUB_ENV
+        echo "passed=$PASSED" >> $GITHUB_ENV
+
+    - name: Send Email with Test Results
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.outlook.com
+        server_port: 587
+        username: ${{ secrets.SMTP_USERNAME }}
+        password: ${{ secrets.SMTP_PASSWORD }}
+        subject: "Test Email from GitHub Actions"
+        to: "atul@coredge.io"
+        from: "atul@coredge.io"
+        body: |
+          This is a test email sent from GitHub Actions.
+          
+          Test Summary:
+          Total Tests: ${{ env.total }}
+          Passed Tests: ${{ env.passed }}
+          Failed Tests: ${{ env.failed }}
+          Skipped Tests: ${{ env.skipped }}
+        attachments: results.xml, pytest.log
 
     - name: Upload Logs
       if: always()
