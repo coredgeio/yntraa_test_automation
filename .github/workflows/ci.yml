@@ -45,7 +45,7 @@ jobs:
           source venv/bin/activate
           pytest --browser=chromium smoke_testing/sanity_for_different_function.py > pytest_output.txt
           python parse_log.py
-        shell: /bin/bash
+          shell: /bin/bash
 
       - name: Check Logs
         id: check-logs
