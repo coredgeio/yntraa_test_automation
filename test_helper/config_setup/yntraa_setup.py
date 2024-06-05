@@ -33,7 +33,7 @@ class login_setup_yntraa:
         password_input.fill(self.password)
         login_button = self.page.query_selector("input#kc-login")
         login_button.click()
-        #self.page.wait_for_timeout(20000)
+        self.page.wait_for_timeout(10000)
         self.page.wait_for_load_state("load")
         #self.page.wait_for_timeout(20000)
         expect(self.page.get_by_test_id("btn-yntraa")).to_be_visible()
