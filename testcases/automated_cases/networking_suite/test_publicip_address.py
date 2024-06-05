@@ -11,7 +11,7 @@ import asyncio
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "shubh@yopmail.com",
+        "username": "atul_sdet@yopmail.com",
         "password": "India@143"
     }
 

@@ -14,8 +14,9 @@ import pyautogui
 @pytest.fixture(scope="module")
 def user_credentials():
     return {
-        "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "shubh@yopmail.com",
+        "url": "https://revamp-dev-console.yntraa.com/",
+        #"url": "https://console-revamp-sbx.yntraa.com",
+        "username": "atul_sdet@yopmail.com",
         #"username": "atul159@yopmail.com",
         "password": "India@143"
     }
