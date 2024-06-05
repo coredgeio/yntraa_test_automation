@@ -40,7 +40,7 @@ jobs:
     - name: Run Tests
       run: |
         source venv/bin/activate
-        pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }} > pytest_output.txt
+        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} --junitxml=report.xml
     - name: Parse Logs
       run: |
         python parse_log.py
