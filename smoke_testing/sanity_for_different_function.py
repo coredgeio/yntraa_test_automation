@@ -16,7 +16,7 @@ import pyautogui
 def user_credentials():
     return {
         "url": "https://console-revamp-sbx.yntraa.com",
-        "username": "atul_sdet@yopmail.com",
+        "username": "atul_srsdet@yopmail.com",
         "password": "India@143"
     }
 
@@ -57,7 +57,7 @@ def test_caas_screen_redirects_to_orbitor_screen_with_same_profile(page):
     if page.get_by_role("button", name="Sign In").is_visible():
         page.get_by_role("button", name="Sign In").click()
         username_input = page.query_selector("input#username")
-        username_input.fill("atul_sdet@yopmail.com")
+        username_input.fill("atul_srsdet@yopmail.com")
         password_input = page.query_selector("input#password")
         password_input.fill("India@143")
         login_button = page.query_selector("input#kc-login")

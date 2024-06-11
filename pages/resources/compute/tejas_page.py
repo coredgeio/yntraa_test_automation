@@ -46,6 +46,7 @@ def storage_setup(page):
     compute_header_elements = page.query_selector_all(f'[data-testid="{locators["TEJAS_COMPUTE_TAB"]}"]')
     for index, element in enumerate(compute_header_elements, start=1):
         element_text = element.inner_text()
+        print(element_text)
         if ComputeTextData.blocked_storage_tab in element_text:
             element.click()
 

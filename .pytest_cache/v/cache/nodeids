@@ -52,6 +52,7 @@
   "smoke_testing/service_portal_sanity.py::test_User_Profile_popup_Verify_that_user_is_redirected_to_the_user_listing_page_upon_clicking_project",
   "smoke_testing/service_portal_sanity.py::test_User_Profile_popup_Verify_the_user_name",
   "smoke_testing/service_portal_sanity.py::test_User_Profile_popup_Verify_the_user_role_label",
+  "smoke_testing/service_portal_sanity.py::test_User_Profile_popup_Verify_user_management_screen",
   "smoke_testing/service_portal_sanity.py::test_Verify_Archival_Storage_create_and_delete_folder",
   "smoke_testing/service_portal_sanity.py::test_Verify_Archival_Storage_creation",
   "smoke_testing/service_portal_sanity.py::test_Verify_Archival_Storage_download_S3storage",
