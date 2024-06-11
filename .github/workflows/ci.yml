@@ -38,17 +38,59 @@ jobs:
         playwright install
 
     - name: Configure DNS and Debug Resolution
+      id: dns_check
       run: |
         echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
-        nslookup revamp-qa-console.yntraa.com
-        ping -c 4 revamp-qa-console.yntraa.com
+        if ! nslookup revamp-qa-console.yntraa.com; then
+          echo "DNS resolution failed for revamp-qa-console.yntraa.com"
+          exit 1
+        fi
 
     - name: Run Tests
+      if: steps.dns_check.outcome == 'success'
       run: |
         source venv/bin/activate
         pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} --junitxml=report.xml
 
-    - name: Parse Logs
+    - name: Archive Test Results
+      if: steps.dns_check.outcome == 'success'
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: report.xml
+
+    - name: Parse Test Results
+      if: steps.dns_check.outcome == 'success' && always()
       run: |
-        python parse_log.py
+        if [ -f report.xml ]; then
+          TOTAL=$(grep -o 'testsuite tests="[0-9]*"' report.xml | grep -o '[0-9]*')
+          FAILED=$(grep -o 'failure message=' report.xml | wc -l)
+          PASSED=$((TOTAL - FAILED))
+          echo "total=$TOTAL" >> $GITHUB_ENV
+          echo "failed=$FAILED" >> $GITHUB_ENV
+          echo "passed=$PASSED" >> $GITHUB_ENV
+        fi
+
+    - name: Send Email with Test Results
+      if: steps.dns_check.outcome == 'success' && always()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.outlook.com
+        server_port: 587
+        username: ${{ secrets.SMTP_USERNAME }}
+        password: ${{ secrets.SMTP_PASSWORD }}
+        subject: "Sanity Result for Service portal"
+        to: 'atul@coredge.io'
+        from: 'atul@coredge.io'
+        body: |
+          Total Tests: ${{ env.total }}
+          Passed Tests: ${{ env.passed }}
+          Failed Tests: ${{ env.failed }}
+        attachments: report.xml
+
+    - name: Upload Logs
       if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: logs
+        path: '**/*.log'
