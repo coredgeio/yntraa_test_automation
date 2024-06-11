@@ -37,56 +37,11 @@ jobs:
         pip install pytest pytest-playwright pyyaml selenium pyautogui
         playwright install
 
-    - name: Debug DNS Resolution
-      run: |
-        nslookup revamp-qa-console.yntraa.com
-        ping revamp-qa-console.yntraa.com
-
-    - name: Wait for network stabilization
-      run: sleep 30
-
     - name: Run Tests
       run: |
         source venv/bin/activate
-        pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
-
-    - name: Archive Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: results.xml
-
-    - name: Parse Test Results
-      id: parse-results
+        pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} --junitxml=report.xml
+    - name: Parse Logs
       run: |
-        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
-        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
-        PASSED=$((TOTAL - FAILED))
-        echo "total=$TOTAL" >> $GITHUB_ENV
-        echo "failed=$FAILED" >> $GITHUB_ENV
-        echo "passed=$PASSED" >> $GITHUB_ENV
-
-    - name: Send Email with Test Results
+        python parse_log.py
       if: always()
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.outlook.com
-        server_port: 587
-        username: ${{ secrets.SMTP_USERNAME }}
-        password: ${{ secrets.SMTP_PASSWORD }}
-        subject: "Sanity Result for Service portal"
-        to: 'atul@coredge.io'
-        from: 'atul@coredge.io'
-        body: |
-          Total Tests: ${{ env.total }}
-          Passed Tests: ${{ env.passed }}
-          Failed Tests: ${{ env.failed }}
-        attachments: results.xml
-
-    - name: Upload Logs
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: logs
-        path: '**/*.log'
