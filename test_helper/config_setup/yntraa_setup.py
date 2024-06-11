@@ -35,7 +35,7 @@ class login_setup_yntraa:
         login_button.click()
         self.page.wait_for_timeout(10000)
         self.page.wait_for_load_state("load")
-        self.page.wait_for_timeout(20000)
+        #self.page.wait_for_timeout(20000)
         expect(self.page.get_by_test_id("btn-yntraa")).to_be_visible()
         expect(self.page.get_by_test_id("btn-project")).to_be_visible()
 
