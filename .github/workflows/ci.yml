@@ -1,37 +1,32 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
-  workflow_dispatch:
-    inputs:
-      TEST_SUITE:
-        description: 'Select the test suite to run'
-        required: true
-        default: 'admin_portal_sanity.py'
-        type: choice
-        options:
-          - 'admin_portal_sanity.py'
-          - 'service_portal_sanity.py'
-          - 'sanity_for_different_function.py'
+  push:
+    branches:
+      - feature
+  pull_request:
+    branches:
+      - feature
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v2
       with:
-        ref: 'feature'
+        repository: coredgeio/yntraa_test_automation
+        ref: feature
 
-    - name: Install dependencies
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
       run: |
-        if ! command -v python3 &> /dev/null; then
-            echo "Python3 is not installed. Please install Python3."
-            exit 1
-        fi
-
-        python3 -m venv venv
-
+        python -m venv venv
         source venv/bin/activate
         pip install --upgrade pip
         pip install pytest pytest-playwright pyyaml selenium pyautogui
@@ -41,44 +36,39 @@ jobs:
       run: |
         source venv/bin/activate
         pytest --browser=chromium --junitxml=results.xml smoke_testing/${{ github.event.inputs.TEST_SUITE }}
+      env:
+        TEST_SUITE: ${{ github.event.inputs.TEST_SUITE }}
 
     - name: Archive Test Results
       if: always()
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: results.xml
+        path: yntraa_test_automation/results.xml
 
     - name: Parse Test Results
-      id: parse-results
+      if: always()
+      id: parse_results
       run: |
-        TOTAL=$(grep -o 'testsuite tests="[0-9]*"' results.xml | grep -o '[0-9]*')
-        FAILED=$(grep -o 'failure message=' results.xml | wc -l)
-        PASSED=$((TOTAL - FAILED))
-        echo "total=$TOTAL" >> $GITHUB_ENV
-        echo "failed=$FAILED" >> $GITHUB_ENV
-        echo "passed=$PASSED" >> $GITHUB_ENV
+        total=$(xmllint --xpath 'string(count(//testcase))' yntraa_test_automation/results.xml)
+        failed=$(xmllint --xpath 'string(count(//testcase[failure]))' yntraa_test_automation/results.xml)
+        passed=$((total - failed))
+        echo "::set-output name=total::$total"
+        echo "::set-output name=passed::$passed"
+        echo "::set-output name=failed::$failed"
 
-    - name: Send Email with Test Results
+    - name: Send Email
       if: always()
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: smtp.outlook.com
+        server_address: smtp.example.com
         server_port: 587
         username: ${{ secrets.SMTP_USERNAME }}
         password: ${{ secrets.SMTP_PASSWORD }}
         subject: "Sanity Result for Service portal"
-        to: 'atul@coredge.io'
-        from: 'atul@coredge.io'
         body: |
-          Total Tests: ${{ env.total }}
-          Passed Tests: ${{ env.passed }}
-          Failed Tests: ${{ env.failed }}
-        attachments: results.xml
-
-    - name: Upload Logs
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: logs
-        path: '**/*.log'
+          Total Tests: ${{ steps.parse_results.outputs.total }}
+          Passed: ${{ steps.parse_results.outputs.passed }}
+          Failed: ${{ steps.parse_results.outputs.failed }}
+        to: atul@coredge.io
+        from: you@example.com
