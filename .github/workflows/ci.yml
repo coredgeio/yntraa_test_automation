@@ -40,7 +40,7 @@ jobs:
     - name: Debug DNS Resolution
       run: |
         nslookup revamp-qa-console.yntraa.com
-        ping -c 4 revamp-qa-console.yntraa.com
+        ping revamp-qa-console.yntraa.com
 
     - name: Wait for network stabilization
       run: sleep 30
