@@ -41,10 +41,8 @@ jobs:
       id: dns_check
       run: |
         echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
-        if ! nslookup revamp-qa-console.yntraa.com; then
-          echo "DNS resolution failed for revamp-qa-console.yntraa.com"
-          exit 1
-        fi
+        echo "Running nslookup for revamp-qa-console.yntraa.com"
+        nslookup revamp-qa-console.yntraa.com || { echo "DNS resolution failed for revamp-qa-console.yntraa.com"; exit 1; }
 
     - name: Run Tests
       if: steps.dns_check.outcome == 'success'
@@ -60,7 +58,7 @@ jobs:
         path: report.xml
 
     - name: Parse Test Results
-      if: steps.dns_check.outcome == 'success' && always()
+      if: steps.dns_check.outcome == 'success'
       run: |
         if [ -f report.xml ]; then
           TOTAL=$(grep -o 'testsuite tests="[0-9]*"' report.xml | grep -o '[0-9]*')
@@ -72,7 +70,7 @@ jobs:
         fi
 
     - name: Send Email with Test Results
-      if: steps.dns_check.outcome == 'success' && always()
+      if: steps.dns_check.outcome == 'success'
       uses: dawidd6/action-send-mail@v3
       with:
         server_address: smtp.outlook.com
