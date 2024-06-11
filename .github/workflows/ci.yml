@@ -37,34 +37,18 @@ jobs:
         pip install pytest pytest-playwright pyyaml selenium pyautogui
         playwright install
 
-    - name: Debug DNS Resolution
+    - name: Configure DNS and Debug Resolution
       run: |
+        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
         nslookup revamp-qa-console.yntraa.com
         ping -c 4 revamp-qa-console.yntraa.com
-
-    - name: Wait for network stabilization
-      run: sleep 30
 
     - name: Run Tests
       run: |
         source venv/bin/activate
         pytest --browser=chromium smoke_testing/${{ github.event.inputs.TEST_SUITE }} --junitxml=report.xml
 
-    - name: Archive Test Results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: report.xml
-
     - name: Parse Logs
       run: |
         python parse_log.py
       if: always()
-
-    - name: Upload Logs
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: logs
-        path: '**/*.log'
